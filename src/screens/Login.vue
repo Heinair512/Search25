@@ -1,69 +1,69 @@
 <template>
-<div class="flex align-items-center justify-content-center min-h-screen surface-ground">
-  <div class="surface-card p-6 shadow-2 border-round w-full lg:w-6">
-    <div class="text-center mb-6">
-      <img src="/logo.svg" alt="Logo" class="h-4rem mb-4" />
-      <div class="text-900 text-2xl font-medium mb-3">{{ $t('login.welcome') }}</div>
-      <span class="text-600 font-medium">{{ $t('login.please_login') }}</span>
-    </div>
+  <div class="flex align-items-center justify-content-center min-h-screen surface-ground">
+    <div class="surface-card p-6 shadow-2 border-round w-full lg:w-6">
+      <div class="text-center mb-6">
+        <img src="/logo.svg" alt="Logo" class="h-4rem mb-4" />
+        <div class="text-900 text-2xl font-medium mb-3">{{ $t('login.welcome') }}</div>
+        <span class="text-600 font-medium">{{ $t('login.please_login') }}</span>
+      </div>
 
-    <div>
-      <div class="flex flex-column gap-4">
-        <div>
-          <label for="email" class="block text-900 font-medium mb-2">{{ $t('login.email') }}</label>
-          <InputText id="email" v-model="email" type="text" class="w-full" :class="{'p-invalid': submitted && !email}" />
-          <small class="p-error" v-if="submitted && !email">{{ $t('login.email_required') }}</small>
+      <div>
+        <div class="flex flex-column gap-4">
+          <div>
+            <label for="email" class="block text-900 font-medium mb-2">{{ $t('login.email') }}</label>
+            <InputText id="email" v-model="email" type="text" class="w-full" :class="{'p-invalid': submitted && !email}" />
+            <small class="p-error" v-if="submitted && !email">{{ $t('login.email_required') }}</small>
+          </div>
+
+          <div>
+            <label for="password" class="block text-900 font-medium mb-2">{{ $t('login.password') }}</label>
+            <Password id="password" v-model="password" class="w-full" :feedback="false" :class="{'p-invalid': submitted && !password}" toggleMask />
+            <small class="p-error" v-if="submitted && !password">{{ $t('login.password_required') }}</small>
+          </div>
+
+          <div v-if="errorMessage" class="p-error text-center">{{ errorMessage }}</div>
+
+          <Button :label="$t('login.login_button')" @click="handleLogin" class="w-full" :loading="loading" />
         </div>
-
-        <div>
-          <label for="password" class="block text-900 font-medium mb-2">{{ $t('login.password') }}</label>
-          <Password id="password" v-model="password" class="w-full" :feedback="false" :class="{'p-invalid': submitted && !password}" toggleMask />
-          <small class="p-error" v-if="submitted && !password">{{ $t('login.password_required') }}</small>
-        </div>
-
-        <div v-if="errorMessage" class="p-error text-center">{{ errorMessage }}</div>
-
-        <Button :label="$t('login.login_button')" @click="handleLogin" class="w-full" :loading="loading" />
       </div>
     </div>
+
+    <!-- Set Password Dialog -->
+    <DialogWrapper
+      v-model="showPasswordDialog"
+      :title="$t('login.set_password')"
+      :confirm-label="$t('login.save_password')"
+      :cancel-label="$t('login.cancel')"
+      confirm-severity="success"
+      @confirm="saveNewPassword"
+    >
+      <div class="flex flex-column gap-4">
+        <small class="text-color-secondary">{{ $t('login.password_requirements') }}</small>
+        
+        <FormInput
+          id="newPassword"
+          v-model="newPassword"
+          type="password"
+          :label="$t('login.password')"
+          :showError="passwordSubmitted && !isPasswordValid"
+          :error="$t('login.password_too_weak')"
+          toggleMask
+        />
+
+        <FormInput
+          id="confirmPassword"
+          v-model="confirmPassword"
+          type="password"
+          :label="$t('login.confirm_password')"
+          :showError="passwordSubmitted && !passwordsMatch"
+          :error="$t('login.passwords_mismatch')"
+          toggleMask
+        />
+      </div>
+    </DialogWrapper>
   </div>
 
-  <!-- Set Password Dialog -->
-  <DialogWrapper
-    v-model="showPasswordDialog"
-    :title="$t('login.set_password')"
-    :confirm-label="$t('login.save_password')"
-    :cancel-label="$t('login.cancel')"
-    confirm-severity="success"
-    @confirm="saveNewPassword"
-  >
-    <div class="flex flex-column gap-4">
-      <small class="text-color-secondary">{{ $t('login.password_requirements') }}</small>
-      
-      <FormInput
-        id="newPassword"
-        v-model="newPassword"
-        type="password"
-        :label="$t('login.password')"
-        :showError="passwordSubmitted && !isPasswordValid"
-        :error="$t('login.password_too_weak')"
-        toggleMask
-      />
-
-      <FormInput
-        id="confirmPassword"
-        v-model="confirmPassword"
-        type="password"
-        :label="$t('login.confirm_password')"
-        :showError="passwordSubmitted && !passwordsMatch"
-        :error="$t('login.passwords_mismatch')"
-        toggleMask
-      />
-    </div>
-  </DialogWrapper>
-</div>
-
-<Toast />
+  <Toast />
 </template>
 
 <script setup>
@@ -117,7 +117,14 @@ const handleLogin = async () => {
 
   loading.value = true;
   try {
-    await store.auth.login(email.value, password.value);
+    const result = await store.auth.login(email.value, password.value);
+    
+    if (result.requiresPasswordReset) {
+      currentUser.value = result.user;
+      showPasswordDialog.value = true;
+      return;
+    }
+
     const redirectPath = route.query.redirect || '/';
     router.push(redirectPath);
   } catch (error) {
