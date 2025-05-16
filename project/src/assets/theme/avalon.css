@@ -1,0 +1,171 @@
+@font-face {
+  font-family: 'Klavika';
+  src: url('../fonts/KlavikaWebBasicRegular.woff') format('woff');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Klavika';
+  src: url('../fonts/KlavikaWebBasicMedium.woff') format('woff');
+  font-weight: 500;
+}
+
+:root {
+  --surface-ground: #f4f6f9;
+  --surface-section: #ffffff;
+  --surface-card: #ffffff;
+  --surface-overlay: #ffffff;
+  --surface-border: #dfe7ef;
+  --text-color: #64748b;
+  --text-color-secondary: #64748b;
+  --primary-color: #00b5b8;
+  --primary-dark: #009698;
+  --primary-color-rgb: 0, 181, 184;
+}
+
+.dark {
+  --surface-ground: #121212;
+  --surface-section: #1e1e1e;
+  --surface-card: #262626;
+  --surface-overlay: #2d2d2d;
+  --surface-border: #383838;
+  --text-color: #94a3b8;
+  --text-color-secondary: #94a3b8;
+  --primary-color: #00b5b8;
+  --primary-dark: #009698;
+  --primary-color-rgb: 0, 181, 184;
+}
+
+body {
+  font-family: 'Klavika', 'Titillium Web', sans-serif !important;
+  background-color: var(--surface-ground) !important;
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--text-color);
+}
+
+/* Text utilities */
+.font-medium {
+  font-weight: 500 !important;
+}
+
+/* Card Styling */
+:deep(.p-card) {
+  background-color: var(--surface-card) !important;
+  border: 1px solid var(--surface-border) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 12px !important;
+}
+
+/* Tag Styling (Roles) */
+:deep(.p-tag) {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  border-radius: 1rem !important;
+  padding: 0.35rem 0.75rem !important;
+}
+
+:deep(.p-tag-danger) {
+  background-color: #ffe5e5 !important;
+  color: #b40000 !important;
+}
+
+:deep(.p-tag-info) {
+  background-color: #e0f4ff !important;
+  color: #0070a3 !important;
+}
+
+:deep(.p-tag-success) {
+  background-color: #e5f6ea !important;
+  color: #137c44 !important;
+}
+
+/* Buttons - allgemeiner Stil */
+:deep(.p-button) {
+  font-family: 'Klavika', 'Titillium Web', sans-serif !important;
+  font-size: 0.9rem !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 1rem !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Success Button Styling */
+:deep(.p-button.p-button-success),
+:deep(.p-button[severity='success']) {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+
+:deep(.p-button.p-button-success:hover:enabled),
+:deep(.p-button[severity='success']:hover:enabled) {
+  background-color: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+}
+
+:deep(.p-button.p-button-success:active:enabled),
+:deep(.p-button[severity='success']:active:enabled) {
+  background-color: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+}
+
+/* Inputs und Dropdowns */
+:deep(.p-inputtext),
+:deep(.p-dropdown),
+:deep(.p-multiselect) {
+  border-radius: 6px !important;
+  font-family: 'Klavika', 'Titillium Web', sans-serif !important;
+  padding: 0.5rem !important;
+  font-size: 0.95rem !important;
+  background-color: var(--surface-card) !important;
+  border: 1px solid var(--surface-border) !important;
+  color: var(--text-color) !important;
+}
+
+/* Dialog Header/Footer */
+:deep(.p-dialog .p-dialog-header) {
+  background-color: var(--surface-section) !important;
+  font-family: 'Klavika', 'Titillium Web', sans-serif !important;
+  border-bottom: 1px solid var(--surface-border) !important;
+  color: var(--text-color) !important;
+}
+
+:deep(.p-dialog .p-dialog-footer) {
+  background-color: var(--surface-section) !important;
+  border-top: 1px solid var(--surface-border) !important;
+}
+
+:deep(.p-button.p-button-success:disabled) {
+  background-color: #d1e7dd !important;
+  border-color: #d1e7dd !important;
+  color: #6c757d !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+
+/* Dark mode overrides */
+.dark :deep(.p-inputtext),
+.dark :deep(.p-dropdown),
+.dark :deep(.p-multiselect),
+.dark :deep(.p-dialog),
+.dark :deep(.p-card) {
+  background-color: var(--surface-card) !important;
+  color: var(--text-color) !important;
+}
+
+.dark :deep(.p-dropdown-panel),
+.dark :deep(.p-multiselect-panel) {
+  background-color: var(--surface-card) !important;
+  border-color: var(--surface-border) !important;
+}
+
+.dark :deep(.p-dropdown-item),
+.dark :deep(.p-multiselect-item) {
+  color: var(--text-color) !important;
+}
+
+.dark :deep(.p-dropdown-item:hover),
+.dark :deep(.p-multiselect-item:hover) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
