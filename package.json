@@ -1,3 +1,4 @@
+```json
 {
   "name": "search25",
   "private": true,
@@ -35,3 +36,4 @@
     "vitest": "^1.1.0"
   }
 }
+```
