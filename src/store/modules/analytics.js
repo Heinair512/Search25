@@ -18,25 +18,9 @@ const state = reactive({
   error: null
 });
 
-const SELECTED_BU_KEY = 'selectedBusinessUnit';
-
 export const useAnalyticsStore = () => {
   const setSelectedBU = (bu) => {
     state.selectedBU = bu;
-    // Persist BU selection
-    const sessionData = JSON.parse(localStorage.getItem('currentUser'));
-    if (sessionData?.user) {
-      sessionData.user.selectedBU = bu;
-      localStorage.setItem('currentUser', JSON.stringify(sessionData));
-    }
-  };
-
-  const initializeSelectedBU = () => {
-    const sessionData = JSON.parse(localStorage.getItem('currentUser'));
-    if (sessionData?.user) {
-      // Use stored BU or default to first available
-      state.selectedBU = sessionData.user.selectedBU || sessionData.user.bu?.[0];
-    }
   };
 
   const setDateRange = (range) => {
@@ -69,7 +53,6 @@ export const useAnalyticsStore = () => {
 
     // Actions
     setSelectedBU,
-    initializeSelectedBU,
     setDateRange,
     getDailyData,
     getMetricsByBU,

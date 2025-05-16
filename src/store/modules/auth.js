@@ -4,11 +4,8 @@ import { mailServer } from '../../utils/mailServer';
 const state = reactive({
   currentUser: null,
   loading: false,
-  error: null,
-  sessionTimeout: null
+  error: null
 });
-
-const SESSION_DURATION = 8 * 60 * 60 * 1000; // 8 hours in milliseconds
 
 export const useAuthStore = () => {
   const login = async (email, password) => {
@@ -23,19 +20,8 @@ export const useAuthStore = () => {
         throw new Error('Invalid credentials');
       }
 
-      // Set session expiry
-      const sessionExpiry = Date.now() + SESSION_DURATION;
-      const sessionData = {
-        user,
-        expiry: sessionExpiry
-      };
-
       state.currentUser = user;
-      localStorage.setItem('currentUser', JSON.stringify(sessionData));
-      
-      // Set session timeout
-      setupSessionTimeout();
-      
+      localStorage.setItem('currentUser', JSON.stringify(user));
       return user;
     } catch (error) {
       state.error = error.message;
@@ -50,7 +36,6 @@ export const useAuthStore = () => {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('advancedMode');
     localStorage.removeItem('language');
-    clearTimeout(state.sessionTimeout);
   };
 
   const resetPassword = async (token, newPassword) => {
@@ -79,40 +64,10 @@ export const useAuthStore = () => {
     }
   };
 
-  const setupSessionTimeout = () => {
-    clearTimeout(state.sessionTimeout);
-    
-    const sessionData = JSON.parse(localStorage.getItem('currentUser'));
-    if (!sessionData) return;
-
-    const timeUntilExpiry = sessionData.expiry - Date.now();
-    if (timeUntilExpiry <= 0) {
-      logout();
-      return;
-    }
-
-    state.sessionTimeout = setTimeout(() => {
-      logout();
-    }, timeUntilExpiry);
-  };
-
-  const checkSession = () => {
-    const sessionData = JSON.parse(localStorage.getItem('currentUser'));
-    if (!sessionData) return false;
-
-    if (Date.now() > sessionData.expiry) {
-      logout();
-      return false;
-    }
-
-    state.currentUser = sessionData.user;
-    setupSessionTimeout();
-    return true;
-  };
-
   const initializeAuth = () => {
-    if (!checkSession()) {
-      logout();
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      state.currentUser = JSON.parse(savedUser);
     }
   };
 
@@ -127,7 +82,6 @@ export const useAuthStore = () => {
     login,
     logout,
     resetPassword,
-    initializeAuth,
-    checkSession
+    initializeAuth
   };
 };
