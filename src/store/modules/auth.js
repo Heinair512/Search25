@@ -4,8 +4,7 @@ import { mailServer } from '../../utils/mailServer';
 const state = reactive({
   currentUser: null,
   loading: false,
-  error: null,
-  isInitialized: false
+  error: null
 });
 
 export const useAuthStore = () => {
@@ -35,8 +34,6 @@ export const useAuthStore = () => {
   const logout = () => {
     state.currentUser = null;
     localStorage.removeItem('currentUser');
-    localStorage.removeItem('advancedMode');
-    localStorage.removeItem('language');
   };
 
   const resetPassword = async (token, newPassword) => {
@@ -70,7 +67,6 @@ export const useAuthStore = () => {
     if (savedUser) {
       state.currentUser = JSON.parse(savedUser);
     }
-    state.isInitialized = true;
   };
 
   return {
@@ -79,7 +75,6 @@ export const useAuthStore = () => {
     loading: computed(() => state.loading),
     error: computed(() => state.error),
     isAuthenticated: computed(() => !!state.currentUser),
-    isInitialized: computed(() => state.isInitialized),
 
     // Actions
     login,

@@ -14,18 +14,16 @@ import NoResultSearches from './screens/Analytics/NoResultSearches.vue';
 import LowClickSearches from './screens/Analytics/LowClickSearches.vue';
 import TopClickedSearches from './screens/Analytics/TopClickedSearches.vue';
 import SynonymManagement from './screens/SynonymManagement.vue';
-import { useStore } from './store';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: '/',
-      name: 'login',
       component: Login,
       beforeEnter: (to, from, next) => {
-        const store = useStore();
-        if (store.auth.isAuthenticated) {
+        const user = localStorage.getItem('currentUser');
+        if (user) {
           next('/dashboard');
         } else {
           next();
@@ -35,10 +33,10 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: Dashboard,
-      meta: { requiresAuth: true },
+      redirect: '/dashboard/news',
       children: [
         {
-          path: '',
+          path: 'news',
           component: News
         },
         {
@@ -55,7 +53,7 @@ const router = createRouter({
           children: [
             {
               path: '',
-              redirect: '/curation/pin-kbns'
+              redirect: '/dashboard/curation/pin-kbns'
             },
             {
               path: 'new',
@@ -105,21 +103,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const store = useStore();
-  
-  if (!store.auth.isInitialized) {
-    store.auth.initializeAuth();
+  const publicPages = ['/'];
+  const authRequired = !publicPages.includes(to.path);
+  const user = localStorage.getItem('currentUser');
+
+  if (authRequired && !user) {
+    return next('/');
   }
 
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!store.auth.isAuthenticated) {
-      next('/');
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
+  next();
 });
 
 export default router;
