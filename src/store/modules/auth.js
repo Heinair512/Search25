@@ -34,6 +34,8 @@ export const useAuthStore = () => {
   const logout = () => {
     state.currentUser = null;
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('advancedMode');
+    localStorage.removeItem('language');
   };
 
   const resetPassword = async (token, newPassword) => {
