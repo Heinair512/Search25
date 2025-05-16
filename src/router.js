@@ -24,7 +24,7 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const user = localStorage.getItem('currentUser');
         if (user) {
-          next('/dashboard');
+          next('/dashboard/news');
         } else {
           next();
         }
