@@ -2,7 +2,7 @@
   <div class="flex justify-content-between align-items-center w-full px-4 py-2 surface-section shadow-1">
     <div class="flex align-items-center gap-3">
       <Button icon="pi pi-bars" @click="toggleMenu" text rounded class="menu-button" />
-      <img src="/logo.svg" alt="Logo" class="h-4rem cursor-pointer" @click="router.push('/')" />
+      <img src="/logo.svg" alt="Logo" class="h-4rem cursor-pointer" @click="router.push('/dashboard/news')" />
     </div>
     
     <div class="flex align-items-center gap-3">
@@ -84,12 +84,12 @@ const menuItems = computed(() => {
     {
       label: t('menu.news'),
       icon: 'pi pi-home',
-      command: () => router.push('/')
+      command: () => router.push('/dashboard/news')
     },
     {
       label: t('menu.profile'),
       icon: 'pi pi-user',
-      command: () => router.push('/profile')
+      command: () => router.push('/dashboard/profile')
     },
     {
       separator: true
@@ -108,7 +108,7 @@ const menuItems = computed(() => {
     items.splice(1, 0, {
       label: t('menu.rights_management'),
       icon: 'pi pi-users',
-      command: () => router.push('/rechtemanagement')
+      command: () => router.push('/dashboard/rechtemanagement')
     });
   }
 
