@@ -27,7 +27,10 @@ const app = createApp(App);
 // Make store available globally
 app.config.globalProperties.$store = store;
 
-app.use(PrimeVue);
+app.use(PrimeVue, {
+  ripple: true,
+  inputStyle: "filled"
+});
 app.use(router);
 app.use(i18n);
 app.use(ToastService);

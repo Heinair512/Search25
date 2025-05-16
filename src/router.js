@@ -19,11 +19,12 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/login',
-      component: Login
+      path: '/',
+      component: Login,
+      name: 'login'
     },
     {
-      path: '/',
+      path: '/dashboard',
       component: Dashboard,
       children: [
         {
@@ -86,19 +87,7 @@ const router = createRouter({
         },
         {
           path: 'synonyms',
-          component: SynonymManagement,
-          beforeRouteLeave: (to, from, next) => {
-            const synonymComponent = from.matched[0].instances.default;
-            if (synonymComponent?.hasUnsavedChanges && !synonymComponent?.isPublished) {
-              if (confirm('You have unsaved changes. Do you want to leave this page?')) {
-                next();
-              } else {
-                next(false);
-              }
-            } else {
-              next();
-            }
-          }
+          component: SynonymManagement
         }
       ]
     }
