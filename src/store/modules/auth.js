@@ -4,7 +4,8 @@ import { mailServer } from '../../utils/mailServer';
 const state = reactive({
   currentUser: null,
   loading: false,
-  error: null
+  error: null,
+  isInitialized: false
 });
 
 export const useAuthStore = () => {
@@ -69,6 +70,7 @@ export const useAuthStore = () => {
     if (savedUser) {
       state.currentUser = JSON.parse(savedUser);
     }
+    state.isInitialized = true;
   };
 
   return {
@@ -77,6 +79,7 @@ export const useAuthStore = () => {
     loading: computed(() => state.loading),
     error: computed(() => state.error),
     isAuthenticated: computed(() => !!state.currentUser),
+    isInitialized: computed(() => state.isInitialized),
 
     // Actions
     login,

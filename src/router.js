@@ -14,18 +14,28 @@ import NoResultSearches from './screens/Analytics/NoResultSearches.vue';
 import LowClickSearches from './screens/Analytics/LowClickSearches.vue';
 import TopClickedSearches from './screens/Analytics/TopClickedSearches.vue';
 import SynonymManagement from './screens/SynonymManagement.vue';
+import { useStore } from './store';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: '/',
+      name: 'login',
       component: Login,
-      name: 'login'
+      beforeEnter: (to, from, next) => {
+        const store = useStore();
+        if (store.auth.isAuthenticated) {
+          next('/dashboard');
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/dashboard',
       component: Dashboard,
+      meta: { requiresAuth: true },
       children: [
         {
           path: '',
@@ -92,6 +102,24 @@ const router = createRouter({
       ]
     }
   ]
+});
+
+router.beforeEach((to, from, next) => {
+  const store = useStore();
+  
+  if (!store.auth.isInitialized) {
+    store.auth.initializeAuth();
+  }
+
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.auth.isAuthenticated) {
+      next('/');
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
