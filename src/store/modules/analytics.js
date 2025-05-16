@@ -18,33 +18,9 @@ const state = reactive({
   error: null
 });
 
-// Initialize selectedBU from localStorage if available
-const initializeSelectedBU = () => {
-  try {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    if (currentUser.selectedBU) {
-      state.selectedBU = currentUser.selectedBU;
-    }
-  } catch (error) {
-    console.error('Error initializing selectedBU:', error);
-  }
-};
-
-// Call initialization
-initializeSelectedBU();
-
 export const useAnalyticsStore = () => {
   const setSelectedBU = (bu) => {
-    if (!bu) return;
     state.selectedBU = bu;
-    
-    try {
-      const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-      currentUser.selectedBU = bu;
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    } catch (error) {
-      console.error('Error saving selectedBU:', error);
-    }
   };
 
   const setDateRange = (range) => {

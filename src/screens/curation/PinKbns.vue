@@ -196,39 +196,4 @@ const saveHiddenKbns = () => {
   background: var(--surface-card);
   border: 1px solid var(--surface-border);
 }
-
-:deep(.p-inputtext),
-:deep(.p-inputnumber),
-:deep(.p-textarea) {
-  background-color: var(--surface-card);
-  color: var(--text-color);
-  border-color: var(--surface-border);
-}
-
-:deep(.p-inputtext:enabled:hover),
-:deep(.p-inputnumber:enabled:hover),
-:deep(.p-textarea:enabled:hover) {
-  border-color: var(--primary-color);
-}
-
-:deep(.p-inputtext:enabled:focus),
-:deep(.p-inputnumber:enabled:focus),
-:deep(.p-textarea:enabled:focus) {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 1px var(--primary-color);
-}
-
-/* Dark theme adjustments */
-:deep(.dark) .surface-card {
-  background-color: var(--surface-card);
-  border-color: var(--surface-border);
-}
-
-:deep(.dark) .p-inputtext,
-:deep(.dark) .p-inputnumber,
-:deep(.dark) .p-textarea {
-  background-color: var(--surface-card);
-  color: var(--text-color);
-  border-color: var(--surface-border);
-}
 </style>

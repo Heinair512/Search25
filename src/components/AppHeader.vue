@@ -2,7 +2,7 @@
   <div class="flex justify-content-between align-items-center w-full px-4 py-2 surface-section shadow-1">
     <div class="flex align-items-center gap-3">
       <Button icon="pi pi-bars" @click="toggleMenu" text rounded class="menu-button" />
-      <img src="/logo.svg" alt="Logo" class="h-4rem cursor-pointer" @click="router.push('/dashboard/news')" />
+      <img src="/logo.svg" alt="Logo" class="h-4rem cursor-pointer" @click="router.push('/')" />
     </div>
     
     <div class="flex align-items-center gap-3">
@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '../store';
@@ -67,18 +67,6 @@ const selectedBU = ref(null);
 
 const businessUnits = computed(() => props.userBUs);
 
-// Initialize selectedBU from store or user's first BU
-onMounted(() => {
-  const storedBU = store.analytics.selectedBU;
-  if (storedBU && props.userBUs.includes(storedBU)) {
-    selectedBU.value = storedBU;
-  } else if (props.userBUs.length > 0) {
-    selectedBU.value = props.userBUs[0];
-    handleBUChange({ value: props.userBUs[0] });
-  }
-});
-
-// Watch for userBUs changes
 watch(() => props.userBUs, (newBUs) => {
   if (newBUs && newBUs.length > 0 && !selectedBU.value) {
     selectedBU.value = newBUs[0];
@@ -87,7 +75,6 @@ watch(() => props.userBUs, (newBUs) => {
 }, { immediate: true });
 
 const handleBUChange = (event) => {
-  if (!event.value) return;
   store.analytics.setSelectedBU(event.value);
   window.dispatchEvent(new Event('buChanged'));
 };
@@ -97,12 +84,12 @@ const menuItems = computed(() => {
     {
       label: t('menu.news'),
       icon: 'pi pi-home',
-      command: () => router.push('/dashboard/news')
+      command: () => router.push('/')
     },
     {
       label: t('menu.profile'),
       icon: 'pi pi-user',
-      command: () => router.push('/dashboard/profile')
+      command: () => router.push('/profile')
     },
     {
       separator: true
@@ -121,7 +108,7 @@ const menuItems = computed(() => {
     items.splice(1, 0, {
       label: t('menu.rights_management'),
       icon: 'pi pi-users',
-      command: () => router.push('/dashboard/rechtemanagement')
+      command: () => router.push('/rechtemanagement')
     });
   }
 
