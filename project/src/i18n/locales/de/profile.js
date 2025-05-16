@@ -1,0 +1,18 @@
+export default {
+  title: "Profil",
+  name: "Name",
+  email: "Email-Adresse",
+  role: "Rolle",
+  business_units: "Business Units",
+  new_password: "Neues Passwort",
+  confirm_password: "Passwort bestätigen",
+  passwords_mismatch: "Passwörter stimmen nicht überein",
+  save: "Speichern",
+  success: "Erfolg",
+  changes_saved: "Ihre Änderungen wurden gespeichert",
+  change_image: "Bild ändern",
+  max_size: "Maximale Dateigröße: 1MB",
+  file_too_large: "Die Datei ist zu groß",
+  image_uploaded: "Profilbild wurde hochgeladen",
+  upload_error: "Fehler beim Hochladen des Bildes"
+};
