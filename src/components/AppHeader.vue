@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '../store';
@@ -67,6 +67,18 @@ const selectedBU = ref(null);
 
 const businessUnits = computed(() => props.userBUs);
 
+// Initialize selectedBU from store or user's first BU
+onMounted(() => {
+  const storedBU = store.analytics.selectedBU;
+  if (storedBU && props.userBUs.includes(storedBU)) {
+    selectedBU.value = storedBU;
+  } else if (props.userBUs.length > 0) {
+    selectedBU.value = props.userBUs[0];
+    handleBUChange({ value: props.userBUs[0] });
+  }
+});
+
+// Watch for userBUs changes
 watch(() => props.userBUs, (newBUs) => {
   if (newBUs && newBUs.length > 0 && !selectedBU.value) {
     selectedBU.value = newBUs[0];
@@ -76,6 +88,10 @@ watch(() => props.userBUs, (newBUs) => {
 
 const handleBUChange = (event) => {
   store.analytics.setSelectedBU(event.value);
+  // Update localStorage to persist the selection
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  currentUser.selectedBU = event.value;
+  localStorage.setItem('currentUser', JSON.stringify(currentUser));
   window.dispatchEvent(new Event('buChanged'));
 };
 
@@ -84,7 +100,7 @@ const menuItems = computed(() => {
     {
       label: t('menu.news'),
       icon: 'pi pi-home',
-      command: () => router.push('/')
+      command: () => router.push('/dashboard/news')
     },
     {
       label: t('menu.profile'),
