@@ -31,7 +31,6 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'news',
           component: News
         },
         {
@@ -90,7 +89,19 @@ const router = createRouter({
         },
         {
           path: 'synonyms',
-          component: SynonymManagement
+          component: SynonymManagement,
+          beforeRouteLeave: (to, from, next) => {
+            const synonymComponent = from.matched[0].instances.default;
+            if (synonymComponent?.hasUnsavedChanges && !synonymComponent?.isPublished) {
+              if (confirm('You have unsaved changes. Do you want to leave this page?')) {
+                next();
+              } else {
+                next(false);
+              }
+            } else {
+              next();
+            }
+          }
         }
       ]
     }
@@ -98,7 +109,7 @@ const router = createRouter({
 });
 
 // Navigation guard
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
   const store = useStore();
   const isAuthenticated = store.auth.isAuthenticated;
   
@@ -108,8 +119,8 @@ router.beforeEach(async (to, from, next) => {
     if (!isAuthenticated) {
       // Redirect to login page
       next({ 
-        name: 'login',
-        query: { redirect: to.fullPath }
+        path: '/login',
+        query: { redirect: to.fullPath } // Save the path user was trying to access
       });
     } else {
       // Initialize selected business unit if needed
@@ -118,9 +129,9 @@ router.beforeEach(async (to, from, next) => {
       }
       next();
     }
-  } else if (to.name === 'login' && isAuthenticated) {
+  } else if (to.path === '/login' && isAuthenticated) {
     // If user is already authenticated and tries to access login page
-    next({ name: 'news' });
+    next('/');
   } else {
     next();
   }

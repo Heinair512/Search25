@@ -15,23 +15,4 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: var(--surface-ground);
 }
-
-/* Prevent FOUC */
-.app-loading {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.app-loaded {
-  opacity: 1;
-}
-
-/* Ensure consistent background during transitions */
-#app, 
-.app-container, 
-.loading-container {
-  background-color: var(--surface-ground);
-}
-</style>

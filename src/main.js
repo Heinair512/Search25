@@ -22,26 +22,20 @@ import './assets/theme/avalon.css';
 import { useStore } from './store';
 const store = useStore();
 
-// Initialize auth state before creating app
-store.auth.initializeAuth();
-
 const app = createApp(App);
 
 // Make store available globally
 app.config.globalProperties.$store = store;
 
-app.use(PrimeVue, {
-  ripple: true,
-  inputStyle: "filled"
-});
+app.use(PrimeVue);
 app.use(router);
 app.use(i18n);
 app.use(ToastService);
 app.directive('tooltip', Tooltip);
 
-// Initialize theme and features
+// Initialize theme and auth state
 store.theme.initializeTheme();
+store.auth.initializeAuth();
 store.features.initializeFeatures();
 
-// Mount app after auth is initialized
 app.mount('#app');

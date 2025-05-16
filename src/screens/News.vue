@@ -12,7 +12,7 @@
                 <i :class="['pi', searchTrend > 0 ? 'pi-arrow-up' : 'pi-arrow-down', searchTrendIconColor]"></i>
               </div>
               <div class="metric-text">{{ searchUsageText }}</div>
-              <Button :label="t('news_board.view_analytics')" link class="metric-action" @click="router.push('/analytics')" />
+              <Button :label="t('news_board.view_analytics')" link class="metric-action" @click="router.push('/dashboard/analytics')" />
             </div>
           </div>
         </div>
@@ -25,7 +25,7 @@
                 <i :class="['pi', ctrTrend > 0 ? 'pi-arrow-up' : 'pi-arrow-down', ctrTrendIconColor]"></i>
               </div>
               <div class="metric-text">{{ ctrText }}</div>
-              <Button :label="t('news_board.view_details')" link class="metric-action" @click="router.push('/analytics')" />
+              <Button :label="t('news_board.view_details')" link class="metric-action" @click="router.push('/dashboard/analytics')" />
             </div>
           </div>
         </div>
@@ -38,7 +38,7 @@
                 <i :class="['pi', zeroResultsTrend > 0 ? 'pi-arrow-up' : 'pi-arrow-down', zeroResultsTrendIconColor]"></i>
               </div>
               <div class="metric-text">{{ zeroResultsText }}</div>
-              <Button :label="t('news_board.review_now')" link class="metric-action" @click="router.push('/analytics/no-results')" />
+              <Button :label="t('news_board.review_now')" link class="metric-action" @click="router.push('/dashboard/analytics/no-results')" />
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
                 <i class="pi pi-search text-white"></i>
               </div>
               <div class="metric-text text-white">{{ topSearchText }}</div>
-              <Button :label="t('news_board.view_details')" link class="metric-action p-button-text text-white" @click="router.push('/analytics/top-clicked')" />
+              <Button :label="t('news_board.view_details')" link class="metric-action p-button-text text-white" @click="router.push('/dashboard/analytics/top-clicked')" />
             </div>
           </div>
         </div>
@@ -311,8 +311,8 @@ const updateMetrics = () => {
   }
 
   const topSearches = store.analytics.getSearchesByBU('topClicked', selectedBU);
-  if (topSearches?.length > 0) {
-    topSearchTerm.value = topSearches[0].term;
+  if (topSearches?.value && topSearches.value.length > 0) {
+    topSearchTerm.value = topSearches.value[0].term;
   }
 };
 

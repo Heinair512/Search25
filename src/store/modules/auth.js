@@ -1,6 +1,5 @@
 import { reactive, computed } from 'vue';
 import { mailServer } from '../../utils/mailServer';
-import { users } from '../../data/users';
 
 const state = reactive({
   currentUser: null,
@@ -17,18 +16,11 @@ export const useAuthStore = () => {
     state.error = null;
 
     try {
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
       const user = users.find(u => u.email === email);
 
-      if (!user || (user.password !== password && user.otp !== password)) {
+      if (!user || user.password !== password) {
         throw new Error('Invalid credentials');
-      }
-
-      // Handle OTP login
-      if (user.otp) {
-        if (!user.needsPasswordReset) {
-          throw new Error('OTP expired');
-        }
-        return { requiresPasswordReset: true, user };
       }
 
       // Set session expiry
@@ -44,7 +36,7 @@ export const useAuthStore = () => {
       // Set session timeout
       setupSessionTimeout();
       
-      return { user };
+      return user;
     } catch (error) {
       state.error = error.message;
       throw error;
@@ -61,40 +53,24 @@ export const useAuthStore = () => {
     clearTimeout(state.sessionTimeout);
   };
 
-  const resetPassword = async (email, newPassword) => {
+  const resetPassword = async (token, newPassword) => {
     state.loading = true;
     state.error = null;
 
     try {
-      const usersList = [...users];
-      const userIndex = usersList.findIndex(u => u.email === email);
-      
-      if (userIndex === -1) {
-        throw new Error('User not found');
+      const email = mailServer.verifyResetToken(token);
+      if (!email) {
+        throw new Error('Invalid or expired token');
       }
 
-      const updatedUser = {
-        ...usersList[userIndex],
-        password: newPassword,
-        needsPasswordReset: false
-      };
-      delete updatedUser.otp;
-
-      usersList[userIndex] = updatedUser;
-      localStorage.setItem('users', JSON.stringify(usersList));
-
-      // Set up new session
-      const sessionExpiry = Date.now() + SESSION_DURATION;
-      const sessionData = {
-        user: updatedUser,
-        expiry: sessionExpiry
-      };
-
-      state.currentUser = updatedUser;
-      localStorage.setItem('currentUser', JSON.stringify(sessionData));
-      setupSessionTimeout();
-
-      return updatedUser;
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(u => u.email === email);
+      
+      if (user) {
+        user.password = newPassword;
+        user.needsPasswordReset = false;
+        localStorage.setItem('users', JSON.stringify(users));
+      }
     } catch (error) {
       state.error = error.message;
       throw error;
