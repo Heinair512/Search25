@@ -1,11 +1,10 @@
-```vue
 <template>
-  <div class="app-container">
+  <div class="app-container" :class="{ 'app-loading': isLoading }">
     <RouterView v-slot="{ Component }">
-      <Suspense>
+      <Suspense @pending="onPending" @resolve="onResolve">
         <component :is="Component" />
         <template #fallback>
-          <div class="flex align-items-center justify-content-center min-h-screen">
+          <div class="loading-container">
             <ProgressSpinner />
           </div>
         </template>
@@ -15,8 +14,19 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { RouterView } from 'vue-router';
 import ProgressSpinner from 'primevue/progressspinner';
+
+const isLoading = ref(true);
+
+const onPending = () => {
+  isLoading.value = true;
+};
+
+const onResolve = () => {
+  isLoading.value = false;
+};
 </script>
 
 <style>
@@ -27,7 +37,18 @@ import ProgressSpinner from 'primevue/progressspinner';
   background-color: var(--surface-ground);
 }
 
-/* Prevent content shift during loading */
+.app-loading {
+  opacity: 0;
+}
+
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface-ground);
+}
+
 .p-progress-spinner {
   width: 50px;
   height: 50px;
@@ -44,4 +65,3 @@ import ProgressSpinner from 'primevue/progressspinner';
   opacity: 0;
 }
 </style>
-```
