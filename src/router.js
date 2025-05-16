@@ -33,15 +33,10 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: Dashboard,
-      redirect: '/dashboard/news',
       children: [
         {
           path: 'news',
           component: News
-        },
-        {
-          path: 'rights',
-          component: Rechtemanagement
         },
         {
           path: 'profile',
@@ -109,6 +104,10 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !user) {
     return next('/');
+  }
+
+  if (to.path === '/dashboard') {
+    return next('/dashboard/news');
   }
 
   next();

@@ -22,7 +22,7 @@
           :label="$t('menu.search_preview')"
           text
           class="w-full justify-content-start menu-button"
-          @click="$router.push('/search-preview')"
+          @click="$router.push('/dashboard/search-preview')"
         />
       </div>
 
@@ -38,9 +38,9 @@
             text
             class="w-full justify-content-start menu-button"
             :class="{
-              'p-button-text p-highlight': $route.path === '/curation/new',
+              'p-button-text p-highlight': $route.path === '/dashboard/curation/new',
             }"
-            @click="$router.push('/curation/new')"
+            @click="$router.push('/dashboard/curation/new')"
           />
           <Button
             icon="pi pi-list"
@@ -48,9 +48,9 @@
             text
             class="w-full justify-content-start menu-button"
             :class="{
-              'p-button-text p-highlight': $route.path === '/curation/pin-kbns',
+              'p-button-text p-highlight': $route.path === '/dashboard/curation/pin-kbns',
             }"
-            @click="$router.push('/curation/pin-kbns')"
+            @click="$router.push('/dashboard/curation/pin-kbns')"
           />
           <Button
             icon="pi pi-cog"
@@ -58,9 +58,9 @@
             text
             class="w-full justify-content-start menu-button"
             :class="{
-              'p-button-text p-highlight': $route.path === '/curation/manage',
+              'p-button-text p-highlight': $route.path === '/dashboard/curation/manage',
             }"
-            @click="$router.push('/curation/manage')"
+            @click="$router.push('/dashboard/curation/manage')"
           />
           <Button
             icon="pi pi-arrows-h"
@@ -68,9 +68,9 @@
             text
             class="w-full justify-content-start menu-button"
             :class="{
-              'p-button-text p-highlight': $route.path === '/synonyms',
+              'p-button-text p-highlight': $route.path === '/dashboard/synonyms',
             }"
-            @click="$router.push('/synonyms')"
+            @click="$router.push('/dashboard/synonyms')"
           />
         </div>
       </div>
@@ -87,9 +87,9 @@
             text
             class="w-full justify-content-start menu-button text-xs"
             :class="{
-              'p-button-text p-highlight': $route.path === '/analytics',
+              'p-button-text p-highlight': $route.path === '/dashboard/analytics',
             }"
-            @click="$router.push('/analytics')"
+            @click="$router.push('/dashboard/analytics')"
           />
           <Button
             v-if="store.features.isAdvancedMode"
@@ -99,9 +99,9 @@
             class="w-full justify-content-start menu-button text-xs"
             :class="{
               'p-button-text p-highlight':
-                $route.path === '/analytics/no-results',
+                $route.path === '/dashboard/analytics/no-results',
             }"
-            @click="$router.push('/analytics/no-results')"
+            @click="$router.push('/dashboard/analytics/no-results')"
           />
           <Button
             v-if="store.features.isAdvancedMode"
@@ -111,9 +111,9 @@
             class="w-full justify-content-start menu-button text-xs"
             :class="{
               'p-button-text p-highlight':
-                $route.path === '/analytics/low-clicks',
+                $route.path === '/dashboard/analytics/low-clicks',
             }"
-            @click="$router.push('/analytics/low-clicks')"
+            @click="$router.push('/dashboard/analytics/low-clicks')"
           />
           <Button
             v-if="store.features.isAdvancedMode"
@@ -123,9 +123,9 @@
             class="w-full justify-content-start menu-button text-xs"
             :class="{
               'p-button-text p-highlight':
-                $route.path === '/analytics/top-clicked',
+                $route.path === '/dashboard/analytics/top-clicked',
             }"
-            @click="$router.push('/analytics/top-clicked')"
+            @click="$router.push('/dashboard/analytics/top-clicked')"
           />
         </div>
       </div>
