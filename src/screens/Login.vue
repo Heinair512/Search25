@@ -171,7 +171,7 @@ const saveNewPassword = () => {
 
 const loginSuccess = (user) => {
   localStorage.setItem('currentUser', JSON.stringify(user));
-  router.push('/dashboard');
+  router.push('/dashboard/news');
 };
 </script>
 
