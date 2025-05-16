@@ -5,7 +5,12 @@ export default defineConfig({
   plugins: [vue()],
   base: '/',
   server: {
-    host: '0.0.0.0',
-    port: 5173
+    host: 'localhost',
+    port: 5173,
+    https: false,
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost'
+    }
   }
 })
