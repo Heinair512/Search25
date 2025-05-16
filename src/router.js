@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useStore } from './store';
 import Login from './screens/Login.vue';
 import Dashboard from './screens/Dashboard.vue';
 import SearchPreview from './screens/SearchPreview.vue';
@@ -20,11 +21,13 @@ const router = createRouter({
   routes: [
     {
       path: '/login',
+      name: 'login',
       component: Login
     },
     {
       path: '/',
       component: Dashboard,
+      meta: { requiresAuth: true },
       children: [
         {
           path: '',
@@ -103,6 +106,35 @@ const router = createRouter({
       ]
     }
   ]
+});
+
+// Navigation guard
+router.beforeEach((to, from, next) => {
+  const store = useStore();
+  const isAuthenticated = store.auth.isAuthenticated;
+  
+  // Check if the route requires authentication
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      // Redirect to login page
+      next({ 
+        path: '/login',
+        query: { redirect: to.fullPath } // Save the path user was trying to access
+      });
+    } else {
+      // Initialize selected business unit if needed
+      if (!store.analytics.selectedBU) {
+        store.analytics.initializeSelectedBU();
+      }
+      next();
+    }
+  } else if (to.path === '/login' && isAuthenticated) {
+    // If user is already authenticated and tries to access login page
+    next('/');
+  } else {
+    next();
+  }
 });
 
 export default router;
