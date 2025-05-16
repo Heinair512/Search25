@@ -33,10 +33,15 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: Dashboard,
+      redirect: '/dashboard/news',
       children: [
         {
           path: 'news',
           component: News
+        },
+        {
+          path: 'rights',
+          component: Rechtemanagement
         },
         {
           path: 'profile',
