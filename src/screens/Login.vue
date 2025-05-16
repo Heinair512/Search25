@@ -23,7 +23,7 @@
 
         <div v-if="errorMessage" class="p-error text-center">{{ errorMessage }}</div>
 
-        <Button :label="$t('login.login_button')" @click="handleLogin" class="w-full" />
+        <Button :label="$t('login.login_button')" @click="handleLogin" class="w-full" :loading="loading" />
       </div>
     </div>
   </div>
@@ -68,25 +68,28 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '../store';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Toast from 'primevue/toast';
 import DialogWrapper from '../components/shared/DialogWrapper.vue';
 import FormInput from '../components/shared/FormInput.vue';
-import { users } from '../data/users';
 
 const router = useRouter();
+const route = useRoute();
 const toast = useToast();
 const { t } = useI18n();
+const store = useStore();
 
 const email = ref('');
 const password = ref('');
 const submitted = ref(false);
 const errorMessage = ref('');
+const loading = ref(false);
 
 // Password reset state
 const showPasswordDialog = ref(false);
@@ -106,72 +109,43 @@ const isPasswordValid = computed(() => {
          /[^A-Za-z0-9]/.test(password);
 });
 
-const handleLogin = () => {
+const handleLogin = async () => {
   submitted.value = true;
   errorMessage.value = '';
 
   if (!email.value || !password.value) return;
 
-  const user = users.find(u => u.email === email.value);
-  
-  if (!user) {
+  loading.value = true;
+  try {
+    await store.auth.login(email.value, password.value);
+    const redirectPath = route.query.redirect || '/';
+    router.push(redirectPath);
+  } catch (error) {
     errorMessage.value = t('login.invalid_credentials');
-    return;
+  } finally {
+    loading.value = false;
   }
-
-  // Check if user has OTP
-  if (user.otp) {
-    if (password.value !== user.otp) {
-      errorMessage.value = t('login.invalid_otp');
-      return;
-    }
-
-    if (!user.needsPasswordReset) {
-      errorMessage.value = t('login.otp_expired');
-      return;
-    }
-
-    // Show password reset dialog
-    currentUser.value = user;
-    showPasswordDialog.value = true;
-    return;
-  }
-
-  // Normal password login
-  if (user.password !== password.value) {
-    errorMessage.value = t('login.invalid_credentials');
-    return;
-  }
-
-  loginSuccess(user);
 };
 
-const saveNewPassword = () => {
+const saveNewPassword = async () => {
   passwordSubmitted.value = true;
 
   if (!isPasswordValid.value || !passwordsMatch.value) {
     return;
   }
 
-  // Update user in users array
-  const userIndex = users.findIndex(u => u.email === currentUser.value.email);
-  if (userIndex !== -1) {
-    const updatedUser = {
-      ...users[userIndex],
-      password: newPassword.value,
-      needsPasswordReset: false
-    };
-    delete updatedUser.otp;
-    users[userIndex] = updatedUser;
-
-    loginSuccess(updatedUser);
+  try {
+    await store.auth.resetPassword(currentUser.value.email, newPassword.value);
     showPasswordDialog.value = false;
+    router.push('/');
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: t('login.error'),
+      detail: error.message,
+      life: 3000
+    });
   }
-};
-
-const loginSuccess = (user) => {
-  localStorage.setItem('currentUser', JSON.stringify(user));
-  router.push('/dashboard');
 };
 </script>
 
