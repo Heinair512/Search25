@@ -1,0 +1,21 @@
+export default {
+  welcome: "Welcome to Search25!",
+  please_login: "Please sign in",
+  email: "Email",
+  password: "Password",
+  login_button: "Sign in",
+  email_required: "Email is required",
+  password_required: "Password is required",
+  invalid_credentials: "Invalid email or password",
+  otp_required: "One-time password is required",
+  invalid_otp: "Invalid or expired one-time password",
+  enter_otp: "Please enter the one-time password sent to your email",
+  set_password: "Set Password",
+  password_requirements: "Password must be at least 8 characters long and contain uppercase and lowercase letters, numbers, and special characters.",
+  confirm_password: "Confirm Password",
+  passwords_mismatch: "Passwords do not match",
+  password_too_weak: "Password does not meet requirements",
+  otp_expired: "The one-time password has expired or has already been used. Please request a new invitation.",
+  save_password: "Save Password",
+  cancel: "Cancel"
+};
