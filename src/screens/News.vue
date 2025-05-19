@@ -1,10 +1,10 @@
 <template>
   <div class="news-container">
-    <CardWrapper :title="t('news_board.title')">
+    <CardWrapper>
       <template #title>
         <div class="flex flex-column">
           <span class="text-xl font-semibold">{{ t('news_board.title') }}</span>
-          <div class="welcome-message">{{ t('news_board.welcome', { name: userName }) }}</div>
+          <span class="welcome-message">{{ t('news_board.welcome', { name: userName }) }}</span>
         </div>
       </template>
       
