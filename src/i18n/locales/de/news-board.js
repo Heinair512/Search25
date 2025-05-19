@@ -16,6 +16,7 @@ export default {
     current_metrics: "Aktuelle Metriken",
     click_position: "Durchschnittliche Klickposition",
     current: "Aktuell",
-    previous_week: "Vorwoche"
+    previous_week: "Vorwoche",
+    ranked_terms: "der Suchbegriffe gerankt"
   }
 };

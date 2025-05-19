@@ -72,6 +72,7 @@
                   <div class="metric-box p-4 border-round surface-ground">
                     <div class="text-lg font-medium mb-2">{{ t('news_board.relevance.reranking_terms') }}</div>
                     <div class="text-2xl font-bold">13 491</div>
+                    <div class="text-sm text-500">{{ metrics.rankedTermsPercentage.toFixed(1) }}% {{ t('news_board.relevance.ranked_terms') }}</div>
                   </div>
                   
                   <div class="metric-box p-4 border-round surface-ground">
@@ -132,6 +133,9 @@ const searchTrend = ref(15);
 const ctrTrend = ref(-5);
 const zeroResultsTrend = ref(-8);
 const topSearchTerm = ref('hammer');
+const metrics = ref({
+  rankedTermsPercentage: 75.8
+});
 
 // Computed styles for trend indicators
 const searchTrendColor = computed(() => 
@@ -303,11 +307,12 @@ const updateMetrics = () => {
     return;
   }
 
-  const metrics = store.analytics.getMetricsByBU(selectedBU);
-  if (metrics) {
-    searchTrend.value = Math.round((metrics.totalSearches / 1000 - 1) * 100);
-    ctrTrend.value = Math.round((metrics.ctr / 20 - 1) * 100);
-    zeroResultsTrend.value = Math.round((metrics.noResultsRate / 5 - 1) * 100);
+  const buMetrics = store.analytics.getMetricsByBU(selectedBU);
+  if (buMetrics) {
+    searchTrend.value = Math.round((buMetrics.totalSearches / 1000 - 1) * 100);
+    ctrTrend.value = Math.round((buMetrics.ctr / 20 - 1) * 100);
+    zeroResultsTrend.value = Math.round((buMetrics.noResultsRate / 5 - 1) * 100);
+    metrics.value.rankedTermsPercentage = buMetrics.rankedTermsPercentage;
   }
 
   const topSearches = store.analytics.getSearchesByBU('topClicked', selectedBU);

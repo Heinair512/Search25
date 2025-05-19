@@ -16,6 +16,7 @@ export default {
     current_metrics: "Current Metrics",
     click_position: "Average Click Position",
     current: "Current",
-    previous_week: "Previous Week"
+    previous_week: "Previous Week",
+    ranked_terms: "of search terms ranked"
   }
 };
