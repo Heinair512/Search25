@@ -1,6 +1,7 @@
 export default {
   title: "Synonyme verwalten",
   description: "Verwalten Sie hier die Synonyme für Ihre Suchbegriffe. Synonyme helfen dabei, die Suchergebnisse zu verbessern, indem sie verwandte Begriffe miteinander verknüpfen.<br><br><strong>Gerichtete vs. ungerichtete Synonyme</strong><br><br><strong>• Ungerichtete Synonyme</strong> bedeuten: Begriffe sind gleichwertig. Sucht jemand nach A, wird auch B gefunden – und umgekehrt.<br>→ z. B. Akkuschrauber ⇔ Bohrschrauber<br><br><strong>• Gerichtete Synonyme</strong> sind einseitig. A führt zu B, aber B nicht zu A.<br>→ z. B. Schrauber ⇒ Akkuschrauber, aber nicht umgekehrt.",
+  save: "Speichern",
   publish: "Veröffentlichen",
   new_rule: "Neue Suchregeln",
   export: "Exportieren",
@@ -26,4 +27,4 @@ export default {
   import_success: "Synonyme erfolgreich importiert",
   import_error: "Fehler beim Importieren der Datei",
   export_filename: "synonyme.csv"
-}
+};

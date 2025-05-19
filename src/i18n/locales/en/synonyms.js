@@ -1,6 +1,7 @@
 export default {
   title: "Manage Synonyms",
   description: "Manage synonyms for your search terms here. Synonyms help improve search results by linking related terms.<br><br><strong>Directed vs. undirected synonyms</strong><br><br><strong>• Undirected synonyms</strong> mean: Terms are equivalent. If someone searches for A, B is also found – and vice versa.<br>→ e.g., Power drill ⇔ Cordless drill<br><br><strong>• Directed synonyms</strong> are one-way. A leads to B, but B does not lead to A.<br>→ e.g., Drill ⇒ Power drill, but not vice versa.",
+  save: "Save",
   publish: "Publish",
   new_rule: "New Search Rule",
   export: "Export",
@@ -26,4 +27,4 @@ export default {
   import_success: "Synonyms imported successfully",
   import_error: "Failed to import file",
   export_filename: "synonyms.csv"
-}
+};
