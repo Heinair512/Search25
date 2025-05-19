@@ -1,8 +1,11 @@
 <template>
   <div class="news-container">
     <CardWrapper :title="t('news_board.title')">
-      <template #title-actions>
-        <div class="welcome-message">{{ t('news_board.welcome', { name: userName }) }}</div>
+      <template #title>
+        <div class="flex flex-column">
+          <span class="text-xl font-semibold">{{ t('news_board.title') }}</span>
+          <div class="welcome-message">{{ t('news_board.welcome', { name: userName }) }}</div>
+        </div>
       </template>
       
       <div class="grid">
@@ -353,7 +356,7 @@ onUnmounted(() => {
   line-height: 1.75rem;
   color: var(--text-color);
   font-weight: 500;
-  margin-right: 1rem;
+  margin-top: 0.5rem;
 }
 
 .metric-card {
