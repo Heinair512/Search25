@@ -1,12 +1,7 @@
 <template>
   <div class="news-container">
-    <CardWrapper>
-      <template #title>
-        <div class="flex flex-column gap-2">
-          <div class="text-xl font-semibold">{{ t('news_board.title') }}</div>
-          <div class="welcome-message">{{ t('news_board.welcome', { name: userName }) }}</div>
-        </div>
-      </template>
+    <CardWrapper :title="t('news_board.title')">
+      <div class="welcome-message mb-4">{{ t('news_board.welcome', { name: userName }) }}</div>
       
       <div class="grid">
         <!-- Search Usage Metric -->
