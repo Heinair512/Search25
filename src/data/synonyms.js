@@ -7,7 +7,7 @@ const initialSynonyms = [
     name: 'Hose',
     kommentar: 'Das ist nur zum Test',
     aenderungsdatum: '07.11.2022 14:37:50',
-    bearbeiter: 'Marie Antoinette',
+    bearbeiter: 'Steffen Giese',
     regelset: [
       {
         id: 1,
