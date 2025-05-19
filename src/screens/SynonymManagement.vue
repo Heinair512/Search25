@@ -1,9 +1,7 @@
 <template>
   <div class="card">
     <div class="font-semibold text-xl mb-4">{{ t('synonyms.title') }}</div>
-    <p class="text-l line-height-3 mb-4">
-      {{ t('synonyms.description') }}
-    </p>
+    <p class="text-l line-height-3 mb-4" v-html="t('synonyms.description')"></p>
 
     <Button
       :label="t('synonyms.publish')"
