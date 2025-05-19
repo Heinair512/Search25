@@ -156,20 +156,20 @@
                   </div>
                   <div class="panelgrid">
                     <template v-for="(match, index) in getSelectedProductInGroup(group).debugInfo.matches" :key="index">
-                      <div class="tagForm">{{ match.value }}</div>
-                      <div class="flex flex-no-wrap align-items-start">
-                        <span class="tag blue">{{ match.details.term }}</span>
-                        <span class="tagForm"> in</span>
-                        <div class="flex flex-wrap">
-                          <span v-for="(field, fieldIndex) in match.details.fields" :key="fieldIndex" class="tag">
-                            {{ field }}
-                          </span>
+                        <div class="tagForm">{{ match.value }}</div>
+                        <div class="flex flex-no-wrap align-items-start">
+                          <span class="tag blue">{{ match.details.term }}</span>
+                          <span class="tagForm"> in</span>
+                          <div class="flex flex-wrap">
+                            <span v-for="(field, fieldIndex) in match.details.fields" :key="fieldIndex" class="tag">
+                              {{ field }}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                      <div v-if="index < getSelectedProductInGroup(group).debugInfo.matches.length - 1" class="tagForm">
-                        +
-                      </div>
-                      <div v-if="index < getSelectedProductInGroup(group).debugInfo.matches.length - 1"></div>
+                        <div v-if="index < getSelectedProductInGroup(group).debugInfo.matches.length - 1" class="tagForm">
+                          +
+                        </div>
+                        <div v-if="index < getSelectedProductInGroup(group).debugInfo.matches.length - 1"></div>
                     </template>
                   </div>
 
@@ -306,7 +306,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from '../store';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
@@ -321,6 +322,7 @@ import { products as mockProducts, filters as mockFilters } from '../data/produc
 
 // Store
 const store = useStore();
+const route = useRoute();
 
 // State
 const searchTerm = ref('');
@@ -337,6 +339,15 @@ const selectedTableRow = ref(null);
 // Products and Filters
 const products = ref(mockProducts);
 const filters = ref(mockFilters);
+
+// Initialize search term from URL query parameter
+onMounted(() => {
+  const termFromQuery = route.query.term;
+  if (termFromQuery) {
+    searchTerm.value = termFromQuery;
+    search();
+  }
+});
 
 // Computed
 const productGroups = computed(() => {
