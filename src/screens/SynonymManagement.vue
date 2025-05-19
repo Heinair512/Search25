@@ -6,9 +6,9 @@
     </p>
 
     <Button
-      :label="t('synonyms.save')"
+      :label="t('synonyms.publish')"
       severity="success"
-      class="mb-4"
+      class="mb-4 p-button-sm"
       @click="publishChanges"
     />
 
@@ -25,18 +25,21 @@
               severity="success"
               icon="pi pi-plus"
               :label="t('synonyms.new_rule')"
+              class="p-button-sm"
               @click="createNewSynonym"
             />
             <Button
               severity="secondary"
               icon="pi pi-download"
               :label="t('synonyms.export')"
+              class="p-button-sm"
               @click="exportSynonyms"
             />
             <Button
               severity="secondary"
               icon="pi pi-upload"
               :label="t('synonyms.import')"
+              class="p-button-sm"
               @click="triggerFileInput"
             />
           </div>

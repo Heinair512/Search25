@@ -1,7 +1,7 @@
 export default {
   title: "Synonyme verwalten",
   description: "Verwalten Sie hier die Synonyme für Ihre Suchbegriffe",
-  save: "Speichern",
+  publish: "Veröffentlichen",
   new_rule: "Neue Suchregeln",
   export: "Exportieren",
   import: "Importieren",
