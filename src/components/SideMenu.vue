@@ -75,13 +75,12 @@
         </div>
       </div>
 
-      <div class="menu-section mt-3">
+      <div v-if="store.features.isAdvancedMode" class="menu-section mt-3">
         <div class="text-lg font-semibold mb-2 text-color uppercase">
           {{ $t('menu.analytics') }}
         </div>
         <div class="flex flex-column gap-1">
           <Button
-            v-if="store.features.isAdvancedMode"
             icon="pi pi-chart-line"
             :label="$t('menu.analytics_dashboard')"
             text
@@ -92,7 +91,6 @@
             @click="$router.push('/dashboard/analytics')"
           />
           <Button
-            v-if="store.features.isAdvancedMode"
             icon="pi pi-search-minus"
             :label="$t('menu.no_result_searches')"
             text
@@ -104,7 +102,6 @@
             @click="$router.push('/dashboard/analytics/no-results')"
           />
           <Button
-            v-if="store.features.isAdvancedMode"
             icon="pi pi-chart-bar"
             :label="$t('menu.low_click_searches')"
             text
@@ -116,7 +113,6 @@
             @click="$router.push('/dashboard/analytics/low-clicks')"
           />
           <Button
-            v-if="store.features.isAdvancedMode"
             icon="pi pi-star"
             :label="$t('menu.top_clicked_searches')"
             text
