@@ -1,7 +1,9 @@
 <template>
   <div class="news-container">
     <CardWrapper :title="t('news_board.title')">
-      <div class="welcome-message mb-4">{{ t('news_board.welcome', { name: userName }) }}</div>
+      <template #title-actions>
+        <div class="welcome-message">{{ t('news_board.welcome', { name: userName }) }}</div>
+      </template>
       
       <div class="grid">
         <!-- Search Usage Metric -->
@@ -351,6 +353,7 @@ onUnmounted(() => {
   line-height: 1.75rem;
   color: var(--text-color);
   font-weight: 500;
+  margin-right: 1rem;
 }
 
 .metric-card {
