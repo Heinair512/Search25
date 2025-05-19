@@ -40,6 +40,19 @@
             {{ slotProps.data.pinnedKbns?.join(', ') || '' }}
           </template>
         </Column>
+        <Column field="createdBy" header="Created By" sortable>
+          <template #body="slotProps">
+            <div class="flex align-items-center gap-2">
+              <Avatar 
+                :image="slotProps.data.createdByImage" 
+                icon="pi pi-user" 
+                size="small" 
+                shape="circle" 
+              />
+              <span>{{ slotProps.data.createdBy }}</span>
+            </div>
+          </template>
+        </Column>
         <Column field="createdAt" header="Created" sortable>
           <template #body="slotProps">
             {{ $t('curation.created', { days: getDaysAgo(slotProps.data.createdAt) }) }}
@@ -144,6 +157,7 @@ import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
 import Tag from 'primevue/tag';
 import Toast from 'primevue/toast';
+import Avatar from 'primevue/avatar';
 
 const toast = useToast();
 const router = useRouter();
@@ -154,28 +168,38 @@ const curations = ref([
     term: 'hammer', 
     pinnedCount: 3, 
     pinnedKbns: ['123456', '789012'],
-    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) // 5 days ago
+    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+    createdBy: 'Jörg Wehrenberg',
+    createdByImage: null
   },
   { 
     term: 'schrauben', 
     pinnedCount: 2, 
     pinnedKbns: ['345678'],
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) // 2 days ago
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+    createdBy: 'Steffen Giese',
+    createdByImage: null
   },
   { 
     term: 'bohrer', 
     pinnedCount: 1,
-    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 days ago
+    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
+    createdBy: 'Heiner Holzhüter',
+    createdByImage: null
   },
   { 
     term: 'säge', 
     pinnedCount: 2,
-    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) // 1 day ago
+    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+    createdBy: 'Krzysztof Michalak',
+    createdByImage: null
   },
   { 
     term: 'werkzeugkasten', 
     pinnedCount: 1,
-    createdAt: new Date() // today
+    createdAt: new Date(), // today
+    createdBy: 'Jörg Wehrenberg',
+    createdByImage: null
   }
 ]);
 
