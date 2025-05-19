@@ -1,6 +1,6 @@
 export default {
   title: "Manage Synonyms",
-  description: "Manage synonyms for your search terms here. Synonyms help improve search results by linking related terms.\n\n**Directed vs. undirected synonyms**\n\n**• Undirected synonyms** mean: Terms are equivalent. If someone searches for A, B is also found – and vice versa.\n→ e.g., Power drill ⇔ Cordless drill\n\n**• Directed synonyms** are one-way. A leads to B, but B does not lead to A.\n→ e.g., Drill ⇒ Power drill, but not vice versa.",
+  description: "Manage synonyms for your search terms here. Synonyms help improve search results by linking related terms.<br><br><strong>Directed vs. undirected synonyms</strong><br><br><strong>• Undirected synonyms</strong> mean: Terms are equivalent. If someone searches for A, B is also found – and vice versa.<br>→ e.g., Power drill ⇔ Cordless drill<br><br><strong>• Directed synonyms</strong> are one-way. A leads to B, but B does not lead to A.<br>→ e.g., Drill ⇒ Power drill, but not vice versa.",
   publish: "Publish",
   new_rule: "New Search Rule",
   export: "Export",
