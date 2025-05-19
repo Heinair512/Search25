@@ -24,47 +24,6 @@
           class="w-full justify-content-start menu-button"
           @click="$router.push('/dashboard/search-preview')"
         />
-
-        <!-- Recent Searches -->
-        <div class="mt-3">
-          <div class="text-sm font-semibold mb-2">Recent Searches</div>
-          <div class="flex flex-column gap-1">
-            <Button
-              v-for="search in recentSearches"
-              :key="search.term"
-              :label="search.term"
-              text
-              class="w-full justify-content-start menu-button text-left"
-              @click="navigateToSearch(search.term)"
-            >
-              <template #icon>
-                <i class="pi pi-clock mr-2"></i>
-              </template>
-            </Button>
-          </div>
-        </div>
-
-        <!-- Top Clicked Terms -->
-        <div class="mt-3">
-          <div class="text-sm font-semibold mb-2">Most Clicked Terms</div>
-          <div class="flex flex-column gap-1">
-            <Button
-              v-for="term in topClickedTerms"
-              :key="term.term"
-              :label="term.term"
-              text
-              class="w-full justify-content-start menu-button text-left"
-              @click="navigateToSearch(term.term)"
-            >
-              <template #icon>
-                <i class="pi pi-star-fill mr-2"></i>
-              </template>
-              <template #badge>
-                <Badge :value="term.clicks.toString()" severity="info" />
-              </template>
-            </Button>
-          </div>
-        </div>
       </div>
 
       <div class="menu-section mt-3">
@@ -185,7 +144,6 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '../store';
 import Button from 'primevue/button';
 import InputSwitch from 'primevue/inputswitch';
-import Badge from 'primevue/badge';
 
 const router = useRouter();
 const route = useRoute();
@@ -198,32 +156,8 @@ const isAdvancedMode = computed({
   set: () => store.features.toggleAdvancedMode(),
 });
 
-// Mock data for recent searches and top clicked terms
-const recentSearches = ref([
-  { term: 'hammer', timestamp: new Date() },
-  { term: 'screwdriver', timestamp: new Date() },
-  { term: 'drill', timestamp: new Date() },
-  { term: 'saw', timestamp: new Date() },
-  { term: 'wrench', timestamp: new Date() }
-]);
-
-const topClickedTerms = ref([
-  { term: 'hammer', clicks: 156 },
-  { term: 'power drill', clicks: 143 },
-  { term: 'screwdriver set', clicks: 128 },
-  { term: 'toolbox', clicks: 112 },
-  { term: 'measuring tape', clicks: 98 }
-]);
-
 const toggleCollapse = () => {
   isCollapsed.value = !isCollapsed.value;
-};
-
-const navigateToSearch = (term) => {
-  router.push({
-    path: '/dashboard/search-preview',
-    query: { term }
-  });
 };
 
 // Watch for language changes and force re-render
