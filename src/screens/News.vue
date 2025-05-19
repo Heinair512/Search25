@@ -2,9 +2,9 @@
   <div class="news-container">
     <CardWrapper>
       <template #title>
-        <div class="flex flex-column">
-          <span class="text-xl font-semibold">{{ t('news_board.title') }}</span>
-          <span class="welcome-message">{{ t('news_board.welcome', { name: userName }) }}</span>
+        <div class="flex flex-column gap-2">
+          <div class="text-xl font-semibold">{{ t('news_board.title') }}</div>
+          <div class="welcome-message">{{ t('news_board.welcome', { name: userName }) }}</div>
         </div>
       </template>
       
@@ -356,7 +356,6 @@ onUnmounted(() => {
   line-height: 1.75rem;
   color: var(--text-color);
   font-weight: 500;
-  margin-top: 0.5rem;
 }
 
 .metric-card {
