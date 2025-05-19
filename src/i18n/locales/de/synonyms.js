@@ -1,6 +1,6 @@
 export default {
   title: "Synonyme verwalten",
-  description: "Verwalten Sie hier die Synonyme für Ihre Suchbegriffe. Synonyme helfen dabei, die Suchergebnisse zu verbessern, indem sie verwandte Begriffe miteinander verknüpfen.\n\nGerichtete vs. ungerichtete Synonyme:\n• Ungerichtete Synonyme bedeuten: Begriffe sind gleichwertig. Sucht jemand nach A, wird auch B gefunden – und umgekehrt.\n→ z. B. Akkuschrauber ⇔ Bohrschrauber\n• Gerichtete Synonyme sind einseitig. A führt zu B, aber B nicht zu A.\n→ z. B. Schrauber ⇒ Akkuschrauber, aber nicht umgekehrt.",
+  description: "Verwalten Sie hier die Synonyme für Ihre Suchbegriffe. Synonyme helfen dabei, die Suchergebnisse zu verbessern, indem sie verwandte Begriffe miteinander verknüpfen.\n\n**Gerichtete vs. ungerichtete Synonyme**\n\n**• Ungerichtete Synonyme** bedeuten: Begriffe sind gleichwertig. Sucht jemand nach A, wird auch B gefunden – und umgekehrt.\n→ z. B. Akkuschrauber ⇔ Bohrschrauber\n\n**• Gerichtete Synonyme** sind einseitig. A führt zu B, aber B nicht zu A.\n→ z. B. Schrauber ⇒ Akkuschrauber, aber nicht umgekehrt.",
   publish: "Veröffentlichen",
   new_rule: "Neue Suchregeln",
   export: "Exportieren",
@@ -26,4 +26,4 @@ export default {
   import_success: "Synonyme erfolgreich importiert",
   import_error: "Fehler beim Importieren der Datei",
   export_filename: "synonyme.csv"
-};
+}
