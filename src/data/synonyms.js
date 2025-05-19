@@ -23,7 +23,7 @@ const initialSynonyms = [
     name: 'Hammer',
     kommentar: 'Werkzeug Synonyme',
     aenderungsdatum: '08.11.2022 09:15:20',
-    bearbeiter: 'John Smith',
+    bearbeiter: 'Jörg Wehrenberg',
     regelset: [
       {
         id: 1,
