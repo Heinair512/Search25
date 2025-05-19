@@ -1,6 +1,6 @@
 export default {
   title: "Manage Synonyms",
-  description: "Manage synonyms for your search terms here",
+  description: "Manage synonyms for your search terms here. Synonyms help improve search results by linking related terms.\n\nDirected vs. undirected synonyms:\n• Undirected synonyms mean: Terms are equivalent. If someone searches for A, B is also found – and vice versa.\n→ e.g., Power drill ⇔ Cordless drill\n• Directed synonyms are one-way. A leads to B, but B does not lead to A.\n→ e.g., Drill ⇒ Power drill, but not vice versa.",
   publish: "Publish",
   new_rule: "New Search Rule",
   export: "Export",
