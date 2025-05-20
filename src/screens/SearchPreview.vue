@@ -53,8 +53,8 @@
               <div v-for="value in getFilteredValues(filter)" :key="value.id" class="filter-value">
                 <Checkbox 
                   v-model="value.selected" 
-                  :binary="true" 
                   :inputId="value.id"
+                  :binary="true"
                   @change="applyFilters"
                 />
                 <label :for="value.id" class="ml-2">
