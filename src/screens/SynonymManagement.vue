@@ -4,9 +4,9 @@
     <p class="text-l line-height-3 mb-4" v-html="t('synonyms.description')"></p>
 
     <Button
-      :label="t('synonyms.publish')"
+      :label="t('synonyms.save')"
       severity="success"
-      class="mb-4 p-button-sm"
+      class="mb-4"
       @click="publishChanges"
     />
 
@@ -92,14 +92,6 @@
                 <div
                   class="flex w-full align-items-center justify-content-start gap-3 mb-2"
                 >
-                  <Checkbox
-                    :model-value="regel.aktiv"
-                    :binary="true"
-                    class="p-mr-2"
-                    @update:modelValue="
-                      updateAktiv(slotProps.data.id, regel.id, $event)
-                    "
-                  />
                   <div class="synonym">
                     <i class="pi pi-arrows-h"></i>
                     <SelectButton
@@ -245,7 +237,6 @@ import InputText from 'primevue/inputtext';
 import InputTextarea from 'primevue/textarea';
 import Divider from 'primevue/divider';
 import SelectButton from 'primevue/selectbutton';
-import Checkbox from 'primevue/checkbox';
 import Chips from 'primevue/chips';
 import Toast from 'primevue/toast';
 import Papa from 'papaparse';
@@ -297,19 +288,6 @@ const updateName = (id, newName) => {
     synonym.aenderungsdatum = new Date().toLocaleString();
     synonym.bearbeiter = currentUser.value;
     notifyChange();
-  }
-};
-
-const updateAktiv = (synonymId, regelId, value) => {
-  const synonym = synonyms.value.find((s) => s.id === synonymId);
-  if (synonym) {
-    const regel = synonym.regelset.find((r) => r.id === regelId);
-    if (regel) {
-      regel.aktiv = value;
-      synonym.aenderungsdatum = new Date().toLocaleString();
-      synonym.bearbeiter = currentUser.value;
-      notifyChange();
-    }
   }
 };
 
@@ -460,7 +438,6 @@ const exportSynonyms = () => {
           'Search Term': synonym.name,
           'Synonym': syn,
           'Type': regel.art,
-          'Active': regel.aktiv ? 'Yes' : 'No',
           'Comment': synonym.kommentar || '',
           'Last Modified': synonym.aenderungsdatum,
           'Modified By': synonym.bearbeiter
@@ -511,7 +488,7 @@ const handleFileImport = async (event) => {
                 typ: 'synonym',
                 synonyme: [],
                 art: row['Type'] || 'ungerichtet',
-                aktiv: row['Active']?.toLowerCase() === 'yes'
+                aktiv: true
               }]
             };
           }
