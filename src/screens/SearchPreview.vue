@@ -54,7 +54,6 @@
                 <Checkbox 
                   v-model="value.selected" 
                   :inputId="value.id"
-                  :binary="true"
                   @change="applyFilters"
                 />
                 <label :for="value.id" class="ml-2">
@@ -515,14 +514,14 @@ const onRowUnselect = () => {
 }
 
 :deep(.p-checkbox) {
-  width: 1.25rem !important;
-  height: 1.25rem !important;
+  width: 20px !important;
+  height: 20px !important;
   margin: 0 !important;
 }
 
 :deep(.p-checkbox .p-checkbox-box) {
-  width: 1.25rem !important;
-  height: 1.25rem !important;
+  width: 20px !important;
+  height: 20px !important;
   border-radius: 4px !important;
   border: 2px solid var(--surface-border) !important;
   background-color: var(--surface-card) !important;
@@ -536,7 +535,7 @@ const onRowUnselect = () => {
 
 :deep(.p-checkbox .p-checkbox-box .p-checkbox-icon) {
   color: #ffffff !important;
-  font-size: 0.875rem !important;
+  font-size: 14px !important;
   transform-origin: center !important;
   transition: transform 0.2s ease !important;
 }
