@@ -504,11 +504,50 @@ const onRowUnselect = () => {
 
 .filter-value {
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .filter-value label {
   cursor: pointer;
   color: var(--text-color);
+  margin-left: 0.5rem;
+}
+
+:deep(.p-checkbox) {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  margin: 0 !important;
+}
+
+:deep(.p-checkbox .p-checkbox-box) {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  border-radius: 4px !important;
+  border: 2px solid var(--surface-border) !important;
+  background-color: var(--surface-card) !important;
+  transition: all 0.2s ease !important;
+}
+
+:deep(.p-checkbox .p-checkbox-box.p-highlight) {
+  border-color: var(--primary-color) !important;
+  background-color: var(--primary-color) !important;
+}
+
+:deep(.p-checkbox .p-checkbox-box .p-checkbox-icon) {
+  color: #ffffff !important;
+  font-size: 0.875rem !important;
+  transform-origin: center !important;
+  transition: transform 0.2s ease !important;
+}
+
+:deep(.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover) {
+  border-color: var(--primary-color) !important;
+}
+
+:deep(.p-checkbox.p-checkbox-focused .p-checkbox-box) {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2) !important;
 }
 
 .product-card {
@@ -684,21 +723,6 @@ const onRowUnselect = () => {
   background-color: var(--surface-hover);
 }
 
-:deep(.p-checkbox) {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-:deep(.p-checkbox .p-checkbox-box) {
-  background: var(--surface-card);
-  border-color: var(--surface-border);
-}
-
-:deep(.p-checkbox .p-checkbox-box.p-highlight) {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
 :deep(.p-inputtext) {
   background: var(--surface-card);
   color: var(--text-color);
@@ -755,5 +779,16 @@ const onRowUnselect = () => {
 :deep(.dark) .tag.yellow {
   background-color: var(--warning-600);
   color: var(--surface-0);
+}
+
+/* Dark theme checkbox adjustments */
+:deep(.dark .p-checkbox .p-checkbox-box) {
+  background-color: var(--surface-card) !important;
+  border-color: var(--surface-border) !important;
+}
+
+:deep(.dark .p-checkbox .p-checkbox-box.p-highlight) {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }
 </style>
