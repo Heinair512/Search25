@@ -1,42 +1,7 @@
-<template>
-<Card>
-  <template #title>
-    <div class="flex align-items-center justify-content-between w-full pl-3">
-      <span class="text-xl font-semibold">{{ $t('analytics.top_clicked_searches') }}</span>
-      <div class="flex gap-2">
-        <Calendar v-model="selectedPeriod" selectionMode="range" :showIcon="true" :maxDate="maxDate" class="w-20rem" />
-        <Button icon="pi pi-download" @click="exportToCSV" />
-      </div>
-    </div>
-  </template>
-  <template #content>
-    <div class="flex flex-column gap-3">
-      <InputText v-model="searchTerm" placeholder="Suchbegriff filtern..." class="w-full md:w-20rem" />
-      <DataTableWrapper 
-        :value="filteredSearches" 
-        sortField="clicks"
-        :sortOrder="-1"
-      >
-        <Column field="term" :header="$t('analytics.search_term')" sortable></Column>
-        <Column field="searches" :header="$t('analytics.searches')" sortable></Column>
-        <Column field="clicks" :header="$t('analytics.clicks')" sortable></Column>
-        <Column field="position" :header="$t('analytics.position')" sortable>
-          <template #body="slotProps">
-            {{ slotProps.data.position?.toFixed(1) }}
-          </template>
-        </Column>
-      </DataTableWrapper>
-    </div>
-  </template>
-</Card>
-
-<Toast />
-</template>
-
-<script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from '../../store';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import Card from 'primevue/card';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
@@ -47,6 +12,8 @@ import DataTableWrapper from '../../components/shared/DataTableWrapper.vue';
 import Papa from 'papaparse';
 
 const store = useStore();
+const router = useRouter();
+const { t } = useI18n();
 const searchTerm = ref('');
 const maxDate = new Date();
 const selectedPeriod = ref([
@@ -79,6 +46,13 @@ const filteredSearches = computed(() => {
   return searches;
 });
 
+const navigateToPreview = (term) => {
+  router.push({
+    path: '/dashboard/search-preview',
+    query: { term }
+  });
+};
+
 const exportToCSV = () => {
   const data = filteredSearches.value.map(item => ({
     'Search Term': item.term,
@@ -100,3 +74,47 @@ const exportToCSV = () => {
   document.body.removeChild(link);
 };
 </script>
+
+<template>
+<Card>
+  <template #title>
+    <div class="flex align-items-center justify-content-between w-full pl-3">
+      <span class="text-xl font-semibold">{{ $t('analytics.top_clicked_searches') }}</span>
+      <div class="flex gap-2">
+        <Calendar v-model="selectedPeriod" selectionMode="range" :showIcon="true" :maxDate="maxDate" class="w-20rem" />
+        <Button icon="pi pi-download" @click="exportToCSV" />
+      </div>
+    </div>
+  </template>
+  <template #content>
+    <div class="flex flex-column gap-3">
+      <InputText v-model="searchTerm" placeholder="Suchbegriff filtern..." class="w-full md:w-20rem" />
+      <DataTableWrapper 
+        :value="filteredSearches" 
+        sortField="clicks"
+        :sortOrder="-1"
+      >
+        <Column field="term" :header="$t('analytics.search_term')" sortable>
+          <template #body="slotProps">
+            <Button 
+              :label="slotProps.data.term"
+              link
+              class="p-0"
+              @click="navigateToPreview(slotProps.data.term)"
+            />
+          </template>
+        </Column>
+        <Column field="searches" :header="$t('analytics.searches')" sortable></Column>
+        <Column field="clicks" :header="$t('analytics.clicks')" sortable></Column>
+        <Column field="position" :header="$t('analytics.position')" sortable>
+          <template #body="slotProps">
+            {{ slotProps.data.position?.toFixed(1) }}
+          </template>
+        </Column>
+      </DataTableWrapper>
+    </div>
+  </template>
+</Card>
+
+<Toast />
+</template>
