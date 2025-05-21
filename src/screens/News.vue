@@ -17,12 +17,12 @@
           </div>
         </div>
 
-        <!-- CTR Metric -->
+        <!-- CTR Metric - Always red for decrease -->
         <div v-if="store.features.isAdvancedMode" class="col-12 md:col-3">
           <div class="metric-card">
-            <div :class="['metric-content', ctrTrendColor]">
+            <div class="metric-content bg-red-50">
               <div class="metric-icon">
-                <i :class="['pi', ctrTrend > 0 ? 'pi-arrow-up' : 'pi-arrow-down', ctrTrendIconColor]"></i>
+                <i class="pi pi-arrow-down text-red-500"></i>
               </div>
               <div class="metric-text">{{ ctrText }}</div>
               <Button :label="t('news_board.view_details')" link class="metric-action" @click="router.push('/dashboard/analytics')" />
@@ -30,12 +30,12 @@
           </div>
         </div>
 
-        <!-- Zero Results Metric -->
+        <!-- Zero Results Metric - Always green for decrease -->
         <div v-if="store.features.isAdvancedMode" class="col-12 md:col-3">
           <div class="metric-card">
-            <div :class="['metric-content', zeroResultsTrendColor]">
+            <div class="metric-content bg-green-50">
               <div class="metric-icon">
-                <i :class="['pi', zeroResultsTrend > 0 ? 'pi-arrow-up' : 'pi-arrow-down', zeroResultsTrendIconColor]"></i>
+                <i class="pi pi-arrow-down text-green-500"></i>
               </div>
               <div class="metric-text">{{ zeroResultsText }}</div>
               <Button :label="t('news_board.review_now')" link class="metric-action" @click="router.push('/dashboard/analytics/no-results')" />
@@ -146,29 +146,13 @@ const searchTrendIconColor = computed(() =>
   searchTrend.value > 0 ? 'text-green-500' : 'text-red-500'
 );
 
-const ctrTrendColor = computed(() => 
-  ctrTrend.value > 0 ? 'bg-green-50' : 'bg-red-50'
-);
-
-const ctrTrendIconColor = computed(() => 
-  ctrTrend.value > 0 ? 'text-green-500' : 'text-red-500'
-);
-
-const zeroResultsTrendColor = computed(() => 
-  zeroResultsTrend.value > 0 ? 'bg-red-50' : 'bg-green-50'
-);
-
-const zeroResultsTrendIconColor = computed(() => 
-  zeroResultsTrend.value > 0 ? 'text-red-500' : 'text-green-500'
-);
-
 // Computed text for metrics using translations
-const zeroResultsText = computed(() => 
-  t('news_board.metrics.zero_results_decrease', { value: Math.abs(zeroResultsTrend.value) })
-);
-
 const ctrText = computed(() => 
   t('news_board.metrics.ctr_decrease', { value: Math.abs(ctrTrend.value) })
+);
+
+const zeroResultsText = computed(() => 
+  t('news_board.metrics.zero_results_decrease', { value: Math.abs(zeroResultsTrend.value) })
 );
 
 const topSearchText = computed(() => 
@@ -416,11 +400,19 @@ onUnmounted(() => {
 }
 
 :deep(.dark) .bg-green-50 {
-  background-color: rgba(0, 200, 83, 0.1);
+  background-color: rgba(0, 200, 83, 0.15);
 }
 
 :deep(.dark) .bg-red-50 {
-  background-color: rgba(255, 77, 79, 0.1);
+  background-color: rgba(255, 77, 79, 0.15);
+}
+
+:deep(.dark) .text-red-500 {
+  color: #ff4d4f;
+}
+
+:deep(.dark) .text-green-500 {
+  color: #00c853;
 }
 
 :deep(.dark) .metric-text {
