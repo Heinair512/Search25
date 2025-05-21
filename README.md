@@ -33,8 +33,38 @@ npm run dev
 ```
 
 ### Test Credentials
+
+#### Regular User
 - Email: Joerg.Wehrenberg@gc-gruppe.de
 - Password: 12345
+
+#### OTP Test Users
+For testing the one-time password (OTP) flow:
+
+1. **Admin User**
+   - Email: otp1.test@gc-gruppe.de
+   - OTP: ABC123
+   - Business Units: GC Gruppe, Search
+
+2. **Developer User**
+   - Email: otp2.test@gc-gruppe.de
+   - OTP: DEF456
+   - Business Units: Search, bimsplus
+
+3. **Analyst User**
+   - Email: otp3.test@gc-gruppe.de
+   - OTP: GHI789
+   - Business Units: GC, hti
+
+4. **Developer User**
+   - Email: otp4.test@gc-gruppe.de
+   - OTP: JKL012
+   - Business Units: bimsplus, Search
+
+Notes:
+- All OTP test users require setting a new password after first login
+- OTPs remain valid until used successfully or after 3 failed attempts
+- OTPs do not expire
 
 ## Development
 
