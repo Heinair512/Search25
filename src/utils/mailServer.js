@@ -20,15 +20,6 @@ export const mailServer = {
   verifyOTP(email, otp) {
     const stored = otpStore.get(email);
     if (!stored) return false;
-    
-    // Check if OTP is expired (valid for 24 hours)
-    const now = new Date();
-    const expired = now - stored.createdAt > 24 * 60 * 60 * 1000;
-    
-    if (expired) {
-      otpStore.delete(email);
-      return false;
-    }
 
     // Check if too many attempts
     if (stored.attempts >= 3) {
@@ -84,7 +75,7 @@ export const mailServer = {
       
       ${otp}
       
-      This code will expire in 24 hours.
+      This code will not expire.
       
       Best regards,
       The Search25 Team
@@ -110,7 +101,7 @@ export const mailServer = {
       
       This link will expire in 24 hours.
       
-      If you didn\'t request this, please ignore this email.
+      If you didn't request this, please ignore this email.
       
       Best regards,
       The Search25 Team
