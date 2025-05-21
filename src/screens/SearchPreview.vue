@@ -106,7 +106,15 @@
                   :class="{ 'selected': selectedProduct === product }"
                   @click="toggleProductSelection(product)"
                 >
-                  <img :src="product.image" :alt="product.name" class="w-full h-6rem object-cover border-round mb-2" />
+                  <!-- Updated image container -->
+                  <div class="product-image-container mb-2">
+                    <img 
+                      :src="product.image" 
+                      :alt="product.name"
+                      class="product-image"
+                      loading="lazy"
+                    />
+                  </div>
                   <div class="product-info">
                     <div class="text-sm font-semibold mb-1 line-clamp-1">{{ product.name }}</div>
                     <div class="text-xs mb-1">Art.-Nr.: {{ product.id }}</div>
@@ -221,9 +229,16 @@
             :rowsPerPageOptions="[12, 24, 48]"
             @page="onPageChange"
           >
-            <Column field="image" header="Bild" style="width: 80px">
+            <Column field="image" header="Bild" style="width: 100px">
               <template #body="slotProps">
-                <img :src="slotProps.data.image" :alt="slotProps.data.name" class="w-full" />
+                <div class="product-image-container" style="padding-top: 100%">
+                  <img 
+                    :src="slotProps.data.image" 
+                    :alt="slotProps.data.name"
+                    class="product-image"
+                    loading="lazy"
+                  />
+                </div>
               </template>
             </Column>
             <Column field="name" header="Name"></Column>
@@ -756,5 +771,22 @@ const handleCheckboxChange = async () => {
 :deep(.dark) .tag.yellow {
   background-color: var(--warning-600);
   color: var(--surface-0);
+}
+
+.product-image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.product-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>
