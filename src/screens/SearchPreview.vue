@@ -2,16 +2,16 @@
   <div class="search-preview">
     <!-- Search Header -->
     <div class="search-header mb-4">
-      <div class="text-900 text-xl font-bold mb-2">Suche Vorschau</div>
+      <div class="text-900 text-xl font-bold mb-2">{{ t('search_preview.title') }}</div>
       <p class="text-600 line-height-3 mb-4">
-        Testen Sie hier die Suche und sehen Sie die Ergebnisse in Echtzeit
+        {{ t('search_preview.subtitle') }}
       </p>
 
       <div class="search-controls flex gap-4">
         <div class="search-input flex-grow-1">
           <InputText 
             v-model="searchTerm" 
-            placeholder="Suchbegriff eingeben..." 
+            :placeholder="t('search_preview.search.placeholder')" 
             class="w-full"
             @keyup.enter="search"
           />
@@ -24,9 +24,9 @@
       <!-- Filters -->
       <div class="filters surface-card p-3" style="min-width: 280px; max-width: 280px;">
         <div class="filter-header flex justify-content-between align-items-center mb-3">
-          <span class="font-semibold">Filter</span>
+          <span class="font-semibold">{{ t('search_preview.search.filters') }}</span>
           <Button 
-            label="Zurücksetzen" 
+            :label="t('search_preview.search.reset_filters')" 
             link 
             @click="clearFilters"
             class="p-0"
@@ -36,7 +36,7 @@
         <div class="filter-search mb-3">
           <InputText 
             v-model="filterSearchTerm" 
-            placeholder="Filter durchsuchen" 
+            :placeholder="t('search_preview.search.search_filters')" 
             class="w-full"
           />
         </div>
@@ -73,7 +73,7 @@
       <div class="results flex-grow-1 pl-4">
         <div class="results-header flex justify-content-between align-items-center mb-3">
           <div class="results-count">
-            {{ totalResults }} Ergebnisse
+            {{ totalResults }} {{ t('search_preview.search.results') }}
             <span v-if="responseTime" class="text-500 ml-2">
               <i class="pi pi-clock"></i> {{ responseTime }}ms
             </span>
@@ -117,23 +117,23 @@
                   </div>
                   <div class="product-info">
                     <div class="text-sm font-semibold mb-1 line-clamp-1">{{ product.name }}</div>
-                    <div class="text-xs mb-1">Art.-Nr.: {{ product.id }}</div>
+                    <div class="text-xs mb-1">{{ t('search_preview.product.article_no') }}: {{ product.id }}</div>
                     <div class="product-attributes text-xs">
                       <div class="grid">
                         <div class="col-6">
-                          <span class="text-500">Hersteller:</span>
+                          <span class="text-500">{{ t('search_preview.product.manufacturer') }}:</span>
                           <div class="font-semibold line-clamp-1">{{ product.manufacturer }}</div>
                         </div>
                         <div class="col-6">
-                          <span class="text-500">Kategorie:</span>
+                          <span class="text-500">{{ t('search_preview.product.category') }}:</span>
                           <div class="font-semibold line-clamp-1">{{ product.category }}</div>
                         </div>
                         <div class="col-6">
-                          <span class="text-500">Farbe:</span>
+                          <span class="text-500">{{ t('search_preview.product.color') }}:</span>
                           <div class="font-semibold">{{ product.color }}</div>
                         </div>
                         <div class="col-6">
-                          <span class="text-500">Länge:</span>
+                          <span class="text-500">{{ t('search_preview.product.length') }}:</span>
                           <div class="font-semibold">{{ product.length }} cm</div>
                         </div>
                       </div>
@@ -156,7 +156,7 @@
             <!-- Debug Info Panel -->
             <div v-if="store.features.isAdvancedMode && getSelectedProductInGroup(group)" class="debug-panel-container">
               <div class="debug-panel-arrow"></div>
-              <Panel header="Score Details" class="debug-panel surface-card">
+              <Panel :header="t('search_preview.debug.score_details')" class="debug-panel surface-card">
                 <div class="panelgrids">
                   <div class="tagForm">
                     <span>{{ getSelectedProductInGroup(group).debugInfo.score }}</span>
@@ -169,7 +169,7 @@
                       <div class="tagForm">{{ match.value }}</div>
                       <div class="flex flex-no-wrap align-items-start">
                         <span class="tag blue">{{ match.details.term }}</span>
-                        <span class="tagForm"> in</span>
+                        <span class="tagForm"> {{ t('search_preview.debug.in') }}</span>
                         <div class="flex flex-wrap">
                           <span v-for="(field, fieldIndex) in match.details.fields" :key="fieldIndex" class="tag">
                             {{ field }}
@@ -199,7 +199,7 @@
                       <div v-if="getSelectedProductInGroup(group).debugInfo.boost" class="form">
                         <div v-for="detail in getSelectedProductInGroup(group).debugInfo.boost.details" :key="detail.term" class="boost-detail">
                           <span class="tag yellow">{{ detail.term }}</span>
-                          <span class="tagForm"> in</span>
+                          <span class="tagForm"> {{ t('search_preview.debug.in') }}</span>
                           <span class="tag">{{ detail.field }}</span>
                         </div>
                       </div>
@@ -229,7 +229,7 @@
             :rowsPerPageOptions="[12, 24, 48]"
             @page="onPageChange"
           >
-            <Column field="image" header="Bild" style="width: 100px">
+            <Column field="image" :header="t('search_preview.table.image')" style="width: 100px">
               <template #body="slotProps">
                 <div class="product-image-container" style="padding-top: 100%">
                   <img 
@@ -241,17 +241,17 @@
                 </div>
               </template>
             </Column>
-            <Column field="name" header="Name"></Column>
-            <Column field="id" header="Art.-Nr." style="width: 100px"></Column>
-            <Column field="manufacturer" header="Hersteller"></Column>
-            <Column field="category" header="Kategorie"></Column>
-            <Column field="color" header="Farbe" style="width: 100px"></Column>
-            <Column field="price" header="Preis" style="width: 120px">
+            <Column field="name" :header="t('search_preview.table.name')"></Column>
+            <Column field="id" :header="t('search_preview.table.article_no')" style="width: 100px"></Column>
+            <Column field="manufacturer" :header="t('search_preview.table.manufacturer')"></Column>
+            <Column field="category" :header="t('search_preview.table.category')"></Column>
+            <Column field="color" :header="t('search_preview.table.color')" style="width: 100px"></Column>
+            <Column field="price" :header="t('search_preview.table.price')" style="width: 120px">
               <template #body="slotProps">
                 {{ formatPrice(slotProps.data.price) }}
               </template>
             </Column>
-            <Column v-if="store.features.isAdvancedMode" field="debugInfo.score" header="Score" style="width: 100px">
+            <Column v-if="store.features.isAdvancedMode" field="debugInfo.score" :header="t('search_preview.table.score')" style="width: 100px">
               <template #body="slotProps">
                 <div class="flex align-items-center gap-2">
                   <span class="pi pi-chart-bar"></span>
@@ -262,7 +262,7 @@
             </Column>
             <template #expansion="slotProps">
               <div v-if="store.features.isAdvancedMode" class="debug-panel-container list-view-panel">
-                <Panel header="Score Details" class="debug-panel surface-card">
+                <Panel :header="t('search_preview.debug.score_details')" class="debug-panel surface-card">
                   <div class="panelgrids">
                     <div class="tagForm">
                       <span>{{ slotProps.data.debugInfo.score }}</span>
@@ -275,7 +275,7 @@
                         <div class="tagForm">{{ match.value }}</div>
                         <div class="flex flex-no-wrap align-items-start">
                           <span class="tag blue">{{ match.details.term }}</span>
-                          <span class="tagForm"> in</span>
+                          <span class="tagForm"> {{ t('search_preview.debug.in') }}</span>
                           <div class="flex flex-wrap">
                             <span v-for="(field, fieldIndex) in match.details.fields" :key="fieldIndex" class="tag">
                               {{ field }}
@@ -305,7 +305,7 @@
                         <div v-if="slotProps.data.debugInfo.boost" class="form">
                           <div v-for="detail in slotProps.data.debugInfo.boost.details" :key="detail.term" class="boost-detail">
                             <span class="tag yellow">{{ detail.term }}</span>
-                            <span class="tagForm"> in</span>
+                            <span class="tagForm"> {{ t('search_preview.debug.in') }}</span>
                             <span class="tag">{{ detail.field }}</span>
                           </div>
                         </div>
@@ -325,6 +325,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useStore } from '../store';
+import { useI18n } from 'vue-i18n';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Accordion from 'primevue/accordion';
@@ -336,10 +337,9 @@ import Panel from 'primevue/panel';
 import Badge from 'primevue/badge';
 import { products as mockProducts, filters as mockFilters } from '../data/products';
 
-// Store
+const { t } = useI18n();
 const store = useStore();
 
-// State
 const searchTerm = ref('');
 const isGridView = ref(true);
 const filterSearchTerm = ref('');
@@ -351,7 +351,6 @@ const selectedProduct = ref(null);
 const expandedRows = ref([]);
 const selectedTableRow = ref(null);
 
-// Products and Filters
 const products = ref(mockProducts);
 const filters = ref(mockFilters.map(filter => ({
   ...filter,
@@ -361,10 +360,8 @@ const filters = ref(mockFilters.map(filter => ({
   }))
 })));
 
-// Accordion state für Filtergruppen
-const expandedFilterIndexes = ref([0, 1, 2]); // Hersteller, Kategorie, Unterkategorie
+const expandedFilterIndexes = ref([0, 1, 2]);
 
-// Computed
 const productGroups = computed(() => {
   const groups = [];
   for (let i = 0; i < products.value.length; i += 4) {
@@ -386,7 +383,6 @@ const selectedFilters = computed(() => {
   return selected;
 });
 
-// Methods
 const toggleProductSelection = (product) => {
   selectedProduct.value = selectedProduct.value === product ? null : product;
 };
@@ -407,7 +403,6 @@ const search = async () => {
   try {
     let filteredProducts = [...mockProducts];
     
-    // Apply search term filter
     if (searchTerm.value) {
       const searchLower = searchTerm.value.toLowerCase();
       filteredProducts = filteredProducts.filter(product => 
@@ -417,7 +412,6 @@ const search = async () => {
       );
     }
 
-    // Apply active filters
     Object.entries(selectedFilters.value).forEach(([field, selectedValues]) => {
       if (selectedValues.length > 0) {
         filteredProducts = filteredProducts.filter(product => {
@@ -447,15 +441,12 @@ const search = async () => {
       }
     });
 
-    // Always sort by score in descending order
     filteredProducts.sort((a, b) => parseFloat(b.debugInfo.score) - parseFloat(a.debugInfo.score));
 
-    // Update results
     products.value = filteredProducts;
     totalResults.value = filteredProducts.length;
     selectedProduct.value = null;
     
-    // Calculate response time
     responseTime.value = Math.round(performance.now() - startTime);
 
   } catch (error) {
@@ -730,7 +721,6 @@ const handleCheckboxChange = async () => {
   accent-color: var(--primary-color);
 }
 
-/* Dark theme adjustments */
 :deep(.dark) .product-card {
   background-color: var(--surface-card);
 }

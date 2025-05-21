@@ -5,6 +5,7 @@ import menu from './menu';
 import newsBoard from './news-board';
 import profile from './profile';
 import rightsManagement from './rights-management';
+import searchPreview from './search-preview';
 import synonyms from "./synonyms";
 import tooltips from './tooltips';
 
@@ -16,6 +17,7 @@ export default {
   news_board: newsBoard,
   profile,
   rights_management: rightsManagement,
+  search_preview: searchPreview,
   synonyms,
   tooltips
 };
