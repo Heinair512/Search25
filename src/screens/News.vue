@@ -28,7 +28,7 @@
                 <i :class="['pi', ctrTrend > 0 ? 'pi-arrow-up' : 'pi-arrow-down', ctrTrendIconColor]"></i>
               </div>
               <div class="metric-text">
-                {{ metrics.currentWeekCTR.toFixed(1) }}% vs {{ metrics.previousWeekCTR.toFixed(1) }}%
+                {{ metrics.currentWeekCTR?.toFixed(1) }}% vs {{ metrics.previousWeekCTR?.toFixed(1) }}%
                 <div class="text-sm">{{ ctrChangeText }}</div>
               </div>
               <Button :label="t('news_board.view_details')" link class="metric-action" @click="router.push('/dashboard/analytics')" />
@@ -44,7 +44,7 @@
                 <i :class="['pi', zeroResultsTrend > 0 ? 'pi-arrow-up' : 'pi-arrow-down', zeroResultsTrendIconColor]"></i>
               </div>
               <div class="metric-text">
-                {{ metrics.currentWeekZeroResults.toFixed(1) }}% vs {{ metrics.previousWeekZeroResults.toFixed(1) }}%
+                {{ metrics.currentWeekZeroResults?.toFixed(1) }}% vs {{ metrics.previousWeekZeroResults?.toFixed(1) }}%
                 <div class="text-sm">{{ zeroResultsChangeText }}</div>
               </div>
               <Button :label="t('news_board.review_now')" link class="metric-action" @click="router.push('/dashboard/analytics/no-results')" />
