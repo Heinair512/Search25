@@ -51,11 +51,13 @@
             </template>
             <div class="filter-values">
               <div v-for="value in getFilteredValues(filter)" :key="value.id" class="filter-value">
-                <Checkbox 
-                  v-model="value.selected" 
-                  :binary="true" 
-                  :inputId="value.id"
-                  @change="applyFilters"
+                <input
+                  type="checkbox"
+                  :id="value.id"
+                  :name="`${filter.name}-${value.label}`"
+                  v-model="value.selected"
+                  @change="handleCheckboxChange"
+                  class="checkbox"
                 />
                 <label :for="value.id" class="ml-2">
                   {{ value.label }}
@@ -336,7 +338,16 @@ const selectedTableRow = ref(null);
 
 // Products and Filters
 const products = ref(mockProducts);
-const filters = ref(mockFilters);
+const filters = ref(mockFilters.map(filter => ({
+  ...filter,
+  values: filter.values.map(value => ({
+    ...value,
+    selected: false
+  }))
+})));
+
+// Accordion state für Filtergruppen
+const expandedFilterIndexes = ref([0, 1, 2]); // Hersteller, Kategorie, Unterkategorie
 
 // Computed
 const productGroups = computed(() => {
@@ -345,6 +356,19 @@ const productGroups = computed(() => {
     groups.push(products.value.slice(i, i + 4));
   }
   return groups;
+});
+
+const selectedFilters = computed(() => {
+  const selected = {};
+  filters.value.forEach(filter => {
+    const selectedValues = filter.values
+      .filter(v => v.selected)
+      .map(v => v.label);
+    if (selectedValues.length > 0) {
+      selected[filter.field] = selectedValues;
+    }
+  });
+  return selected;
 });
 
 // Methods
@@ -379,11 +403,10 @@ const search = async () => {
     }
 
     // Apply active filters
-    filters.value.forEach(filter => {
-      const selectedValues = filter.values.filter(v => v.selected).map(v => v.label);
+    Object.entries(selectedFilters.value).forEach(([field, selectedValues]) => {
       if (selectedValues.length > 0) {
         filteredProducts = filteredProducts.filter(product => {
-          if (filter.field === 'price') {
+          if (field === 'price') {
             const price = product.price;
             return selectedValues.some(range => {
               if (range === 'Bis 50 €') return price <= 50;
@@ -394,7 +417,7 @@ const search = async () => {
               return false;
             });
           }
-          if (filter.field === 'weight') {
+          if (field === 'weight') {
             const weight = product.weight;
             return selectedValues.some(range => {
               if (range === 'Bis 1 kg') return weight <= 1;
@@ -404,7 +427,7 @@ const search = async () => {
               return false;
             });
           }
-          return selectedValues.includes(product[filter.field]);
+          return selectedValues.includes(product[field]);
         });
       }
     });
@@ -442,10 +465,6 @@ const getFilteredValues = (filter) => {
   );
 };
 
-const applyFilters = () => {
-  search();
-};
-
 const onPageChange = (event) => {
   first.value = event.first;
   rows.value = event.rows;
@@ -465,6 +484,10 @@ const onRowSelect = (event) => {
 
 const onRowUnselect = () => {
   expandedRows.value = [];
+};
+
+const handleCheckboxChange = async () => {
+  await search();
 };
 </script>
 
@@ -684,34 +707,12 @@ const onRowUnselect = () => {
   background-color: var(--surface-hover);
 }
 
-:deep(.p-checkbox) {
+.checkbox {
   width: 1.25rem;
   height: 1.25rem;
-}
-
-:deep(.p-checkbox .p-checkbox-box) {
-  background: var(--surface-card);
-  border-color: var(--surface-border);
-}
-
-:deep(.p-checkbox .p-checkbox-box.p-highlight) {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-:deep(.p-inputtext) {
-  background: var(--surface-card);
-  color: var(--text-color);
-  border-color: var(--surface-border);
-}
-
-:deep(.p-inputtext:enabled:hover) {
-  border-color: var(--primary-color);
-}
-
-:deep(.p-inputtext:enabled:focus) {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 1px var(--primary-color);
+  margin-right: 0.5rem;
+  cursor: pointer;
+  accent-color: var(--primary-color);
 }
 
 /* Dark theme adjustments */
