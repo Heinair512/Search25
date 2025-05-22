@@ -209,7 +209,7 @@ const loginSuccess = (user) => {
 
 .prototype-stamp {
   position: absolute;
-  top: 2rem;
+  top: 3.5rem;
   right: 4rem;
   font-size: 1.75rem;
   font-weight: bold;
