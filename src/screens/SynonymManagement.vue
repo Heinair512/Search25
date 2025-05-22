@@ -4,7 +4,7 @@
     <p class="text-l line-height-3 mb-4" v-html="t('synonyms.description')"></p>
 
     <Button
-      :label="t('synonyms.save')"
+      :label="t('synonyms.publish')"
       severity="success"
       class="mb-4"
       @click="publishChanges"
