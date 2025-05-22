@@ -4,7 +4,8 @@ import {
   noResultSearches,
   lowClickSearches,
   topClickedSearches,
-  generateDailyDataForRange
+  generateDailyDataForRange,
+  businessUnits
 } from '../../data/searchAnalytics.mock';
 
 const state = reactive({
@@ -25,6 +26,8 @@ const initializeSelectedBU = () => {
     state.selectedBU = currentUser.selectedBU;
   } else if (currentUser.bu && currentUser.bu.length > 0) {
     state.selectedBU = currentUser.bu[0];
+  } else {
+    state.selectedBU = businessUnits[0];
   }
 };
 
@@ -41,7 +44,7 @@ export const useAnalyticsStore = () => {
   };
 
   const getDailyData = (startDate, endDate) => {
-    return generateDailyDataForRange(startDate, endDate);
+    return generateDailyDataForRange(startDate, endDate, state.selectedBU);
   };
 
   const getMetricsByBU = (bu) => {

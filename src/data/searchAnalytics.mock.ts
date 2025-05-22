@@ -1,4 +1,10 @@
 import { ref } from 'vue';
+import { 
+  businessUnits, 
+  generateSearchMetrics, 
+  generateDailyMetrics, 
+  generateSearchTerm
+} from './mockDataGenerator';
 
 export interface SearchMetrics {
   bu: string;
@@ -33,39 +39,16 @@ export interface DailyMetrics {
   rankedTermsPercentage: number;
 }
 
-export const businessUnits = ['GC Gruppe', 'Search', 'GC', 'bimsplus', 'hti'];
+// Generate unique metrics for each BU
+export const searchMetrics = businessUnits.map(bu => generateSearchMetrics(bu));
 
-// Generate random metrics for each BU with adjusted MRR and NDCG values
-export const searchMetrics = businessUnits.map(bu => ({
-  bu,
-  ctr: Math.random() * 30 + 10,
-  conversionRate: Math.random() * 15 + 5,
-  totalSearches: Math.floor(Math.random() * 10000) + 1000,
-  noResultsRate: Math.random() * 10 + 2,
-  avgClickedPosition: Math.random() * 3 + 1,
-  mrr: Math.random() * 0.3 + 0.7, // Adjusted to be between 0.7 and 1.0
-  ndcg: Math.random() * 0.2 + 0.8, // Adjusted to be between 0.8 and 1.0
-  searchTermsCount: Math.floor(Math.random() * 5000) + 1000,
-  rankedTermsPercentage: Math.random() * 30 + 60
-}));
-
-// Generate daily data for a date range with adjusted MRR and NDCG values
-export const generateDailyDataForRange = (startDate: Date, endDate: Date) => {
+// Generate daily data for a date range with unique metrics per BU
+export const generateDailyDataForRange = (startDate: Date, endDate: Date, bu: string = 'GC Gruppe') => {
   const data = [];
   const currentDate = new Date(startDate);
   
   while (currentDate <= endDate) {
-    data.push({
-      date: currentDate.toISOString().split('T')[0],
-      ctr: Math.random() * 30 + 10,
-      conversionRate: Math.random() * 15 + 5,
-      noResultsRate: Math.random() * 10 + 2,
-      mrr: Math.random() * 0.3 + 0.7, // Adjusted to be between 0.7 and 1.0
-      ndcg: Math.random() * 0.2 + 0.8, // Adjusted to be between 0.8 and 1.0
-      searchTermsCount: Math.floor(Math.random() * 5000) + 1000,
-      rankedTermsPercentage: Math.random() * 30 + 60
-    });
-    
+    data.push(generateDailyMetrics(currentDate, bu));
     currentDate.setDate(currentDate.getDate() + 1);
   }
   
@@ -126,17 +109,42 @@ const searchTermsWithCounts = [
   { term: 'Pumpenverschraubung', searches: 25475 }
 ];
 
-// Generate search terms data for each business unit
+// Generate search terms data for each business unit with unique metrics
 const generateSearchTermsForBU = (terms: typeof searchTermsWithCounts, bu: string, withPosition = false): SearchTerm[] => {
   return terms.map(({ term, searches }) => {
-    const clicks = Math.floor(Math.random() * (searches * 0.3)); // Random clicks up to 30% of searches
+    // Get BU-specific ranges
+    const buFactor = bu === 'Search' ? 1.2 : 
+                    bu === 'GC Gruppe' ? 1.0 : 
+                    bu === 'GC' ? 0.9 : 
+                    bu === 'bimsplus' ? 0.7 : 0.8;
+    
+    // Adjust searches based on BU
+    const adjustedSearches = Math.floor(searches * buFactor);
+    
+    // Calculate clicks based on BU-specific CTR
+    const buCtrBase = bu === 'Search' ? 0.35 : 
+                     bu === 'GC Gruppe' ? 0.3 : 
+                     bu === 'GC' ? 0.25 : 
+                     bu === 'bimsplus' ? 0.2 : 0.22;
+    
+    const clickRate = Math.random() * 0.2 + buCtrBase; // Random between buCtrBase and buCtrBase+0.2
+    const clicks = Math.floor(adjustedSearches * clickRate);
+    
+    // Calculate position if needed
+    const position = withPosition ? 
+                    (bu === 'Search' ? 1 + Math.random() * 1.5 : 
+                     bu === 'GC Gruppe' ? 1.5 + Math.random() * 1.5 : 
+                     bu === 'GC' ? 2 + Math.random() * 2 : 
+                     bu === 'bimsplus' ? 2.5 + Math.random() * 2.5 : 
+                     2.2 + Math.random() * 2.2) : undefined;
+    
     return {
       term,
       bu,
-      searches,
+      searches: adjustedSearches,
       clicks,
-      ctr: clicks ? ((clicks / searches) * 100).toFixed(1) + '%' : '0%',
-      ...(withPosition && { position: Math.random() * 10 + 1 })
+      ctr: clicks ? ((clicks / adjustedSearches) * 100).toFixed(1) + '%' : '0%',
+      ...(withPosition && { position })
     };
   });
 };

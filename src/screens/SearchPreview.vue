@@ -323,14 +323,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from '../store';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
-import Checkbox from 'primevue/checkbox';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Panel from 'primevue/panel';
@@ -339,6 +339,7 @@ import { products as mockProducts, filters as mockFilters } from '../data/produc
 
 const { t } = useI18n();
 const store = useStore();
+const route = useRoute();
 
 const searchTerm = ref('');
 const isGridView = ref(true);
@@ -361,6 +362,14 @@ const filters = ref(mockFilters.map(filter => ({
 })));
 
 const expandedFilterIndexes = ref([0, 1, 2]);
+
+onMounted(() => {
+  // Check if there's a search term in the URL query
+  if (route.query.term) {
+    searchTerm.value = route.query.term;
+    search();
+  }
+});
 
 const productGroups = computed(() => {
   const groups = [];
