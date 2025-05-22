@@ -1,6 +1,9 @@
 <template>
 <div class="flex align-items-center justify-content-center min-h-screen surface-ground">
-  <div class="surface-card p-6 shadow-2 border-round w-full lg:w-6">
+  <div class="surface-card p-6 shadow-2 border-round w-full lg:w-6 relative">
+    <!-- Prototype Stamp -->
+    <div class="prototype-stamp">PROTOTYPE</div>
+    
     <div class="text-center mb-6">
       <img src="/logo.svg" alt="Logo" class="h-4rem mb-4" />
       <div class="text-900 text-2xl font-medium mb-3">{{ $t('login.welcome') }}</div>
@@ -202,5 +205,22 @@ const loginSuccess = (user) => {
   background-color: var(--surface-card);
   border-color: var(--surface-border);
   color: var(--text-color);
+}
+
+.prototype-stamp {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 4rem;
+  font-weight: bold;
+  color: rgba(255, 0, 0, 0.2);
+  border: 0.5rem solid rgba(255, 0, 0, 0.2);
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 1;
 }
 </style>
