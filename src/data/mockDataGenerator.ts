@@ -107,6 +107,22 @@ function generateRandomInt(min: number, max: number): number {
 
 // Data Generators
 export function generateSearchMetrics(bu: string): SearchMetrics {
+  if (!buRanges[bu]) {
+    console.error('No range defined for business unit:', bu);
+    return {
+      bu,
+      ctr: 0,
+      conversionRate: 0,
+      totalSearches: 0,
+      noResultsRate: 0,
+      avgClickedPosition: 0,
+      mrr: 0,
+      ndcg: 0,
+      searchTermsCount: 0,
+      rankedTermsPercentage: 0
+    };
+  }
+
   const ranges = buRanges[bu];
   return {
     bu,
