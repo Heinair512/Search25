@@ -53,9 +53,12 @@
               
               <Divider />
               
+              <small class="text-color-secondary">{{ $t('profile.password_requirements') }}</small>
+
               <div class="flex flex-column gap-2">
                 <label for="password" class="font-medium">{{ $t('profile.new_password') }}</label>
-                <Password id="password" v-model="newPassword" toggleMask class="w-full" />
+                <Password id="password" v-model="newPassword" toggleMask class="w-full" :class="{'p-invalid': !isPasswordValid && newPassword}" />
+                <small class="p-error" v-if="!isPasswordValid && newPassword">{{ $t('profile.password_too_weak') }}</small>
               </div>
               
               <div class="flex flex-column gap-2">
@@ -107,6 +110,15 @@ onMounted(() => {
   user.value = JSON.parse(userStr);
 });
 
+const isPasswordValid = computed(() => {
+  if (!newPassword.value) return true;
+  return newPassword.value.length >= 8 &&
+         /[A-Z]/.test(newPassword.value) &&
+         /[a-z]/.test(newPassword.value) &&
+         /[0-9]/.test(newPassword.value) &&
+         /[^A-Za-z0-9]/.test(newPassword.value);
+});
+
 const passwordsMatch = computed(() => {
   if (!confirmPassword.value) return true;
   return newPassword.value === confirmPassword.value;
@@ -114,7 +126,7 @@ const passwordsMatch = computed(() => {
 
 const canSave = computed(() => {
   if (newPassword.value || confirmPassword.value) {
-    return passwordsMatch.value && newPassword.value.length >= 6;
+    return passwordsMatch.value && isPasswordValid.value;
   }
   return true;
 });

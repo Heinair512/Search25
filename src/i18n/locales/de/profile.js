@@ -7,6 +7,8 @@ export default {
   new_password: "Neues Passwort",
   confirm_password: "Passwort bestätigen",
   passwords_mismatch: "Passwörter stimmen nicht überein",
+  password_requirements: "Das Passwort muss mindestens 8 Zeichen lang sein und Groß- und Kleinbuchstaben, Zahlen sowie Sonderzeichen enthalten.",
+  password_too_weak: "Passwort erfüllt nicht die Anforderungen",
   save: "Speichern",
   success: "Erfolg",
   changes_saved: "Ihre Änderungen wurden gespeichert",
