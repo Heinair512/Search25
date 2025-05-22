@@ -16,5 +16,6 @@ export default {
   max_size: "Maximale Dateigröße: 1MB",
   file_too_large: "Die Datei ist zu groß",
   image_uploaded: "Profilbild wurde hochgeladen",
-  upload_error: "Fehler beim Hochladen des Bildes"
+  upload_error: "Fehler beim Hochladen des Bildes",
+  disabled_field: "Dieses Feld kann nicht bearbeitet werden"
 };

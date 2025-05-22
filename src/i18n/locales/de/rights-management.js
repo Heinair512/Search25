@@ -22,5 +22,9 @@ export default {
   invitation_resent: "Einladung wurde erneut versendet",
   user_updated: "Benutzer wurde aktualisiert",
   save: "Speichern",
-  edit_user: "Benutzer bearbeiten"
+  edit_user: "Benutzer bearbeiten",
+  resend_invitation: "Einladung erneut senden",
+  edit_tooltip: "Benutzer bearbeiten",
+  delete_tooltip: "Benutzer löschen",
+  send_invitation_tooltip: "Einladung senden"
 };
