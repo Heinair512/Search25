@@ -22,9 +22,5 @@ export default {
   invitation_resent: "Invitation has been resent",
   user_updated: "User has been updated",
   save: "Save",
-  edit_user: "Edit User",
-  resend_invitation: "Resend Invitation",
-  edit_tooltip: "Edit user",
-  delete_tooltip: "Delete user",
-  send_invitation_tooltip: "Send invitation"
+  edit_user: "Edit User"
 };

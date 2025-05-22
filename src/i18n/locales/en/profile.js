@@ -16,6 +16,5 @@ export default {
   max_size: "Maximum file size: 1MB",
   file_too_large: "File is too large",
   image_uploaded: "Profile image has been uploaded",
-  upload_error: "Error uploading image",
-  disabled_field: "This field cannot be edited"
+  upload_error: "Error uploading image"
 };
