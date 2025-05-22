@@ -54,7 +54,7 @@
               <Divider />
               
               <small class="text-color-secondary">{{ $t('profile.password_requirements') }}</small>
-
+              
               <div class="flex flex-column gap-2">
                 <label for="password" class="font-medium">{{ $t('profile.new_password') }}</label>
                 <Password id="password" v-model="newPassword" toggleMask class="w-full" :class="{'p-invalid': !isPasswordValid && newPassword}" />
