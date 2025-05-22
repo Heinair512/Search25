@@ -18,6 +18,19 @@ const state = reactive({
   error: null
 });
 
+// Initialize with user's selected BU from localStorage if available
+const initializeSelectedBU = () => {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  if (currentUser.selectedBU) {
+    state.selectedBU = currentUser.selectedBU;
+  } else if (currentUser.bu && currentUser.bu.length > 0) {
+    state.selectedBU = currentUser.bu[0];
+  }
+};
+
+// Call initialization
+initializeSelectedBU();
+
 export const useAnalyticsStore = () => {
   const setSelectedBU = (bu) => {
     state.selectedBU = bu;

@@ -75,7 +75,15 @@ watch(() => props.userBUs, (newBUs) => {
 }, { immediate: true });
 
 const handleBUChange = (event) => {
+  // Save selected BU to localStorage for persistence
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  currentUser.selectedBU = event.value;
+  localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  
+  // Update store
   store.analytics.setSelectedBU(event.value);
+  
+  // Dispatch event for components to listen to
   window.dispatchEvent(new Event('buChanged'));
 };
 

@@ -211,19 +211,10 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import Calendar from 'primevue/calendar';
-import Checkbox from 'primevue/checkbox';
-
-import { 
-  searchMetrics,
-  noResultSearches,
-  lowClickSearches,
-  topClickedSearches,
-  businessUnits,
-  generateDailyDataForRange
-} from '../../data/searchAnalytics.mock';
 
 const router = useRouter();
 const { t } = useI18n();
+const store = useStore();
 
 // Date range selection
 const maxDate = new Date();
@@ -232,20 +223,15 @@ const selectedPeriod = ref([
   maxDate
 ]);
 
-// Get current BU from localStorage
-const getCurrentBU = () => {
-  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-  return currentUser.selectedBU || businessUnits[0];
-};
-
-const selectedBU = ref(getCurrentBU());
+// Get current BU from store
+const selectedBU = computed(() => store.analytics.selectedBU);
 
 // Initialize metrics with current BU data
-const metrics = ref(searchMetrics.find(m => m.bu === selectedBU.value) || searchMetrics[0]);
+const metrics = ref(store.analytics.getMetricsByBU(selectedBU.value));
 
 // Watch for BU changes and update metrics
 watch(selectedBU, (newBU) => {
-  metrics.value = searchMetrics.find(m => m.bu === newBU) || searchMetrics[0];
+  metrics.value = store.analytics.getMetricsByBU(newBU);
 }, { immediate: true });
 
 // Initialize selectedMetrics with CTR and Conversion Rate by default
@@ -253,13 +239,11 @@ const selectedMetrics = ref(['ctr', 'conversionRate']);
 
 // Update selectedBU when BU changes in header
 const handleBUChange = () => {
-  selectedBU.value = getCurrentBU();
+  metrics.value = store.analytics.getMetricsByBU(selectedBU.value);
 };
 
 onMounted(() => {
   window.addEventListener('buChanged', handleBUChange);
-  // Initialize metrics with current BU data
-  metrics.value = searchMetrics.find(m => m.bu === selectedBU.value) || searchMetrics[0];
 });
 
 onUnmounted(() => {
@@ -270,7 +254,7 @@ onUnmounted(() => {
 const trendData = computed(() => {
   if (!selectedPeriod.value?.[0] || !selectedPeriod.value?.[1]) return { labels: [], datasets: [] };
   
-  const data = generateDailyDataForRange(selectedPeriod.value[0], selectedPeriod.value[1]);
+  const data = store.analytics.getDailyData(selectedPeriod.value[0], selectedPeriod.value[1]);
   
   const datasets = [];
   
@@ -438,15 +422,15 @@ const lineOptions = {
 
 // Filtered data based on selected BU
 const filteredNoResultSearches = computed(() => {
-  return noResultSearches.value.filter(s => s.bu === selectedBU.value);
+  return store.analytics.getSearchesByBU('noResult', selectedBU.value);
 });
 
 const filteredLowClickSearches = computed(() => {
-  return lowClickSearches.value.filter(s => s.bu === selectedBU.value);
+  return store.analytics.getSearchesByBU('lowClick', selectedBU.value);
 });
 
 const filteredTopClickedSearches = computed(() => {
-  return topClickedSearches.value.filter(s => s.bu === selectedBU.value);
+  return store.analytics.getSearchesByBU('topClicked', selectedBU.value);
 });
 </script>
 
@@ -512,20 +496,6 @@ const filteredTopClickedSearches = computed(() => {
 
 :deep(.text-base) {
   font-size: 1rem !important;
-}
-
-:deep(.p-checkbox) {
-  width: 1rem;
-  height: 1rem;
-}
-
-:deep(.p-checkbox .p-checkbox-box) {
-  width: 1rem;
-  height: 1rem;
-}
-
-:deep(.p-checkbox .p-checkbox-icon) {
-  font-size: 0.75rem;
 }
 
 :deep(.p-datatable .p-datatable-thead > tr > th.compact-header) {

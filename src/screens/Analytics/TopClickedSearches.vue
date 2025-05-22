@@ -17,9 +17,23 @@
         sortField="clicks"
         :sortOrder="-1"
       >
-        <Column field="term" :header="$t('analytics.search_term')" sortable></Column>
+        <Column field="term" :header="$t('analytics.search_term')" sortable>
+          <template #body="slotProps">
+            <Button 
+              :label="slotProps.data.term"
+              link
+              class="p-0"
+              @click="navigateToPreview(slotProps.data.term)"
+            />
+          </template>
+        </Column>
         <Column field="searches" :header="$t('analytics.searches')" sortable></Column>
         <Column field="clicks" :header="$t('analytics.clicks')" sortable></Column>
+        <Column field="ctr" header="CTR" sortable>
+          <template #body="slotProps">
+            {{ slotProps.data.ctr }}
+          </template>
+        </Column>
         <Column field="position" :header="$t('analytics.position')" sortable>
           <template #body="slotProps">
             {{ slotProps.data.position?.toFixed(1) }}
@@ -37,6 +51,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from '../../store';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import Card from 'primevue/card';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
@@ -47,6 +62,8 @@ import DataTableWrapper from '../../components/shared/DataTableWrapper.vue';
 import Papa from 'papaparse';
 
 const store = useStore();
+const router = useRouter();
+const { t } = useI18n();
 const searchTerm = ref('');
 const maxDate = new Date();
 const selectedPeriod = ref([
@@ -79,11 +96,19 @@ const filteredSearches = computed(() => {
   return searches;
 });
 
+const navigateToPreview = (term) => {
+  router.push({
+    path: '/dashboard/search-preview',
+    query: { term }
+  });
+};
+
 const exportToCSV = () => {
   const data = filteredSearches.value.map(item => ({
     'Search Term': item.term,
     'Searches': item.searches,
     'Clicks': item.clicks,
+    'CTR': item.ctr,
     'Position': item.position?.toFixed(1)
   }));
 
