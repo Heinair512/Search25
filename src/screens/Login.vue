@@ -210,7 +210,7 @@ const loginSuccess = (user) => {
 .prototype-stamp {
   position: absolute;
   top: 2rem;
-  right: 1rem;
+  right: 4rem;
   font-size: 1.75rem;
   font-weight: bold;
   color: rgba(255, 0, 0, 0.2);
@@ -224,4 +224,3 @@ const loginSuccess = (user) => {
   z-index: 1;
 }
 </style>
-```
