@@ -7,38 +7,47 @@
         <!-- Search Usage Metric -->
         <div v-if="store.features.isAdvancedMode" class="col-12 md:col-3">
           <div class="metric-card">
-            <div :class="['metric-content', searchTrendColor]">
+            <div 
+              :class="['metric-content', searchTrendColor, 'cursor-pointer']"
+              @click="router.push('/dashboard/analytics')"
+            >
               <div class="metric-icon">
                 <i :class="['pi', searchTrend > 0 ? 'pi-arrow-up' : 'pi-arrow-down', searchTrendIconColor]"></i>
               </div>
               <div class="metric-text">{{ searchUsageText }}</div>
-              <Button :label="t('news_board.view_analytics')" link class="metric-action" @click="router.push('/dashboard/analytics')" />
+              <div class="metric-action">{{ t('news_board.view_analytics') }}</div>
             </div>
           </div>
         </div>
 
-        <!-- CTR Metric - Always red for decrease -->
+        <!-- CTR Metric -->
         <div v-if="store.features.isAdvancedMode" class="col-12 md:col-3">
           <div class="metric-card">
-            <div class="metric-content bg-red-50">
+            <div 
+              class="metric-content bg-red-50 cursor-pointer"
+              @click="router.push('/dashboard/analytics')"
+            >
               <div class="metric-icon">
                 <i class="pi pi-arrow-down text-red-500"></i>
               </div>
               <div class="metric-text">{{ ctrText }}</div>
-              <Button :label="t('news_board.view_details')" link class="metric-action" @click="router.push('/dashboard/analytics')" />
+              <div class="metric-action">{{ t('news_board.view_details') }}</div>
             </div>
           </div>
         </div>
 
-        <!-- Zero Results Metric - Always green for decrease -->
+        <!-- Zero Results Metric -->
         <div v-if="store.features.isAdvancedMode" class="col-12 md:col-3">
           <div class="metric-card">
-            <div class="metric-content bg-green-50">
+            <div 
+              class="metric-content bg-green-50 cursor-pointer"
+              @click="router.push('/dashboard/analytics/no-results')"
+            >
               <div class="metric-icon">
                 <i class="pi pi-arrow-down text-green-500"></i>
               </div>
               <div class="metric-text">{{ zeroResultsText }}</div>
-              <Button :label="t('news_board.review_now')" link class="metric-action" @click="router.push('/dashboard/analytics/no-results')" />
+              <div class="metric-action">{{ t('news_board.review_now') }}</div>
             </div>
           </div>
         </div>
@@ -46,12 +55,15 @@
         <!-- Top Search Term -->
         <div v-if="store.features.isAdvancedMode" class="col-12 md:col-3">
           <div class="metric-card">
-            <div class="metric-content bg-primary">
+            <div 
+              class="metric-content bg-primary cursor-pointer"
+              @click="router.push('/dashboard/analytics/top-clicked')"
+            >
               <div class="metric-icon">
                 <i class="pi pi-search text-white"></i>
               </div>
               <div class="metric-text text-white">{{ topSearchText }}</div>
-              <Button :label="t('news_board.view_details')" link class="metric-action p-button-text text-white" @click="router.push('/dashboard/analytics/top-clicked')" />
+              <div class="metric-action text-white">{{ t('news_board.view_details') }}</div>
             </div>
           </div>
         </div>
@@ -356,6 +368,12 @@ onUnmounted(() => {
   gap: 1rem;
   border-radius: 0.5rem;
   border: 1px solid var(--surface-border);
+  transition: all 0.2s ease;
+}
+
+.metric-content:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
 .bg-primary {
@@ -375,9 +393,9 @@ onUnmounted(() => {
 }
 
 .metric-action {
-  align-self: flex-start;
-  padding: 0;
+  color: inherit;
   font-size: 0.875rem;
+  text-decoration: none;
 }
 
 .text-white {
