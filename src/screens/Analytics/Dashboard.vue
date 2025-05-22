@@ -72,28 +72,76 @@
             <div class="flex align-items-center gap-3 mb-3">
               <span class="font-medium text-sm">Metrics:</span>
               <div class="flex gap-2">
-                <Checkbox v-model="selectedMetrics" value="ctr" inputId="ctr" />
-                <label for="ctr" class="text-xs">CTR</label>
+                <div class="filter-value">
+                  <input
+                    type="checkbox"
+                    id="ctr"
+                    v-model="selectedMetrics"
+                    value="ctr"
+                    class="checkbox"
+                  />
+                  <label for="ctr" class="text-xs">CTR</label>
+                </div>
               </div>
               <div class="flex gap-2">
-                <Checkbox v-model="selectedMetrics" value="conversionRate" inputId="conversionRate" />
-                <label for="conversionRate" class="text-xs">Conversion Rate</label>
+                <div class="filter-value">
+                  <input
+                    type="checkbox"
+                    id="conversionRate"
+                    v-model="selectedMetrics"
+                    value="conversionRate"
+                    class="checkbox"
+                  />
+                  <label for="conversionRate" class="text-xs">Conversion Rate</label>
+                </div>
               </div>
               <div class="flex gap-2">
-                <Checkbox v-model="selectedMetrics" value="mrr" inputId="mrr" />
-                <label for="mrr" class="text-xs">MRR</label>
+                <div class="filter-value">
+                  <input
+                    type="checkbox"
+                    id="mrr"
+                    v-model="selectedMetrics"
+                    value="mrr"
+                    class="checkbox"
+                  />
+                  <label for="mrr" class="text-xs">MRR</label>
+                </div>
               </div>
               <div class="flex gap-2">
-                <Checkbox v-model="selectedMetrics" value="ndcg" inputId="ndcg" />
-                <label for="ndcg" class="text-xs">NDCG</label>
+                <div class="filter-value">
+                  <input
+                    type="checkbox"
+                    id="ndcg"
+                    v-model="selectedMetrics"
+                    value="ndcg"
+                    class="checkbox"
+                  />
+                  <label for="ndcg" class="text-xs">NDCG</label>
+                </div>
               </div>
               <div class="flex gap-2">
-                <Checkbox v-model="selectedMetrics" value="searchTerms" inputId="searchTerms" />
-                <label for="searchTerms" class="text-xs">Search Terms Count</label>
+                <div class="filter-value">
+                  <input
+                    type="checkbox"
+                    id="searchTerms"
+                    v-model="selectedMetrics"
+                    value="searchTerms"
+                    class="checkbox"
+                  />
+                  <label for="searchTerms" class="text-xs">Search Terms Count</label>
+                </div>
               </div>
               <div class="flex gap-2">
-                <Checkbox v-model="selectedMetrics" value="rankedTerms" inputId="rankedTerms" />
-                <label for="rankedTerms" class="text-xs">Ranked Terms %</label>
+                <div class="filter-value">
+                  <input
+                    type="checkbox"
+                    id="rankedTerms"
+                    v-model="selectedMetrics"
+                    value="rankedTerms"
+                    class="checkbox"
+                  />
+                  <label for="rankedTerms" class="text-xs">Ranked Terms %</label>
+                </div>
               </div>
             </div>
             <Chart type="line" :data="trendData" :options="lineOptions" class="h-20rem" />
@@ -489,5 +537,22 @@ const filteredTopClickedSearches = computed(() => {
 :deep(.p-datatable .p-datatable-tbody > tr > td.compact-cell) {
   padding: 0.25rem 0.4rem;
   font-size: 0.75rem;
+}
+
+.filter-value {
+  margin-bottom: 0.5rem;
+}
+
+.filter-value label {
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  accent-color: var(--primary-color);
 }
 </style>
