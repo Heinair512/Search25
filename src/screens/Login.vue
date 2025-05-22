@@ -209,15 +209,15 @@ const loginSuccess = (user) => {
 
 .prototype-stamp {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-30deg);
-  font-size: 4rem;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: rgba(255, 0, 0, 0.2);
-  border: 0.5rem solid rgba(255, 0, 0, 0.2);
-  padding: 1rem 2rem;
+  border: 0.25rem solid rgba(255, 0, 0, 0.2);
+  padding: 0.5rem 1rem;
   text-transform: uppercase;
+  transform: rotate(30deg);
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
