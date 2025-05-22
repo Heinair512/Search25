@@ -20,6 +20,16 @@ export default {
     price: "Price",
     score: "Score"
   },
+  table: {
+    image: "Image",
+    name: "Name",
+    article_no: "Article No.",
+    manufacturer: "Manufacturer",
+    category: "Category",
+    color: "Color",
+    price: "Price",
+    score: "Score"
+  },
   filters: {
     manufacturer: "Manufacturer",
     category: "Category",
