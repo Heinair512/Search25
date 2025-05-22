@@ -1,10 +1,12 @@
 import { ref } from 'vue';
 import { 
-  businessUnits, 
   generateSearchMetrics, 
   generateDailyMetrics, 
   generateSearchTerm
 } from './mockDataGenerator';
+
+// Define and export the business units array
+export const businessUnits = ['Search', 'GC Gruppe', 'GC', 'bimsplus', 'Elements'];
 
 export interface SearchMetrics {
   bu: string;
