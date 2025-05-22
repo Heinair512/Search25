@@ -2,11 +2,12 @@ import { ref } from 'vue';
 import { 
   generateSearchMetrics, 
   generateDailyMetrics, 
-  generateSearchTerm
+  generateSearchTerm,
+  businessUnits
 } from './mockDataGenerator';
 
-// Define and export the business units array
-export const businessUnits = ['Search', 'GC Gruppe', 'GC', 'bimsplus', 'Elements'];
+// Export the business units array
+export { businessUnits };
 
 export interface SearchMetrics {
   bu: string;
@@ -118,7 +119,8 @@ const generateSearchTermsForBU = (terms: typeof searchTermsWithCounts, bu: strin
     const buFactor = bu === 'Search' ? 1.2 : 
                     bu === 'GC Gruppe' ? 1.0 : 
                     bu === 'GC' ? 0.9 : 
-                    bu === 'bimsplus' ? 0.7 : 0.8;
+                    bu === 'bimsplus' ? 0.7 : 
+                    bu === 'Elements' ? 0.85 : 0.8;
     
     // Adjust searches based on BU
     const adjustedSearches = Math.floor(searches * buFactor);
@@ -127,7 +129,8 @@ const generateSearchTermsForBU = (terms: typeof searchTermsWithCounts, bu: strin
     const buCtrBase = bu === 'Search' ? 0.35 : 
                      bu === 'GC Gruppe' ? 0.3 : 
                      bu === 'GC' ? 0.25 : 
-                     bu === 'bimsplus' ? 0.2 : 0.22;
+                     bu === 'bimsplus' ? 0.2 : 
+                     bu === 'Elements' ? 0.28 : 0.22;
     
     const clickRate = Math.random() * 0.2 + buCtrBase; // Random between buCtrBase and buCtrBase+0.2
     const clicks = Math.floor(adjustedSearches * clickRate);
@@ -138,6 +141,7 @@ const generateSearchTermsForBU = (terms: typeof searchTermsWithCounts, bu: strin
                      bu === 'GC Gruppe' ? 1.5 + Math.random() * 1.5 : 
                      bu === 'GC' ? 2 + Math.random() * 2 : 
                      bu === 'bimsplus' ? 2.5 + Math.random() * 2.5 : 
+                     bu === 'Elements' ? 1.8 + Math.random() * 1.8 :
                      2.2 + Math.random() * 2.2) : undefined;
     
     return {

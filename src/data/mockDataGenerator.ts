@@ -95,15 +95,15 @@ const buRanges = {
     rankedTermsPercentage: { min: 68, max: 78 }
   },
   'Elements': {
-    ctr: { min: 15, max: 25 },
-    conversionRate: { min: 8, max: 13 },
-    totalSearches: { min: 4000, max: 7000 },
-    noResultsRate: { min: 5, max: 9 },
-    avgClickedPosition: { min: 2.0, max: 3.0 },
-    mrr: { min: 0.80, max: 0.90 },
-    ndcg: { min: 0.85, max: 0.93 },
-    searchTermsCount: { min: 2000, max: 4000 },
-    rankedTermsPercentage: { min: 65, max: 75 }
+    ctr: { min: 22, max: 32 },
+    conversionRate: { min: 11, max: 16 },
+    totalSearches: { min: 5500, max: 8500 },
+    noResultsRate: { min: 3.5, max: 7.5 },
+    avgClickedPosition: { min: 1.7, max: 2.7 },
+    mrr: { min: 0.83, max: 0.93 },
+    ndcg: { min: 0.87, max: 0.95 },
+    searchTermsCount: { min: 3500, max: 5500 },
+    rankedTermsPercentage: { min: 72, max: 82 }
   }
 };
 
