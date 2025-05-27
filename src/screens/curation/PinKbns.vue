@@ -9,6 +9,17 @@
         <InputText id="search-term" v-model="searchTerm" placeholder="Suchbegriff" />
       </div>
 
+      <div class="flex flex-column gap-2 mt-3">
+        <label for="comment" class="font-medium">Kommentar</label>
+        <InputTextarea
+          id="comment"
+          v-model="comment"
+          placeholder="Kommentar zur Curation eingeben"
+          rows="3"
+          class="w-full"
+        />
+      </div>
+
       <div class="flex flex-column gap-3 mt-3">
         <div v-for="(row, index) in kbnRows" :key="index" class="flex gap-3">
           <div class="flex-grow-1">
@@ -76,6 +87,7 @@ import { useStore } from '../../store';
 import CardWrapper from '../../components/shared/CardWrapper.vue';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
+import InputTextarea from 'primevue/textarea';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
 import Toast from 'primevue/toast';
@@ -86,6 +98,7 @@ const store = useStore();
 
 // Position section
 const searchTerm = ref('');
+const comment = ref('');
 const kbnRows = ref(Array(10).fill(null).map(() => ({ kbn: '', position: null })));
 
 // Hide section
@@ -124,6 +137,7 @@ const saveKbns = () => {
       acc[row.kbn] = row.position;
       return acc;
     }, {}),
+    comment: comment.value,
     createdAt: new Date()
   });
   
@@ -136,6 +150,7 @@ const saveKbns = () => {
   
   // Reset position form
   searchTerm.value = '';
+  comment.value = '';
   kbnRows.value = Array(10).fill(null).map(() => ({ kbn: '', position: null }));
 };
 

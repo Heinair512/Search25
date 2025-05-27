@@ -40,6 +40,11 @@
             {{ slotProps.data.pinnedKbns?.join(', ') || '' }}
           </template>
         </Column>
+        <Column field="comment" header="Kommentar" sortable>
+          <template #body="slotProps">
+            {{ slotProps.data.comment || '' }}
+          </template>
+        </Column>
         <Column field="createdBy" header="Created By" sortable>
           <template #body="slotProps">
             <div class="flex align-items-center gap-2">
@@ -168,6 +173,7 @@ const curations = ref([
     term: 'hammer', 
     pinnedCount: 3, 
     pinnedKbns: ['123456', '789012'],
+    comment: 'Wichtige Hammer-Produkte für die Startseite',
     createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
     createdBy: 'Jörg Wehrenberg',
     createdByImage: null
@@ -176,6 +182,7 @@ const curations = ref([
     term: 'schrauben', 
     pinnedCount: 2, 
     pinnedKbns: ['345678'],
+    comment: 'Top-Schrauben für Holzarbeiten',
     createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
     createdBy: 'Steffen Giese',
     createdByImage: null
@@ -183,6 +190,7 @@ const curations = ref([
   { 
     term: 'bohrer', 
     pinnedCount: 1,
+    comment: 'Professionelle Bohrer-Serie',
     createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
     createdBy: 'Heiner Holzhüter',
     createdByImage: null
@@ -190,6 +198,7 @@ const curations = ref([
   { 
     term: 'säge', 
     pinnedCount: 2,
+    comment: 'Handwerker-Favoriten',
     createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
     createdBy: 'Krzysztof Michalak',
     createdByImage: null
@@ -197,8 +206,36 @@ const curations = ref([
   { 
     term: 'werkzeugkasten', 
     pinnedCount: 1,
+    comment: 'Bestseller Werkzeugkästen',
     createdAt: new Date(), // today
     createdBy: 'Jörg Wehrenberg',
+    createdByImage: null
+  },
+  {
+    term: 'schleifmaschine',
+    pinnedCount: 2,
+    pinnedKbns: ['567890', '234567'],
+    comment: 'Professionelle Schleifmaschinen',
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+    createdBy: 'Steffen Giese',
+    createdByImage: null
+  },
+  {
+    term: 'zange',
+    pinnedCount: 1,
+    pinnedKbns: ['678901'],
+    comment: 'Hochwertige Zangen für Elektriker',
+    createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
+    createdBy: 'Heiner Holzhüter',
+    createdByImage: null
+  },
+  {
+    term: 'messgerät',
+    pinnedCount: 3,
+    pinnedKbns: ['789012', '890123', '901234'],
+    comment: 'Digitale Messgeräte',
+    createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+    createdBy: 'Krzysztof Michalak',
     createdByImage: null
   }
 ]);
@@ -288,7 +325,8 @@ const getDaysAgo = (date) => {
 const filteredCurations = computed(() => {
   if (!curationSearchTerm.value) return curations.value;
   return curations.value.filter(c => 
-    c.term.toLowerCase().includes(curationSearchTerm.value.toLowerCase())
+    c.term.toLowerCase().includes(curationSearchTerm.value.toLowerCase()) ||
+    (c.comment && c.comment.toLowerCase().includes(curationSearchTerm.value.toLowerCase()))
   );
 });
 

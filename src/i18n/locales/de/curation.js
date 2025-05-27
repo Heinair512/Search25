@@ -25,5 +25,7 @@ export default {
   save: "Speichern",
   kbns_saved: "KBNs wurden gespeichert",
   search_term: "Suchbegriff",
-  created: "Erstellt vor {days} Tagen"
+  created: "Erstellt vor {days} Tagen",
+  comment: "Kommentar",
+  comment_placeholder: "Kommentar zur Curation eingeben"
 };
