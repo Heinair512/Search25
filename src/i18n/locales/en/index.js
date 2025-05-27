@@ -7,6 +7,7 @@ import profile from './profile';
 import rightsManagement from './rights-management';
 import searchPreview from './search-preview';
 import synonyms from "./synonyms";
+import technical from "./technical";
 import tooltips from './tooltips';
 
 export default {
@@ -19,5 +20,6 @@ export default {
   rights_management: rightsManagement,
   search_preview: searchPreview,
   synonyms,
+  technical,
   tooltips
 };

@@ -14,6 +14,7 @@ import NoResultSearches from './screens/Analytics/NoResultSearches.vue';
 import LowClickSearches from './screens/Analytics/LowClickSearches.vue';
 import TopClickedSearches from './screens/Analytics/TopClickedSearches.vue';
 import SynonymManagement from './screens/SynonymManagement.vue';
+import TechnicalSettings from './screens/technical/Settings.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -91,6 +92,10 @@ const router = createRouter({
         {
           path: 'synonyms',
           component: SynonymManagement
+        },
+        {
+          path: 'technical/settings',
+          component: TechnicalSettings
         }
       ]
     }

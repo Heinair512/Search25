@@ -16,5 +16,7 @@ export default {
   analytics_dashboard: "Analytics Dashboard",
   no_result_searches: "Zero Result Searches",
   low_click_searches: "Low Click Searches",
-  top_clicked_searches: "Top Clicked Searches"
+  top_clicked_searches: "Top Clicked Searches",
+  technical: "Technical",
+  settings: "Settings"
 };

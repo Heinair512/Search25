@@ -126,6 +126,25 @@
         </div>
       </div>
 
+      <!-- Technical Section -->
+      <div class="menu-section mt-3">
+        <div class="text-lg font-semibold mb-2 text-color uppercase">
+          {{ $t('menu.technical') }}
+        </div>
+        <div class="flex flex-column gap-1">
+          <Button
+            icon="pi pi-cog"
+            :label="$t('menu.settings')"
+            text
+            class="w-full justify-content-start menu-button"
+            :class="{
+              'p-button-text p-highlight': $route.path === '/dashboard/technical/settings',
+            }"
+            @click="$router.push('/dashboard/technical/settings')"
+          />
+        </div>
+      </div>
+
       <!-- Feature Toggle Switch -->
       <div class="feature-toggle mt-auto pt-4 border-top-1 surface-border">
         <div class="flex align-items-center gap-2">

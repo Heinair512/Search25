@@ -15,4 +15,6 @@ export default {
   no_result_searches: 'Nulltreffer',
   low_click_searches: 'Suchen mit wenig Klicks',
   top_clicked_searches: 'Top geklickte Suchen',
+  technical: 'Technical',
+  settings: 'Einstellungen'
 };
