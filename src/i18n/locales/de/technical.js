@@ -12,12 +12,12 @@ export default {
     attribute: "Attribut"
   },
   feature_flags: {
-    enable_suggestions: "Vorschläge aktivieren",
-    enable_spell_check: "Rechtschreibprüfung aktivieren",
-    enable_synonyms: "Synonyme aktivieren",
-    enable_facets: "Facetten aktivieren",
-    enable_highlighting: "Highlighting aktivieren",
-    enable_autocomplete: "Autovervollständigung aktivieren",
-    enable_debug: "Debug-Modus aktivieren"
+    enableSuggestions: "Suchvorschläge aktivieren",
+    enableSpellCheck: "Rechtschreibprüfung aktivieren",
+    enableSynonyms: "Synonyme aktivieren",
+    enableFacets: "Facettenfilter aktivieren",
+    enableHighlighting: "Treffer-Hervorhebung aktivieren",
+    enableAutocomplete: "Autovervollständigung aktivieren",
+    enableDebug: "Debug-Modus aktivieren"
   }
 };

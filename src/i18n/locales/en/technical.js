@@ -12,12 +12,12 @@ export default {
     attribute: "Attribute"
   },
   feature_flags: {
-    enable_suggestions: "Enable Suggestions",
-    enable_spell_check: "Enable Spell Check",
-    enable_synonyms: "Enable Synonyms",
-    enable_facets: "Enable Facets",
-    enable_highlighting: "Enable Highlighting",
-    enable_autocomplete: "Enable Autocomplete",
-    enable_debug: "Enable Debug Mode"
+    enableSuggestions: "Enable Search Suggestions",
+    enableSpellCheck: "Enable Spell Check",
+    enableSynonyms: "Enable Synonyms",
+    enableFacets: "Enable Facet Filters",
+    enableHighlighting: "Enable Result Highlighting",
+    enableAutocomplete: "Enable Autocomplete",
+    enableDebug: "Enable Debug Mode"
   }
 };

@@ -126,8 +126,8 @@
         </div>
       </div>
 
-      <!-- Technical Section -->
-      <div class="menu-section mt-3">
+      <!-- Technical Section - Only visible for Admin and Dev roles -->
+      <div v-if="isAdminOrDev" class="menu-section mt-3">
         <div class="text-lg font-semibold mb-2 text-color uppercase">
           {{ $t('menu.technical') }}
         </div>
@@ -173,6 +173,12 @@ const isCollapsed = ref(false);
 const isAdvancedMode = computed({
   get: () => store.features.isAdvancedMode,
   set: () => store.features.toggleAdvancedMode(),
+});
+
+// Check if current user is Admin or Dev
+const isAdminOrDev = computed(() => {
+  const currentUser = store.auth.currentUser;
+  return currentUser && (currentUser.role === 'Admin' || currentUser.role === 'Dev');
 });
 
 const toggleCollapse = () => {
