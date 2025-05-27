@@ -41,9 +41,6 @@
             
             <DataTable 
               :value="productAttributes" 
-              :paginator="true" 
-              :rows="10"
-              :rowsPerPageOptions="[5, 10, 20, 50]"
               responsiveLayout="scroll"
               class="p-datatable-sm"
             >
