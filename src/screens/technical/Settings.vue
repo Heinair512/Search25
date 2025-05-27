@@ -1,17 +1,34 @@
 <template>
   <div class="settings-container">
     <CardWrapper :title="t('technical.settings.title')">
+      <template #title-actions>
+        <div class="flex gap-2">
+          <Button 
+            :label="t('technical.settings.reset')" 
+            severity="secondary" 
+            @click="resetSettings"
+          />
+          <Button 
+            :label="t('technical.settings.save')" 
+            severity="success" 
+            @click="saveSettings"
+          />
+        </div>
+      </template>
+      
       <div class="grid">
         <!-- Relevance Ranking Section -->
         <div class="col-12">
           <div class="surface-card p-4 border-round mb-4">
-            <h3 class="mt-0 mb-4">{{ t('technical.settings.relevance_ranking') }}</h3>
-            <div class="flex align-items-center gap-2 mb-3">
-              <InputSwitch 
-                v-model="relevanceRankingEnabled" 
-                @change="updateRelevanceRanking" 
-              />
-              <span class="font-medium">{{ t('technical.settings.enable_relevance_ranking') }}</span>
+            <div class="flex align-items-center justify-content-between">
+              <h3 class="mt-0 mb-0">{{ t('technical.settings.relevance_ranking') }}</h3>
+              <div class="flex align-items-center gap-2">
+                <span class="font-medium">{{ t('technical.settings.enable_relevance_ranking') }}</span>
+                <InputSwitch 
+                  v-model="relevanceRankingEnabled" 
+                  @change="updateRelevanceRanking" 
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -61,19 +78,6 @@
                 </template>
               </Column>
             </DataTable>
-            
-            <div class="flex justify-content-end gap-2 mt-4">
-              <Button 
-                :label="t('technical.settings.reset')" 
-                severity="secondary" 
-                @click="resetSettings"
-              />
-              <Button 
-                :label="t('technical.settings.save')" 
-                severity="success" 
-                @click="saveSettings"
-              />
-            </div>
           </div>
         </div>
       </div>
