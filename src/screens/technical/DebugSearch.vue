@@ -7,19 +7,32 @@
         {{ t('technical.debug_search.subtitle') }}
       </p>
 
-      <div class="search-controls flex gap-4">
-        <div class="search-input flex-grow-1">
-          <InputText 
-            v-model="searchTerm" 
-            :placeholder="t('technical.debug_search.search.placeholder')" 
-            class="w-full"
-            @keyup.enter="search"
+      <div class="search-controls flex flex-column gap-3">
+        <div class="flex justify-content-between align-items-center">
+          <div class="flex align-items-center gap-2">
+            <InputSwitch v-model="useRealApi" />
+            <span>{{ t('technical.debug_search.use_real_api') }}</span>
+          </div>
+          <div class="flex align-items-center gap-2" v-if="totalKnownProducts !== null">
+            <span class="font-medium">{{ t('technical.debug_search.known_products') }}: {{ totalKnownProducts }}</span>
+          </div>
+        </div>
+        
+        <div class="flex gap-2">
+          <div class="search-input flex-grow-1">
+            <InputText 
+              v-model="searchTerm" 
+              :placeholder="t('technical.debug_search.search.placeholder')" 
+              class="w-full"
+              @keyup.enter="search"
+            />
+          </div>
+          <Button 
+            icon="pi pi-search" 
+            @click="search"
+            :loading="loading"
           />
         </div>
-        <Button 
-          icon="pi pi-search" 
-          @click="search"
-        />
       </div>
     </div>
 
@@ -214,6 +227,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Paginator from 'primevue/paginator';
 import ProgressSpinner from 'primevue/progressspinner';
+import InputSwitch from 'primevue/inputswitch';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -231,6 +245,8 @@ const selectedTableRow = ref(null);
 const products = ref([]);
 const loading = ref(false);
 const hasSearched = ref(false);
+const useRealApi = ref(false);
+const totalKnownProducts = ref(null);
 
 // Computed
 const productGroups = computed(() => {
@@ -252,17 +268,60 @@ const search = async () => {
   
   try {
     const startTime = performance.now();
-    const response = await debugSearchApi.search(searchTerm.value);
     
-    products.value = response.products;
-    totalResults.value = response.hits;
-    responseTime.value = response.took || Math.round(performance.now() - startTime);
+    if (useRealApi.value) {
+      // Use the real API endpoint
+      const headers = {
+        'Installation': 'CG',
+        'Language': 'DE',
+        'Layout': 'EFG',
+        'Content-Type': 'application/json'
+      };
+      
+      // Construct the URL with query parameters
+      const url = new URL('http://localhost:5000/search');
+      url.searchParams.append('search-query', searchTerm.value);
+      url.searchParams.append('company-id', '913');
+      url.searchParams.append('is-sap', 'false');
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: headers
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      products.value = data.products || [];
+      totalResults.value = data.hits || 0;
+      responseTime.value = data.took || Math.round(performance.now() - startTime);
+      
+      // Update total known products if available
+      if (data.totalKnownProducts !== undefined) {
+        totalKnownProducts.value = data.totalKnownProducts;
+      }
+    } else {
+      // Use the mock API
+      const response = await debugSearchApi.search(searchTerm.value);
+      
+      products.value = response.products;
+      totalResults.value = response.hits;
+      responseTime.value = response.took || Math.round(performance.now() - startTime);
+      
+      // Set a mock value for total known products
+      totalKnownProducts.value = 10000;
+    }
     
     selectedProduct.value = null;
     selectedTableRow.value = null;
     expandedRows.value = [];
   } catch (error) {
     console.error('Search error:', error);
+    products.value = [];
+    totalResults.value = 0;
   } finally {
     loading.value = false;
   }

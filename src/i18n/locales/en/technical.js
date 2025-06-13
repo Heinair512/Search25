@@ -23,6 +23,8 @@ export default {
   debug_search: {
     title: "Debug Search",
     subtitle: "Internal search for developers and administrators",
+    use_real_api: "Use real API endpoint",
+    known_products: "Known Products",
     search: {
       placeholder: "Enter search term...",
       results: "Results",
