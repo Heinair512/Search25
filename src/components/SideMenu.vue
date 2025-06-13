@@ -142,6 +142,16 @@
             }"
             @click="$router.push('/dashboard/technical/settings')"
           />
+          <Button
+            icon="pi pi-search"
+            label="Debug-Suche"
+            text
+            class="w-full justify-content-start menu-button"
+            :class="{
+              'p-button-text p-highlight': $route.path === '/dashboard/technical/debug-search',
+            }"
+            @click="$router.push('/dashboard/technical/debug-search')"
+          />
         </div>
       </div>
 

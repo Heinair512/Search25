@@ -19,5 +19,36 @@ export default {
     enableHighlighting: "Enable Result Highlighting",
     enableAutocomplete: "Enable Autocomplete",
     enableDebug: "Enable Debug Mode"
+  },
+  debug_search: {
+    title: "Debug Search",
+    subtitle: "Internal search for developers and administrators",
+    search: {
+      placeholder: "Enter search term...",
+      results: "Results",
+      response_time: "ms",
+      items_per_page: "Items per page",
+      no_results: "No results found"
+    },
+    product: {
+      id: "ID",
+      article_number: "Article Number",
+      supplier: "Supplier",
+      description: "Description",
+      price: "Price",
+      supplier_product_number: "Supplier Article Number",
+      run_number: "Run Number",
+      locked: "Locked",
+      price_hidden: "Price Hidden"
+    },
+    table: {
+      image: "Image",
+      id: "ID",
+      article_no: "Article No.",
+      supplier: "Supplier",
+      description: "Description",
+      price: "Price",
+      locked: "Locked"
+    }
   }
 };

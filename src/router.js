@@ -15,6 +15,7 @@ import LowClickSearches from './screens/Analytics/LowClickSearches.vue';
 import TopClickedSearches from './screens/Analytics/TopClickedSearches.vue';
 import SynonymManagement from './screens/SynonymManagement.vue';
 import TechnicalSettings from './screens/technical/Settings.vue';
+import DebugSearch from './screens/technical/DebugSearch.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -96,6 +97,13 @@ const router = createRouter({
         {
           path: 'technical/settings',
           component: TechnicalSettings
+        },
+        {
+          path: 'technical/debug-search',
+          component: DebugSearch,
+          meta: { 
+            requiresRole: ['Admin', 'Dev'] 
+          }
         }
       ]
     }
@@ -109,6 +117,16 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !user) {
     return next('/');
+  }
+
+  // Check role-based access
+  if (to.meta.requiresRole) {
+    const userData = JSON.parse(user || '{}');
+    const userRole = userData.role;
+    
+    if (!to.meta.requiresRole.includes(userRole)) {
+      return next('/dashboard/news');
+    }
   }
 
   if (to.path === '/dashboard') {
