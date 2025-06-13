@@ -68,7 +68,7 @@
               <!-- Product Image -->
               <div class="product-image-container mb-3">
                 <img 
-                  src="https://images.pexels.com/photos/1619651/pexels-photo-1619651.jpeg" 
+                  src="/platzhalter.webp" 
                   :alt="product.description"
                   class="product-image"
                   loading="lazy"
@@ -141,7 +141,7 @@
             <template #body>
               <div class="product-image-container" style="padding-top: 100%">
                 <img 
-                  src="https://images.pexels.com/photos/1619651/pexels-photo-1619651.jpeg" 
+                  src="/platzhalter.webp" 
                   alt="Product"
                   class="product-image"
                   loading="lazy"
@@ -158,7 +158,7 @@
               {{ formatPrice(slotProps.data.grosPrice, slotProps.data.grosPriceCurrency) }}
             </template>
           </Column>
-          <Column field="status" :header="Status" style="width: 100px">
+          <Column field="status" :header="t('technical.debug_search.table.status')" style="width: 100px">
             <template #body="slotProps">
               <div class="flex gap-2">
                 <i v-if="slotProps.data.locked" class="pi pi-lock text-red-500" title="Locked"></i>
@@ -415,8 +415,9 @@ onMounted(async () => {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.2s;
+  background-color: #f8f9fa;
 }
 
 .product-image:hover {
@@ -465,5 +466,9 @@ onMounted(async () => {
 
 :deep(.dark) .product-card.selected {
   background-color: var(--primary-900);
+}
+
+:deep(.dark) .product-image {
+  background-color: #2a2a2a;
 }
 </style>
