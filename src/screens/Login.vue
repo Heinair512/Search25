@@ -26,7 +26,13 @@
 
         <div v-if="errorMessage" class="p-error text-center">{{ errorMessage }}</div>
 
-        <Button :label="$t('login.login_button')" @click="handleLogin" class="w-full" />
+        <Button 
+          :label="$t('login.login_button')" 
+          @click="handleLogin" 
+          class="w-full" 
+          severity="success"
+          :loading="store.auth.loading"
+        />
       </div>
     </div>
   </div>
@@ -74,17 +80,18 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '../store';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Toast from 'primevue/toast';
 import DialogWrapper from '../components/shared/DialogWrapper.vue';
 import FormInput from '../components/shared/FormInput.vue';
-import { users } from '../data/users';
 
 const router = useRouter();
 const toast = useToast();
 const { t } = useI18n();
+const store = useStore();
 
 const email = ref('');
 const password = ref('');
@@ -109,72 +116,75 @@ const isPasswordValid = computed(() => {
          /[^A-Za-z0-9]/.test(password);
 });
 
-const handleLogin = () => {
+const handleLogin = async () => {
   submitted.value = true;
   errorMessage.value = '';
 
   if (!email.value || !password.value) return;
 
-  const user = users.find(u => u.email === email.value);
-  
-  if (!user) {
-    errorMessage.value = t('login.invalid_credentials');
-    return;
-  }
+  try {
+    // Use the auth store's login action
+    await store.auth.login(email.value, password.value);
+    router.push('/dashboard');
+  } catch (error) {
+    // Check if user has OTP
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find(u => u.email === email.value);
+    
+    if (user && user.otp) {
+      if (password.value !== user.otp) {
+        errorMessage.value = t('login.invalid_otp');
+        return;
+      }
 
-  // Check if user has OTP
-  if (user.otp) {
-    if (password.value !== user.otp) {
-      errorMessage.value = t('login.invalid_otp');
+      if (!user.needsPasswordReset) {
+        errorMessage.value = t('login.otp_expired');
+        return;
+      }
+
+      // Show password reset dialog
+      currentUser.value = user;
+      showPasswordDialog.value = true;
       return;
     }
 
-    if (!user.needsPasswordReset) {
-      errorMessage.value = t('login.otp_expired');
-      return;
-    }
-
-    // Show password reset dialog
-    currentUser.value = user;
-    showPasswordDialog.value = true;
-    return;
-  }
-
-  // Normal password login
-  if (user.password !== password.value) {
     errorMessage.value = t('login.invalid_credentials');
-    return;
   }
-
-  loginSuccess(user);
 };
 
-const saveNewPassword = () => {
+const saveNewPassword = async () => {
   passwordSubmitted.value = true;
 
   if (!isPasswordValid.value || !passwordsMatch.value) {
     return;
   }
 
-  // Update user in users array
-  const userIndex = users.findIndex(u => u.email === currentUser.value.email);
-  if (userIndex !== -1) {
-    const updatedUser = {
-      ...users[userIndex],
-      password: newPassword.value,
-      needsPasswordReset: false
-    };
-    delete updatedUser.otp;
-    users[userIndex] = updatedUser;
-
-    loginSuccess(updatedUser);
-    showPasswordDialog.value = false;
+  try {
+    // Update user in users array
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const userIndex = users.findIndex(u => u.email === currentUser.value.email);
+    
+    if (userIndex !== -1) {
+      const updatedUser = {
+        ...users[userIndex],
+        password: newPassword.value,
+        needsPasswordReset: false
+      };
+      delete updatedUser.otp;
+      users[userIndex] = updatedUser;
+      
+      // Update users in localStorage
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      // Use the auth store to login with the new credentials
+      await store.auth.login(updatedUser.email, newPassword.value);
+      
+      showPasswordDialog.value = false;
+      router.push('/dashboard');
+    }
+  } catch (error) {
+    errorMessage.value = error.message;
   }
-};
-
-const loginSuccess = (user) => {
-  localStorage.setItem('currentUser', JSON.stringify(user));
-  router.push('/dashboard');
 };
 </script>
 
