@@ -1,5 +1,6 @@
 import { reactive, computed } from 'vue';
 import { mailServer } from '../../utils/mailServer';
+import { users as initialUsers } from '../../data/users';
 
 const state = reactive({
   currentUser: null,
@@ -63,9 +64,18 @@ export const useAuthStore = () => {
   };
 
   const initializeAuth = () => {
+    // Load current user from localStorage if available
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
       state.currentUser = JSON.parse(savedUser);
+    }
+
+    // Check if users are already in localStorage
+    const savedUsers = localStorage.getItem('users');
+    if (!savedUsers) {
+      // If not, initialize with the default users from data/users.js
+      localStorage.setItem('users', JSON.stringify(initialUsers));
+      console.log('Initialized users in localStorage');
     }
   };
 
