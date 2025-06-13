@@ -77,36 +77,35 @@
               
               <!-- Product Info -->
               <div class="product-info">
-                <div class="text-sm font-semibold mb-1 line-clamp-1">{{ product.description }}</div>
-                <div class="text-xs mb-1">{{ t('technical.debug_search.product.id') }}: {{ product.id }}</div>
+                <div v-if="product.description" class="text-sm font-semibold mb-1 line-clamp-1">{{ product.description }}</div>
+                <div v-if="product.id" class="text-xs mb-1">ID: {{ product.id }}</div>
                 <div class="product-attributes text-xs">
                   <div class="grid">
-                    <div class="col-6">
+                    <div v-if="product.productNumber" class="col-6">
                       <span class="text-500">{{ t('technical.debug_search.product.article_number') }}:</span>
                       <div class="font-semibold line-clamp-1">{{ product.productNumber }}</div>
                     </div>
-                    <div class="col-6">
+                    <div v-if="product.supplier" class="col-6">
                       <span class="text-500">{{ t('technical.debug_search.product.supplier') }}:</span>
                       <div class="font-semibold line-clamp-1">{{ product.supplier }}</div>
                     </div>
-                    <div class="col-6">
+                    <div v-if="product.runNumber" class="col-6">
                       <span class="text-500">{{ t('technical.debug_search.product.run_number') }}:</span>
                       <div class="font-semibold">{{ product.runNumber }}</div>
                     </div>
-                    <div class="col-6">
-                      <span class="text-500">{{ t('technical.debug_search.product.locked') }}:</span>
-                      <div class="font-semibold">
-                        <i :class="['pi', product.locked ? 'pi-lock' : 'pi-lock-open', product.locked ? 'text-red-500' : 'text-green-500']"></i>
-                      </div>
+                    <div v-if="product.supplierProductNumber && product.supplierProductNumber.length > 0" class="col-6">
+                      <span class="text-500">Supplier #:</span>
+                      <div class="font-semibold line-clamp-1">{{ product.supplierProductNumber.join(', ') }}</div>
                     </div>
                   </div>
                 </div>
                 <div class="flex justify-content-between align-items-center mt-2">
-                  <div class="text-lg font-bold text-primary">
+                  <div v-if="product.grosPrice" class="text-lg font-bold text-primary">
                     {{ formatPrice(product.grosPrice, product.grosPriceCurrency) }}
                   </div>
-                  <div v-if="product.priceHidden" class="flex align-items-center gap-2">
-                    <i class="pi pi-eye-slash text-red-500"></i>
+                  <div class="flex gap-2">
+                    <i v-if="product.locked" class="pi pi-lock text-red-500"></i>
+                    <i v-if="product.priceHidden" class="pi pi-eye-slash text-red-500"></i>
                   </div>
                 </div>
               </div>
@@ -159,62 +158,25 @@
               {{ formatPrice(slotProps.data.grosPrice, slotProps.data.grosPriceCurrency) }}
             </template>
           </Column>
-          <Column field="locked" :header="t('technical.debug_search.table.locked')" style="width: 100px">
+          <Column field="status" :header="Status" style="width: 100px">
             <template #body="slotProps">
-              <i :class="['pi', slotProps.data.locked ? 'pi-lock' : 'pi-lock-open', slotProps.data.locked ? 'text-red-500' : 'text-green-500']"></i>
-              <span v-if="slotProps.data.priceHidden" class="ml-2">
-                <i class="pi pi-eye-slash text-red-500"></i>
-              </span>
+              <div class="flex gap-2">
+                <i v-if="slotProps.data.locked" class="pi pi-lock text-red-500" title="Locked"></i>
+                <i v-if="slotProps.data.priceHidden" class="pi pi-eye-slash text-red-500" title="Price Hidden"></i>
+              </div>
             </template>
           </Column>
           <template #expansion="slotProps">
             <div class="p-3">
-              <h5>{{ t('technical.debug_search.product.id') }}: {{ slotProps.data.id }}</h5>
+              <h5>{{ slotProps.data.id }}</h5>
               <div class="grid">
-                <div class="col-12 md:col-6">
-                  <div class="field">
-                    <label>{{ t('technical.debug_search.product.article_number') }}</label>
-                    <div>{{ slotProps.data.productNumber }}</div>
+                <!-- Only show fields that are not null or empty -->
+                <template v-for="(value, key) in slotProps.data" :key="key">
+                  <div v-if="shouldShowField(key, value)" class="col-12 md:col-6 lg:col-4 field">
+                    <label>{{ formatFieldName(key) }}</label>
+                    <div>{{ formatFieldValue(key, value) }}</div>
                   </div>
-                  <div class="field">
-                    <label>{{ t('technical.debug_search.product.supplier') }}</label>
-                    <div>{{ slotProps.data.supplier }}</div>
-                  </div>
-                  <div class="field">
-                    <label>{{ t('technical.debug_search.product.description') }}</label>
-                    <div>{{ slotProps.data.description }}</div>
-                  </div>
-                </div>
-                <div class="col-12 md:col-6">
-                  <div class="field">
-                    <label>{{ t('technical.debug_search.product.supplier_product_number') }}</label>
-                    <div>{{ slotProps.data.supplierProductNumber?.join(', ') || '-' }}</div>
-                  </div>
-                  <div class="field">
-                    <label>{{ t('technical.debug_search.product.run_number') }}</label>
-                    <div>{{ slotProps.data.runNumber }}</div>
-                  </div>
-                  <div class="field">
-                    <label>{{ t('technical.debug_search.product.price') }}</label>
-                    <div>{{ formatPrice(slotProps.data.grosPrice, slotProps.data.grosPriceCurrency) }}</div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="field">
-                    <label>{{ t('technical.debug_search.product.locked') }}</label>
-                    <div>
-                      <i :class="['pi', slotProps.data.locked ? 'pi-lock' : 'pi-lock-open', slotProps.data.locked ? 'text-red-500' : 'text-green-500']"></i>
-                      {{ slotProps.data.locked ? 'Ja' : 'Nein' }}
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label>{{ t('technical.debug_search.product.price_hidden') }}</label>
-                    <div>
-                      <i :class="['pi', slotProps.data.priceHidden ? 'pi-eye-slash' : 'pi-eye', slotProps.data.priceHidden ? 'text-red-500' : 'text-green-500']"></i>
-                      {{ slotProps.data.priceHidden ? 'Ja' : 'Nein' }}
-                    </div>
-                  </div>
-                </div>
+                </template>
               </div>
             </div>
           </template>
@@ -312,6 +274,7 @@ const onPageChange = (event) => {
 };
 
 const formatPrice = (price, currency = 'EUR') => {
+  if (price === null || price === undefined) return '';
   return new Intl.NumberFormat('de-DE', {
     style: 'currency',
     currency: currency
@@ -324,6 +287,53 @@ const onRowSelect = (event) => {
 
 const onRowUnselect = () => {
   expandedRows.value = [];
+};
+
+// Helper function to determine if a field should be shown
+const shouldShowField = (key, value) => {
+  // Skip internal Vue properties
+  if (key.startsWith('_')) return false;
+  
+  // Skip null values
+  if (value === null) return false;
+  
+  // Skip empty strings
+  if (typeof value === 'string' && value.trim() === '') return false;
+  
+  // Skip empty arrays
+  if (Array.isArray(value) && value.length === 0) return false;
+  
+  return true;
+};
+
+// Format field names for display
+const formatFieldName = (key) => {
+  // Convert camelCase to Title Case with spaces
+  const formatted = key
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, (str) => str.toUpperCase());
+  
+  return formatted;
+};
+
+// Format field values for display
+const formatFieldValue = (key, value) => {
+  // Handle arrays
+  if (Array.isArray(value)) {
+    return value.join(', ');
+  }
+  
+  // Handle booleans
+  if (typeof value === 'boolean') {
+    return value ? 'Ja' : 'Nein';
+  }
+  
+  // Handle price
+  if (key === 'grosPrice' && value !== null) {
+    return formatPrice(value, products.value.find(p => p.grosPrice === value)?.grosPriceCurrency || 'EUR');
+  }
+  
+  return value;
 };
 
 // Initialize

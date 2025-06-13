@@ -39,7 +39,16 @@ export default {
       supplier_product_number: "Lieferanten-Artikelnummer",
       run_number: "Laufende Nummer",
       locked: "Gesperrt",
-      price_hidden: "Preis versteckt"
+      price_hidden: "Preis versteckt",
+      attributes_text_search: "Attribute Text Suche",
+      customer_article_numbers: "Kunden-Artikelnummern",
+      discount_group: "Rabattgruppe",
+      discount_group_text: "Rabattgruppen-Text",
+      designation: "Bezeichnung",
+      gtins: "GTINs",
+      product_number_for_view: "Artikelnummer für Anzeige",
+      remark: "Bemerkung",
+      materialnumber_sap: "SAP Materialnummer"
     },
     table: {
       image: "Bild",
@@ -48,7 +57,7 @@ export default {
       supplier: "Lieferant",
       description: "Beschreibung",
       price: "Preis",
-      locked: "Gesperrt"
+      status: "Status"
     }
   }
 };
