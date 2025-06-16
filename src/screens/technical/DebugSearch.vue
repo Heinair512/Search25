@@ -13,9 +13,7 @@
             <InputSwitch v-model="useRealApi" />
             <span>{{ t('technical.debug_search.use_real_api') }}</span>
           </div>
-          <div class="flex align-items-center gap-2" v-if="totalKnownProducts !== null">
-            <span class="font-medium">{{ t('technical.debug_search.known_products') }}: {{ totalKnownProducts }}</span>
-          </div>
+          <!-- Removed product count display -->
         </div>
         
         <div class="flex gap-2">
@@ -246,7 +244,7 @@ const products = ref([]);
 const loading = ref(false);
 const hasSearched = ref(false);
 const useRealApi = ref(false);
-const totalKnownProducts = ref(null);
+const totalKnownProducts = ref(null); // Kept for internal use but not displayed
 
 // Computed
 const productGroups = computed(() => {
