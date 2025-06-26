@@ -94,6 +94,14 @@
                 <div
                   class="flex w-full align-items-center justify-content-start gap-3 mb-2"
                 >
+                  <Checkbox
+                    :model-value="regel.aktiv"
+                    :binary="true"
+                    class="p-mr-2"
+                    @update:modelValue="
+                      updateAktiv(slotProps.data.id, regel.id, $event)
+                    "
+                  />
                   <div class="synonym">
                     <i class="pi pi-arrows-h"></i>
                     <SelectButton
@@ -206,9 +214,9 @@
           @click="discardChanges"
         />
         <Button
-          :label="t('synonyms.save')"
+          :label="t('synonyms.publish')"
           severity="success"
-          @click="saveAll"
+          @click="publishChanges"
         />
       </div>
     </template>
@@ -240,6 +248,7 @@ import InputText from 'primevue/inputtext';
 import InputTextarea from 'primevue/textarea';
 import Divider from 'primevue/divider';
 import SelectButton from 'primevue/selectbutton';
+import Checkbox from 'primevue/checkbox';
 import Chips from 'primevue/chips';
 import Toast from 'primevue/toast';
 import Papa from 'papaparse';
@@ -292,6 +301,19 @@ const updateName = (id, newName) => {
     synonym.aenderungsdatum = new Date().toLocaleString();
     synonym.bearbeiter = currentUser.value;
     notifyChange();
+  }
+};
+
+const updateAktiv = (synonymId, regelId, value) => {
+  const synonym = synonyms.value.find((s) => s.id === synonymId);
+  if (synonym) {
+    const regel = synonym.regelset.find((r) => r.id === regelId);
+    if (regel) {
+      regel.aktiv = value;
+      synonym.aenderungsdatum = new Date().toLocaleString();
+      synonym.bearbeiter = currentUser.value;
+      notifyChange();
+    }
   }
 };
 
@@ -400,17 +422,6 @@ const notifyChange = () => {
   hasChanges.value = true;
 };
 
-const saveAll = () => {
-  hasChanges.value = false;
-  updateSynonyms(JSON.parse(JSON.stringify(synonyms.value)));
-  toast.add({
-    severity: 'success',
-    summary: 'Success',
-    detail: t('synonyms.save_success'),
-    life: 3000,
-  });
-};
-
 const discardChanges = () => {
   synonyms.value = JSON.parse(JSON.stringify(synonyms.value));
   localName.value = {};
@@ -422,7 +433,8 @@ const discardChanges = () => {
 };
 
 const publishChanges = async () => {
-  saveAll();
+  updateSynonyms(JSON.parse(JSON.stringify(synonyms.value)));
+  hasChanges.value = false;
   toast.add({
     severity: 'success',
     summary: 'Success',
@@ -442,6 +454,7 @@ const exportSynonyms = () => {
           'Search Term': synonym.name,
           'Synonym': syn,
           'Type': regel.art,
+          'Active': regel.aktiv ? 'Yes' : 'No',
           'Comment': synonym.kommentar || '',
           'Last Modified': synonym.aenderungsdatum,
           'Modified By': synonym.bearbeiter
@@ -492,7 +505,7 @@ const handleFileImport = async (event) => {
                 typ: 'synonym',
                 synonyme: [],
                 art: row['Type'] || 'ungerichtet',
-                aktiv: true
+                aktiv: row['Active']?.toLowerCase() === 'yes'
               }]
             };
           }
