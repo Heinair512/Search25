@@ -118,41 +118,6 @@
           </Column>
         </DataTable>
       </div>
-      
-      <!-- Charts Section -->
-      <div class="surface-card p-4 border-round mt-4">
-        <h3 class="mt-0 mb-4">{{ t('technical.ab_test.trend_analysis') }}</h3>
-        
-        <div class="grid">
-          <div class="col-12 lg:col-6 mb-4">
-            <div class="chart-container">
-              <h4 class="mt-0 mb-3">{{ t('technical.ab_test.ctr_trend') }}</h4>
-              <Chart type="line" :data="ctrTrendData" :options="lineChartOptions" />
-            </div>
-          </div>
-          
-          <div class="col-12 lg:col-6 mb-4">
-            <div class="chart-container">
-              <h4 class="mt-0 mb-3">{{ t('technical.ab_test.conversion_trend') }}</h4>
-              <Chart type="line" :data="conversionTrendData" :options="lineChartOptions" />
-            </div>
-          </div>
-          
-          <div class="col-12 lg:col-6 mb-4">
-            <div class="chart-container">
-              <h4 class="mt-0 mb-3">{{ t('technical.ab_test.revenue_trend') }}</h4>
-              <Chart type="line" :data="revenueTrendData" :options="lineChartOptions" />
-            </div>
-          </div>
-          
-          <div class="col-12 lg:col-6 mb-4">
-            <div class="chart-container">
-              <h4 class="mt-0 mb-3">{{ t('technical.ab_test.relevance_metrics') }}</h4>
-              <Chart type="bar" :data="relevanceData" :options="barChartOptions" />
-            </div>
-          </div>
-        </div>
-      </div>
     </CardWrapper>
     
     <Toast />
@@ -167,7 +132,6 @@ import CardWrapper from '../../components/shared/CardWrapper.vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Tag from 'primevue/tag';
-import Chart from 'primevue/chart';
 import Divider from 'primevue/divider';
 import Toast from 'primevue/toast';
 
@@ -280,105 +244,6 @@ const abTestApi = {
         significance: 0.99
       }
     ];
-  },
-  
-  async getTrendData() {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 600));
-    
-    // Generate dates for the last 14 days
-    const dates = Array.from({ length: 14 }, (_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - (13 - i));
-      return date.toISOString().split('T')[0];
-    });
-    
-    // Generate CTR trend data
-    const ctrTrendData = {
-      labels: dates,
-      datasets: [
-        {
-          label: 'Search V2',
-          data: dates.map(() => 0.2 + Math.random() * 0.07),
-          borderColor: '#64B5F6',
-          backgroundColor: 'rgba(100, 181, 246, 0.2)',
-          tension: 0.4
-        },
-        {
-          label: 'Search25',
-          data: dates.map(() => 0.25 + Math.random() * 0.08),
-          borderColor: '#4CAF50',
-          backgroundColor: 'rgba(76, 175, 80, 0.2)',
-          tension: 0.4
-        }
-      ]
-    };
-    
-    // Generate conversion trend data
-    const conversionTrendData = {
-      labels: dates,
-      datasets: [
-        {
-          label: 'Search V2',
-          data: dates.map(() => 0.035 + Math.random() * 0.015),
-          borderColor: '#64B5F6',
-          backgroundColor: 'rgba(100, 181, 246, 0.2)',
-          tension: 0.4
-        },
-        {
-          label: 'Search25',
-          data: dates.map(() => 0.045 + Math.random() * 0.015),
-          borderColor: '#4CAF50',
-          backgroundColor: 'rgba(76, 175, 80, 0.2)',
-          tension: 0.4
-        }
-      ]
-    };
-    
-    // Generate revenue trend data
-    const revenueTrendData = {
-      labels: dates,
-      datasets: [
-        {
-          label: 'Search V2',
-          data: dates.map(() => 12000 + Math.random() * 5000),
-          borderColor: '#64B5F6',
-          backgroundColor: 'rgba(100, 181, 246, 0.2)',
-          tension: 0.4
-        },
-        {
-          label: 'Search25',
-          data: dates.map(() => 14000 + Math.random() * 6000),
-          borderColor: '#4CAF50',
-          backgroundColor: 'rgba(76, 175, 80, 0.2)',
-          tension: 0.4
-        }
-      ]
-    };
-    
-    // Generate relevance metrics data
-    const relevanceData = {
-      labels: ['MRR', 'NDCG'],
-      datasets: [
-        {
-          label: 'Search V2',
-          data: [0.78, 0.82],
-          backgroundColor: 'rgba(100, 181, 246, 0.7)'
-        },
-        {
-          label: 'Search25',
-          data: [0.85, 0.91],
-          backgroundColor: 'rgba(76, 175, 80, 0.7)'
-        }
-      ]
-    };
-    
-    return {
-      ctrTrendData,
-      conversionTrendData,
-      revenueTrendData,
-      relevanceData
-    };
   }
 };
 
@@ -395,74 +260,6 @@ const testInfo = ref({
 
 const kpiComparisons = ref([]);
 const loading = ref(true);
-
-// Chart data
-const ctrTrendData = ref({
-  labels: [],
-  datasets: []
-});
-
-const conversionTrendData = ref({
-  labels: [],
-  datasets: []
-});
-
-const revenueTrendData = ref({
-  labels: [],
-  datasets: []
-});
-
-const relevanceData = ref({
-  labels: [],
-  datasets: []
-});
-
-// Chart options
-const lineChartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: 'top'
-    },
-    tooltip: {
-      mode: 'index',
-      intersect: false
-    }
-  },
-  scales: {
-    x: {
-      ticks: {
-        maxRotation: 0,
-        autoSkip: true,
-        maxTicksLimit: 7
-      }
-    },
-    y: {
-      beginAtZero: false
-    }
-  }
-};
-
-const barChartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: 'top'
-    },
-    tooltip: {
-      mode: 'index',
-      intersect: false
-    }
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      max: 1
-    }
-  }
-};
 
 // Formatters
 const formatValue = (value, format) => {
@@ -540,13 +337,6 @@ const loadData = async () => {
     
     // Load KPI comparisons
     kpiComparisons.value = await abTestApi.getKpiComparisons();
-    
-    // Load trend data
-    const trendData = await abTestApi.getTrendData();
-    ctrTrendData.value = trendData.ctrTrendData;
-    conversionTrendData.value = trendData.conversionTrendData;
-    revenueTrendData.value = trendData.revenueTrendData;
-    relevanceData.value = trendData.relevanceData;
   } catch (error) {
     console.error('Error loading A/B test data:', error);
     toast.add({
@@ -583,13 +373,6 @@ onMounted(() => {
 
 .group-card:hover {
   transform: translateY(-2px);
-}
-
-.chart-container {
-  height: 300px;
-  padding: 1rem;
-  background-color: var(--surface-ground);
-  border-radius: 6px;
 }
 
 :deep(.p-datatable) {
