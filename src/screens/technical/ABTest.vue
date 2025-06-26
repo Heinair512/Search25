@@ -96,7 +96,7 @@
                 <span 
                   :class="getDifferenceClass(slotProps.data.difference, slotProps.data.higherIsBetter)"
                 >
-                  {{ formatDifference(slotProps.data.difference) }}
+                  {{ formatDifference(slotProps.data.difference, slotProps.data.format) }}
                 </span>
                 <i 
                   :class="getDifferenceIconClass(slotProps.data.difference, slotProps.data.higherIsBetter)"
@@ -277,21 +277,23 @@ const formatValue = (value, format) => {
   }
 };
 
-const formatDifference = (difference) => {
+const formatDifference = (difference, format) => {
   if (typeof difference === 'number') {
-    if (Math.abs(difference) < 0.01) {
-      return '0.0%';
+    if (Math.abs(difference) < 0.001) {
+      return '0.000';
     }
     
-    if (difference < 1 && difference > -1) {
+    if (format === 'percentage' || format === 'decimal') {
       // For small decimal differences (like CTR, CR)
-      return (difference * 100).toFixed(1) + '%';
-    } else {
+      const formattedValue = (difference * 100).toFixed(3) + '%';
+      return difference > 0 ? '+' + formattedValue : formattedValue;
+    } else if (format === 'currency' || format === 'number') {
       // For larger differences (like revenue)
-      return difference > 0 ? '+' + difference.toLocaleString() : difference.toLocaleString();
+      const formattedValue = difference.toFixed(3);
+      return difference > 0 ? '+' + formattedValue : formattedValue;
     }
   }
-  return '0';
+  return '0.000';
 };
 
 const getDifferenceClass = (difference, higherIsBetter) => {
