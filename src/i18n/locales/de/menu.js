@@ -1,5 +1,7 @@
 export default {
+  search: 'Suche',
   search_preview: 'Suche Vorschau',
+  ab_test: 'A/B Test',
   search_management: 'Such Management',
   kbn_curation: 'KBN Kuratierung',
   new_curation: 'Neue Kuratierung',

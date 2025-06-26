@@ -1,5 +1,7 @@
 export default {
+  search: "Search",
   search_preview: "Search Preview",
+  ab_test: "A/B Test",
   search_management: "Search Management",
   curations: "Curations",
   new_curation: "New Curation",

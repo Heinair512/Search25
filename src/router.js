@@ -88,6 +88,10 @@ const router = createRouter({
           component: SearchPreview
         },
         {
+          path: 'search/ab-test',
+          component: ABTest
+        },
+        {
           path: 'rechtemanagement',
           component: Rechtemanagement
         },
@@ -102,13 +106,6 @@ const router = createRouter({
         {
           path: 'technical/debug-search',
           component: DebugSearch,
-          meta: { 
-            requiresRole: ['Admin', 'Dev'] 
-          }
-        },
-        {
-          path: 'technical/ab-test',
-          component: ABTest,
           meta: { 
             requiresRole: ['Admin', 'Dev'] 
           }

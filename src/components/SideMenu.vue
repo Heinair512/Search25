@@ -14,16 +14,41 @@
 
     <div v-if="!isCollapsed" class="flex flex-column gap-2 mt-4">
       <div class="menu-section">
-        <div class="text-lg font-semibold mb-2 text-color uppercase">
-          {{ $t('menu.search_preview') }}
-        </div>
         <Button
-          icon="pi pi-eye"
-          :label="$t('menu.search_preview')"
+          icon="pi pi-home"
+          :label="$t('menu.news')"
           text
-          class="w-full justify-content-start menu-button"
-          @click="$router.push('/dashboard/search-preview')"
+          class="w-full justify-content-start menu-button mb-3"
+          @click="$router.push('/dashboard/news')"
         />
+      </div>
+
+      <div class="menu-section">
+        <div class="text-lg font-semibold mb-2 text-color uppercase">
+          {{ $t('menu.search') }}
+        </div>
+        <div class="flex flex-column gap-1">
+          <Button
+            icon="pi pi-eye"
+            :label="$t('menu.search_preview')"
+            text
+            class="w-full justify-content-start menu-button"
+            :class="{
+              'p-button-text p-highlight': $route.path === '/dashboard/search-preview',
+            }"
+            @click="$router.push('/dashboard/search-preview')"
+          />
+          <Button
+            icon="pi pi-sliders-h"
+            :label="$t('menu.ab_test')"
+            text
+            class="w-full justify-content-start menu-button"
+            :class="{
+              'p-button-text p-highlight': $route.path === '/dashboard/search/ab-test',
+            }"
+            @click="$router.push('/dashboard/search/ab-test')"
+          />
+        </div>
       </div>
 
       <div class="menu-section mt-3">
@@ -151,16 +176,6 @@
               'p-button-text p-highlight': $route.path === '/dashboard/technical/debug-search',
             }"
             @click="$router.push('/dashboard/technical/debug-search')"
-          />
-          <Button
-            icon="pi pi-sliders-h"
-            label="A/B Test"
-            text
-            class="w-full justify-content-start menu-button"
-            :class="{
-              'p-button-text p-highlight': $route.path === '/dashboard/technical/ab-test',
-            }"
-            @click="$router.push('/dashboard/technical/ab-test')"
           />
         </div>
       </div>
