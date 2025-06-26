@@ -25,6 +25,13 @@ export default {
     subtitle: "Internal search for developers and administrators",
     use_real_api: "Use real API endpoint",
     known_products: "Known Products",
+    filter: {
+      installation: "Installation",
+      language: "Language",
+      layout: "Layout",
+      companyid: "Company ID",
+      sap: "SAP"
+    },
     search: {
       placeholder: "Enter search term...",
       results: "Results",
