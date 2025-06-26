@@ -197,31 +197,6 @@
     </div>
   </div>
 
-  <Dialog
-    v-model:visible="hasChanges"
-    :closable="false"
-    position="bottom"
-    :header="t('synonyms.unsaved_changes')"
-  >
-    <div class="flex flex-column gap-3">
-      <p>{{ t('synonyms.unsaved_changes_message') }}</p>
-    </div>
-    <template #footer>
-      <div class="flex justify-content-end gap-2">
-        <Button
-          :label="t('synonyms.discard')"
-          severity="secondary"
-          @click="discardChanges"
-        />
-        <Button
-          :label="t('synonyms.publish')"
-          severity="success"
-          @click="publishChanges"
-        />
-      </div>
-    </template>
-  </Dialog>
-
   <!-- Hidden file input for import -->
   <input
     type="file"
