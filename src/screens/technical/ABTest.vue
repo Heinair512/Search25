@@ -64,7 +64,7 @@
           <Column field="name" :header="t('technical.ab_test.metric')" frozen>
             <template #body="slotProps">
               <div class="flex align-items-center">
-                <span class="font-medium">{{ slotProps.data.name }}</span>
+                <span class="font-medium">{{ t(`technical.ab_test.metrics.${slotProps.data.id}`) || slotProps.data.name }}</span>
                 <i 
                   v-if="slotProps.data.info" 
                   class="pi pi-info-circle ml-2 text-500 cursor-pointer"
@@ -203,6 +203,7 @@ const abTestApi = {
     
     return [
       {
+        id: 'ctr',
         name: 'CTR',
         info: 'Click-Through Rate: Percentage of searches that result in a click',
         groupA: 0.235,
@@ -213,6 +214,7 @@ const abTestApi = {
         significance: 0.98
       },
       {
+        id: 'cr',
         name: 'CR',
         info: 'Conversion Rate: Percentage of searches that result in a purchase',
         groupA: 0.042,
@@ -223,7 +225,8 @@ const abTestApi = {
         significance: 0.94
       },
       {
-        name: 'Search Sessions',
+        id: 'search_sessions',
+        name: 'Suchsessions',
         info: 'Number of search sessions',
         groupA: 62284,
         groupB: 62284,
@@ -233,6 +236,7 @@ const abTestApi = {
         significance: 0
       },
       {
+        id: 'cart_additions',
         name: 'Cart Additions',
         info: 'Number of items added to cart from search results',
         groupA: 3737,
@@ -243,6 +247,7 @@ const abTestApi = {
         significance: 0.97
       },
       {
+        id: 'revenue',
         name: 'Revenue',
         info: 'Total revenue generated from search sessions',
         groupA: 187432.56,
@@ -253,6 +258,7 @@ const abTestApi = {
         significance: 0.99
       },
       {
+        id: 'mrr',
         name: 'MRR',
         info: 'Mean Reciprocal Rank: Measures how high the first relevant result appears',
         groupA: 0.78,
@@ -263,6 +269,7 @@ const abTestApi = {
         significance: 0.96
       },
       {
+        id: 'ndcg',
         name: 'NDCG',
         info: 'Normalized Discounted Cumulative Gain: Measures ranking quality',
         groupA: 0.82,

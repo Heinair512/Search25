@@ -82,6 +82,15 @@ export default {
     ctr_trend: "CTR-Entwicklung",
     conversion_trend: "Conversion-Entwicklung",
     revenue_trend: "Umsatz-Entwicklung",
-    relevance_metrics: "Relevanz-Metriken"
+    relevance_metrics: "Relevanz-Metriken",
+    metrics: {
+      ctr: "CTR",
+      cr: "CR",
+      search_sessions: "Suchsessions",
+      cart_additions: "Warenkorbhinzufügungen",
+      revenue: "Umsatz",
+      mrr: "MRR",
+      ndcg: "NDCG"
+    }
   }
 };
