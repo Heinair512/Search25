@@ -152,6 +152,16 @@
             }"
             @click="$router.push('/dashboard/technical/debug-search')"
           />
+          <Button
+            icon="pi pi-sliders-h"
+            label="A/B Test"
+            text
+            class="w-full justify-content-start menu-button"
+            :class="{
+              'p-button-text p-highlight': $route.path === '/dashboard/technical/ab-test',
+            }"
+            @click="$router.push('/dashboard/technical/ab-test')"
+          />
         </div>
       </div>
 

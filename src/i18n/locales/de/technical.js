@@ -61,5 +61,27 @@ export default {
       price: "Preis",
       status: "Status"
     }
+  },
+  ab_test: {
+    title: "A/B Test",
+    test_info: "Test-Informationen",
+    active_since: "Aktiv seit",
+    test_code: "Test-Code",
+    distribution: "Verteilung",
+    total_sessions: "Suchsessions gesamt",
+    total_interactions: "Suchinteraktionen gesamt",
+    test_groups: "Testgruppen",
+    control_group: "Kontrollgruppe (A)",
+    test_group: "Testgruppe (B)",
+    sessions: "Sessions",
+    kpi_comparison: "KPI-Vergleich",
+    metric: "Metrik",
+    difference: "Differenz",
+    significance: "Signifikanz",
+    trend_analysis: "Trend-Analyse",
+    ctr_trend: "CTR-Entwicklung",
+    conversion_trend: "Conversion-Entwicklung",
+    revenue_trend: "Umsatz-Entwicklung",
+    relevance_metrics: "Relevanz-Metriken"
   }
 };

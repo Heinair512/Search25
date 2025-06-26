@@ -16,6 +16,7 @@ import TopClickedSearches from './screens/Analytics/TopClickedSearches.vue';
 import SynonymManagement from './screens/SynonymManagement.vue';
 import TechnicalSettings from './screens/technical/Settings.vue';
 import DebugSearch from './screens/technical/DebugSearch.vue';
+import ABTest from './screens/technical/ABTest.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -101,6 +102,13 @@ const router = createRouter({
         {
           path: 'technical/debug-search',
           component: DebugSearch,
+          meta: { 
+            requiresRole: ['Admin', 'Dev'] 
+          }
+        },
+        {
+          path: 'technical/ab-test',
+          component: ABTest,
           meta: { 
             requiresRole: ['Admin', 'Dev'] 
           }

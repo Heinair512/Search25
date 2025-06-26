@@ -69,7 +69,14 @@ const initializeSettings = () => {
 const state = reactive({
   settings: initializeSettings(),
   loading: false,
-  error: null
+  error: null,
+  abTestData: {
+    isLoading: false,
+    error: null,
+    testInfo: null,
+    kpiComparisons: null,
+    trendData: null
+  }
 });
 
 // Try to load saved settings from localStorage
@@ -165,11 +172,45 @@ export const useTechnicalStore = () => {
     saveSettings();
   };
 
+  // A/B Test related methods
+  const fetchABTestData = async (testId) => {
+    state.abTestData.isLoading = true;
+    state.abTestData.error = null;
+    
+    try {
+      // In a real implementation, this would be an API call
+      // For now, we'll simulate a delay and return mock data
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Mock data would be returned from the API
+      state.abTestData.testInfo = {
+        id: testId || 'search-v2-vs-search25',
+        activeSince: '2025-03-15',
+        distribution: '50:50',
+        // ... other test info
+      };
+      
+      state.abTestData.kpiComparisons = [
+        // Mock KPI comparison data
+      ];
+      
+      state.abTestData.trendData = {
+        // Mock trend data
+      };
+    } catch (error) {
+      console.error('Error fetching A/B test data:', error);
+      state.abTestData.error = 'Failed to load A/B test data';
+    } finally {
+      state.abTestData.isLoading = false;
+    }
+  };
+
   return {
     // State
     settings: computed(() => state.settings),
     loading: computed(() => state.loading),
     error: computed(() => state.error),
+    abTestData: computed(() => state.abTestData),
     
     // Getters
     getSettingsForBU,
@@ -179,6 +220,7 @@ export const useTechnicalStore = () => {
     updateFeatureFlag,
     updateProductAttributeBoost,
     resetSettings,
-    saveSettings
+    saveSettings,
+    fetchABTestData
   };
 };
