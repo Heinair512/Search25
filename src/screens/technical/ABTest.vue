@@ -201,7 +201,7 @@ const abTestApi = {
       },
       {
         id: 'cart_additions',
-        name: 'Cart Additions',
+        name: 'add2cart',
         info: 'Number of items added to cart from search results',
         groupA: 3737,
         groupB: 4172,

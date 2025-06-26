@@ -87,7 +87,7 @@ export default {
       ctr: "CTR",
       cr: "CR",
       search_sessions: "Search Sessions",
-      cart_additions: "Cart Additions",
+      cart_additions: "add2cart",
       revenue: "Revenue",
       mrr: "MRR",
       ndcg: "NDCG"
