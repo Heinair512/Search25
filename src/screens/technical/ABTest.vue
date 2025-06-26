@@ -118,20 +118,37 @@
           </Column>
         </DataTable>
         
-        <!-- Significance Explanation -->
-        <div class="significance-explanation p-3 border-round surface-ground mt-4">
+        <!-- Significance Explanation - German -->
+        <div v-if="$i18n.locale === 'DE'" class="significance-explanation p-3 border-round surface-ground mt-4">
           <h4 class="mt-0 mb-2">Was bedeutet statistische Signifikanz?</h4>
           <p class="mb-2">
             Die statistische Signifikanz gibt an, wie zuverlässig die beobachteten Unterschiede zwischen den Testgruppen sind und ob sie wahrscheinlich auf echte Verbesserungen zurückzuführen sind oder nur auf Zufall.
           </p>
           <ul class="mb-2 pl-3">
-            <li><strong>p &lt; 0.01</strong>: Sehr hohe Signifikanz (99% Vertrauen) - Der Unterschied ist mit sehr hoher Wahrscheinlichkeit real und nicht zufällig.</li>
-            <li><strong>p &lt; 0.05</strong>: Hohe Signifikanz (95% Vertrauen) - Der Unterschied ist wahrscheinlich real.</li>
-            <li><strong>p &lt; 0.10</strong>: Moderate Signifikanz (90% Vertrauen) - Der Unterschied könnte real sein, aber es besteht eine höhere Unsicherheit.</li>
-            <li><strong>p &gt; 0.10</strong>: Geringe Signifikanz - Der Unterschied könnte auf Zufall beruhen.</li>
+            <li><strong>p < 0.01</strong>: Sehr hohe Signifikanz (99% Vertrauen) - Der Unterschied ist mit sehr hoher Wahrscheinlichkeit real und nicht zufällig.</li>
+            <li><strong>p < 0.05</strong>: Hohe Signifikanz (95% Vertrauen) - Der Unterschied ist wahrscheinlich real.</li>
+            <li><strong>p < 0.10</strong>: Moderate Signifikanz (90% Vertrauen) - Der Unterschied könnte real sein, aber es besteht eine höhere Unsicherheit.</li>
+            <li><strong>p > 0.10</strong>: Geringe Signifikanz - Der Unterschied könnte auf Zufall beruhen.</li>
           </ul>
           <p class="mb-0">
-            Die Signifikanz wird berechnet, indem die Verteilung der Daten in beiden Gruppen verglichen wird. Je größer der Unterschied und je größer die Stichprobe, desto höher ist in der Regel die Signifikanz. Für geschäftliche Entscheidungen empfehlen wir, auf Ergebnisse mit mindestens 95% Signifikanz (p &lt; 0.05) zu vertrauen.
+            Die Signifikanz wird berechnet, indem die Verteilung der Daten in beiden Gruppen verglichen wird. Je größer der Unterschied und je größer die Stichprobe, desto höher ist in der Regel die Signifikanz. Für geschäftliche Entscheidungen empfehlen wir, auf Ergebnisse mit mindestens 95% Signifikanz (p < 0.05) zu vertrauen.
+          </p>
+        </div>
+        
+        <!-- Significance Explanation - English -->
+        <div v-if="$i18n.locale === 'EN'" class="significance-explanation p-3 border-round surface-ground mt-4">
+          <h4 class="mt-0 mb-2">What is statistical significance?</h4>
+          <p class="mb-2">
+            Statistical significance indicates how reliable the observed differences between test groups are and whether they are likely due to real improvements or just chance.
+          </p>
+          <ul class="mb-2 pl-3">
+            <li><strong>p < 0.01</strong>: Very high significance (99% confidence) - The difference is very likely real and not random.</li>
+            <li><strong>p < 0.05</strong>: High significance (95% confidence) - The difference is probably real.</li>
+            <li><strong>p < 0.10</strong>: Moderate significance (90% confidence) - The difference might be real, but there's higher uncertainty.</li>
+            <li><strong>p > 0.10</strong>: Low significance - The difference could be due to chance.</li>
+          </ul>
+          <p class="mb-0">
+            Significance is calculated by comparing the distribution of data in both groups. The larger the difference and the larger the sample size, the higher the significance typically is. For business decisions, we recommend trusting results with at least 95% significance (p < 0.05).
           </p>
         </div>
       </div>
