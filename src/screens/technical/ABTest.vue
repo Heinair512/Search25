@@ -117,6 +117,23 @@
             </template>
           </Column>
         </DataTable>
+        
+        <!-- Significance Explanation -->
+        <div class="significance-explanation p-3 border-round surface-ground mt-4">
+          <h4 class="mt-0 mb-2">Was bedeutet statistische Signifikanz?</h4>
+          <p class="mb-2">
+            Die statistische Signifikanz gibt an, wie zuverlässig die beobachteten Unterschiede zwischen den Testgruppen sind und ob sie wahrscheinlich auf echte Verbesserungen zurückzuführen sind oder nur auf Zufall.
+          </p>
+          <ul class="mb-2 pl-3">
+            <li><strong>p &lt; 0.01</strong>: Sehr hohe Signifikanz (99% Vertrauen) - Der Unterschied ist mit sehr hoher Wahrscheinlichkeit real und nicht zufällig.</li>
+            <li><strong>p &lt; 0.05</strong>: Hohe Signifikanz (95% Vertrauen) - Der Unterschied ist wahrscheinlich real.</li>
+            <li><strong>p &lt; 0.10</strong>: Moderate Signifikanz (90% Vertrauen) - Der Unterschied könnte real sein, aber es besteht eine höhere Unsicherheit.</li>
+            <li><strong>p &gt; 0.10</strong>: Geringe Signifikanz - Der Unterschied könnte auf Zufall beruhen.</li>
+          </ul>
+          <p class="mb-0">
+            Die Signifikanz wird berechnet, indem die Verteilung der Daten in beiden Gruppen verglichen wird. Je größer der Unterschied und je größer die Stichprobe, desto höher ist in der Regel die Signifikanz. Für geschäftliche Entscheidungen empfehlen wir, auf Ergebnisse mit mindestens 95% Signifikanz (p &lt; 0.05) zu vertrauen.
+          </p>
+        </div>
       </div>
     </CardWrapper>
     
@@ -395,5 +412,18 @@ onMounted(() => {
 :deep(.p-tag) {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
+}
+
+.significance-explanation {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.significance-explanation ul {
+  margin: 0;
+}
+
+.significance-explanation li {
+  margin-bottom: 0.5rem;
 }
 </style>
