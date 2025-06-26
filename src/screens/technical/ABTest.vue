@@ -58,7 +58,9 @@
       
       <!-- KPI Comparison Section -->
       <div class="surface-card p-4 border-round">
-        <h3 class="mt-0 mb-4">{{ t('technical.ab_test.kpi_comparison') }}</h3>
+        <h3 class="mt-0 mb-4 flex align-items-center">
+          {{ t('technical.ab_test.kpi_comparison') }}
+        </h3>
         
         <DataTable :value="kpiComparisons" class="p-datatable-sm" responsiveLayout="scroll">
           <Column field="name" :header="t('technical.ab_test.metric')" frozen>
@@ -107,6 +109,15 @@
           </Column>
           
           <Column :header="t('technical.ab_test.significance')">
+            <template #header>
+              <div class="flex align-items-center">
+                <span>{{ t('technical.ab_test.significance') }}</span>
+                <i 
+                  class="pi pi-info-circle ml-2 text-500 cursor-pointer"
+                  v-tooltip.right="significanceInfo"
+                ></i>
+              </div>
+            </template>
             <template #body="slotProps">
               <div class="flex align-items-center justify-content-end">
                 <Tag 
@@ -137,6 +148,20 @@ import Toast from 'primevue/toast';
 
 const { t } = useI18n();
 const toast = useToast();
+
+// Significance explanation
+const significanceInfo = `
+Statistische Signifikanz zeigt die Wahrscheinlichkeit, dass der beobachtete Unterschied zwischen den Testgruppen nicht zufällig ist.
+
+p < 0.01: Sehr hohe Signifikanz (99% Konfidenz)
+p < 0.05: Hohe Signifikanz (95% Konfidenz)
+p < 0.10: Moderate Signifikanz (90% Konfidenz)
+p > 0.10: Nicht signifikant
+
+Die Berechnung basiert auf statistischen Hypothesentests (z.B. t-Test oder Chi-Quadrat-Test), die die Stichprobengröße, Varianz und Effektgröße berücksichtigen.
+
+Ein niedriger p-Wert bedeutet, dass der Unterschied mit hoher Wahrscheinlichkeit auf die getestete Änderung zurückzuführen ist und nicht auf Zufall.
+`;
 
 // Mock API service
 const abTestApi = {
