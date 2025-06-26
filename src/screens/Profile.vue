@@ -15,6 +15,7 @@
                 style="width: 150px; height: 150px; object-fit: cover;" 
               />
               <FileUpload 
+                v-if="store.features.isAdvancedMode"
                 mode="basic" 
                 accept="image/*" 
                 :maxFileSize="1000000" 
@@ -25,7 +26,7 @@
                 @upload="onUpload"
                 @error="onError"
               />
-              <small class="text-color-secondary">{{ $t('profile.max_size') }}</small>
+              <small v-if="store.features.isAdvancedMode" class="text-color-secondary">{{ $t('profile.max_size') }}</small>
             </div>
           </div>
           
@@ -84,6 +85,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '../store';
 import Avatar from 'primevue/avatar';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
@@ -96,6 +98,7 @@ import Toast from 'primevue/toast';
 const toast = useToast();
 const router = useRouter();
 const { t } = useI18n();
+const store = useStore();
 const user = ref({});
 const newPassword = ref('');
 const confirmPassword = ref('');

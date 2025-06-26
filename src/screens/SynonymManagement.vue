@@ -27,6 +27,7 @@
               @click="createNewSynonym"
             />
             <Button
+              v-if="store.features.isAdvancedMode"
               severity="secondary"
               icon="pi pi-download"
               :label="t('synonyms.export')"
@@ -34,6 +35,7 @@
               @click="exportSynonyms"
             />
             <Button
+              v-if="store.features.isAdvancedMode"
               severity="secondary"
               icon="pi pi-upload"
               :label="t('synonyms.import')"
@@ -228,6 +230,7 @@
 import { ref, computed } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '../store';
 import Card from 'primevue/card';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -244,6 +247,7 @@ import { synonyms, updateSynonyms } from '../data/synonyms';
 
 const toast = useToast();
 const { t } = useI18n();
+const store = useStore();
 const searchTerm = ref('');
 const hasChanges = ref(false);
 const expandedRows = ref({});
