@@ -3,12 +3,17 @@
     <div class="font-semibold text-xl mb-4">{{ t('synonyms.title') }}</div>
     <p class="text-l line-height-3 mb-4" v-html="t('synonyms.description')"></p>
 
-    <Button
-      :label="t('synonyms.publish')"
-      severity="success"
-      class="mb-4"
-      @click="publishChanges"
-    />
+    <div class="flex justify-content-between mb-4">
+      <div class="flex align-items-center">
+        <span class="mr-2 font-medium">{{ t('analytics.business_unit') }}:</span>
+        <span class="text-primary font-bold">{{ selectedBU }}</span>
+      </div>
+      <Button
+        :label="t('synonyms.publish')"
+        severity="success"
+        @click="publishChanges"
+      />
+    </div>
 
     <div class="card">
       <div>
@@ -197,6 +202,31 @@
     </div>
   </div>
 
+  <Dialog
+    v-model:visible="hasChanges"
+    :closable="false"
+    position="bottom"
+    :header="t('synonyms.unsaved_changes')"
+  >
+    <div class="flex flex-column gap-3">
+      <p>{{ t('synonyms.unsaved_changes_message') }}</p>
+    </div>
+    <template #footer>
+      <div class="flex justify-content-end gap-2">
+        <Button
+          :label="t('synonyms.discard')"
+          severity="secondary"
+          @click="discardChanges"
+        />
+        <Button
+          :label="t('synonyms.save')"
+          severity="success"
+          @click="saveAll"
+        />
+      </div>
+    </template>
+  </Dialog>
+
   <!-- Hidden file input for import -->
   <input
     type="file"
@@ -210,7 +240,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '../store';
@@ -237,22 +267,48 @@ const hasChanges = ref(false);
 const expandedRows = ref({});
 const localName = ref({});
 const fileInput = ref(null);
-const currentUser = ref('Current User');
 
-// Initialize localName with current values
-synonyms.value.forEach((synonym) => {
-  localName.value[synonym.id] = synonym.name;
+// Get current user from auth store
+const currentUser = computed(() => store.auth.currentUser?.name || 'Current User');
+// Get current business unit from analytics store
+const selectedBU = computed(() => store.analytics.selectedBU);
+
+// Initialize localName with current values and reset expanded rows when BU changes
+const initializeSynonyms = () => {
+  localName.value = {};
+  synonyms.value.forEach((synonym) => {
+    localName.value[synonym.id] = synonym.name;
+  });
+  // Reset expanded rows when BU changes
+  expandedRows.value = {};
+};
+
+onMounted(() => {
+  initializeSynonyms();
+  // Listen for BU changes from header
+  window.addEventListener('buChanged', handleBUChange);
+});
+
+// Handle BU changes from header
+const handleBUChange = () => {
+  initializeSynonyms();
+};
+
+// Clean up event listener
+watch(() => store.analytics.selectedBU, () => {
+  initializeSynonyms();
 });
 
 const filteredSynonyms = computed(() => {
   const searchLower = searchTerm.value.toLowerCase();
   return synonyms.value.filter(
     (synonym) =>
-      synonym.name.toLowerCase().includes(searchLower) ||
+      synonym.bu === selectedBU.value && // Filter by business unit
+      (synonym.name.toLowerCase().includes(searchLower) ||
       synonym.kommentar?.toLowerCase().includes(searchLower) ||
       synonym.regelset.some((regel) =>
         regel.synonyme.some((s) => s.toLowerCase().includes(searchLower))
-      )
+      ))
   );
 });
 
@@ -347,7 +403,7 @@ const addSynonym = (synonymId) => {
 
 const createNewSynonym = () => {
   const newId = String(
-    Math.max(...synonyms.value.map((s) => parseInt(s.id))) + 1
+    Math.max(...synonyms.value.map((s) => parseInt(s.id) || 0)) + 1
   );
   const newSynonym = {
     id: newId,
@@ -355,6 +411,7 @@ const createNewSynonym = () => {
     kommentar: '',
     aenderungsdatum: new Date().toLocaleString(),
     bearbeiter: currentUser.value,
+    bu: selectedBU.value, // Assign current business unit
     regelset: [
       {
         id: 1,
@@ -380,13 +437,14 @@ const duplicateSynonym = (id) => {
   const original = synonyms.value.find((s) => s.id === id);
   if (original) {
     const newId = String(
-      Math.max(...synonyms.value.map((s) => parseInt(s.id))) + 1
+      Math.max(...synonyms.value.map((s) => parseInt(s.id) || 0)) + 1
     );
     const duplicate = JSON.parse(JSON.stringify(original));
     duplicate.id = newId;
     duplicate.name = `${original.name} (Copy)`;
     duplicate.aenderungsdatum = new Date().toLocaleString();
     duplicate.bearbeiter = currentUser.value;
+    duplicate.bu = selectedBU.value; // Assign current business unit to the duplicate
     synonyms.value.push(duplicate);
     localName.value[newId] = duplicate.name;
     notifyChange();
@@ -397,19 +455,25 @@ const notifyChange = () => {
   hasChanges.value = true;
 };
 
-const discardChanges = () => {
-  synonyms.value = JSON.parse(JSON.stringify(synonyms.value));
-  localName.value = {};
-  synonyms.value.forEach((synonym) => {
-    localName.value[synonym.id] = synonym.name;
+const saveAll = () => {
+  hasChanges.value = false;
+  updateSynonyms(JSON.parse(JSON.stringify(synonyms.value)));
+  toast.add({
+    severity: 'success',
+    summary: 'Success',
+    detail: t('synonyms.save_success'),
+    life: 3000,
   });
+};
+
+const discardChanges = () => {
+  initializeSynonyms();
   hasChanges.value = false;
   expandedRows.value = {};
 };
 
 const publishChanges = async () => {
-  updateSynonyms(JSON.parse(JSON.stringify(synonyms.value)));
-  hasChanges.value = false;
+  saveAll();
   toast.add({
     severity: 'success',
     summary: 'Success',
@@ -422,7 +486,8 @@ const exportSynonyms = () => {
   const csvData = [];
   
   // Create a flat structure with one row per synonym pair
-  synonyms.value.forEach(synonym => {
+  // Only export synonyms for the current business unit
+  filteredSynonyms.value.forEach(synonym => {
     synonym.regelset.forEach(regel => {
       regel.synonyme.forEach(syn => {
         csvData.push({
@@ -431,6 +496,7 @@ const exportSynonyms = () => {
           'Type': regel.art,
           'Active': regel.aktiv ? 'Yes' : 'No',
           'Comment': synonym.kommentar || '',
+          'Business Unit': synonym.bu, // Include business unit in export
           'Last Modified': synonym.aenderungsdatum,
           'Modified By': synonym.bearbeiter
         });
@@ -463,18 +529,22 @@ const handleFileImport = async (event) => {
     Papa.parse(text, {
       header: true,
       complete: (results) => {
-        // Group synonyms by search term
+        // Group synonyms by search term and business unit
         const groupedSynonyms = {};
         
         results.data.forEach(row => {
           if (!row['Search Term']) return;
           
-          if (!groupedSynonyms[row['Search Term']]) {
-            groupedSynonyms[row['Search Term']] = {
+          const bu = row['Business Unit'] || selectedBU.value;
+          const key = `${row['Search Term']}_${bu}`;
+          
+          if (!groupedSynonyms[key]) {
+            groupedSynonyms[key] = {
               name: row['Search Term'],
               kommentar: row['Comment'] || '',
               aenderungsdatum: new Date().toLocaleString(),
               bearbeiter: currentUser.value,
+              bu: bu,
               regelset: [{
                 id: 1,
                 typ: 'synonym',
@@ -486,7 +556,7 @@ const handleFileImport = async (event) => {
           }
           
           if (row['Synonym']) {
-            groupedSynonyms[row['Search Term']].regelset[0].synonyme.push(row['Synonym']);
+            groupedSynonyms[key].regelset[0].synonyme.push(row['Synonym']);
           }
         });
         
