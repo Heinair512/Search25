@@ -3,11 +3,7 @@
     <div class="font-semibold text-xl mb-4">{{ t('synonyms.title') }}</div>
     <p class="text-l line-height-3 mb-4" v-html="t('synonyms.description')"></p>
 
-    <div class="flex justify-content-between mb-4">
-      <div class="flex align-items-center">
-        <span class="mr-2 font-medium">{{ t('analytics.business_unit') }}:</span>
-        <span class="text-primary font-bold">{{ selectedBU }}</span>
-      </div>
+    <div class="flex justify-content-end mb-4">
       <Button
         :label="t('synonyms.publish')"
         severity="success"
@@ -240,7 +236,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '../store';
@@ -289,6 +285,10 @@ onMounted(() => {
   window.addEventListener('buChanged', handleBUChange);
 });
 
+onUnmounted(() => {
+  window.removeEventListener('buChanged', handleBUChange);
+});
+
 // Handle BU changes from header
 const handleBUChange = () => {
   initializeSynonyms();
@@ -305,8 +305,8 @@ const filteredSynonyms = computed(() => {
     (synonym) =>
       synonym.bu === selectedBU.value && // Filter by business unit
       (synonym.name.toLowerCase().includes(searchLower) ||
-      synonym.kommentar?.toLowerCase().includes(searchLower) ||
-      synonym.regelset.some((regel) =>
+       synonym.kommentar?.toLowerCase().includes(searchLower) ||
+       synonym.regelset.some((regel) =>
         regel.synonyme.some((s) => s.toLowerCase().includes(searchLower))
       ))
   );
