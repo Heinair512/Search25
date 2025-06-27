@@ -14,20 +14,20 @@
 
     <div v-if="!isCollapsed" class="flex flex-column gap-2 mt-4">
       <div class="menu-section">
-        <Button
-          icon="pi pi-home"
-          :label="$t('menu.news')"
-          text
-          class="w-full justify-content-start menu-button mb-3"
-          @click="$router.push('/dashboard/news')"
-        />
-      </div>
-
-      <div class="menu-section">
         <div class="text-lg font-semibold mb-2 text-color uppercase">
           {{ $t('menu.search') }}
         </div>
         <div class="flex flex-column gap-1">
+          <Button
+            icon="pi pi-home"
+            :label="$t('menu.news')"
+            text
+            class="w-full justify-content-start menu-button"
+            :class="{
+              'p-button-text p-highlight': $route.path === '/dashboard/news',
+            }"
+            @click="$router.push('/dashboard/news')"
+          />
           <Button
             icon="pi pi-eye"
             :label="$t('menu.search_preview')"
