@@ -46,7 +46,7 @@
       "difference": -3372,
       "format": "number",
       "higherIsBetter": true,
-      "p_value": 0.02
+      "p_value": 0.12
     },
     {
       "id": "cart_additions",
