@@ -97,7 +97,9 @@ export default {
       cart_additions: "add2cart",
       revenue: "Umsatz",
       mrr: "MRR",
-      ndcg: "NDCG"
+      ndcg: "NDCG",
+      significant: "Signifikant",
+      not_significant: "Nicht signifikant"
     }
   }
 };

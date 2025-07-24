@@ -1,0 +1,129 @@
+{
+  "testInfo": {
+    "activeSince": "2025-03-15",
+    "testCode": "search-v2-vs-search25",
+    "distribution": "50:50",
+    "totalSessions": 124568,
+    "totalInteractions": 356921,
+    "groupA": {
+      "name": "Search V2",
+      "sessions": 62284
+    },
+    "groupB": {
+      "name": "Search25",
+      "sessions": 62284
+    }
+  },
+  "kpiComparisons": [
+    {
+      "id": "ctr",
+      "name": "CTR",
+      "info": "Click-Through Rate: Percentage of searches that result in a click",
+      "groupA": 0.235,
+      "groupB": 0.287,
+      "difference": 0.052,
+      "format": "percentage",
+      "higherIsBetter": true,
+      "p_value": 0.01
+    },
+    {
+      "id": "cr",
+      "name": "CR",
+      "info": "Conversion Rate: Percentage of searches that result in a purchase",
+      "groupA": 0.042,
+      "groupB": 0.051,
+      "difference": 0.009,
+      "format": "percentage",
+      "higherIsBetter": true,
+      "p_value": 0.04
+    },
+    {
+      "id": "search_sessions",
+      "name": "Suchsessions",
+      "info": "Number of search sessions",
+      "groupA": 62284,
+      "groupB": 62284,
+      "difference": 0,
+      "format": "number",
+      "higherIsBetter": true,
+      "p_value": 0.5
+    },
+    {
+      "id": "cart_additions",
+      "name": "add2cart",
+      "info": "Number of items added to cart from search results",
+      "groupA": 3737,
+      "groupB": 4172,
+      "difference": 435,
+      "format": "number",
+      "higherIsBetter": true,
+      "p_value": 0.03
+    },
+    {
+      "id": "revenue",
+      "name": "Revenue",
+      "info": "Total revenue generated from search sessions",
+      "groupA": 187432.56,
+      "groupB": 224919.07,
+      "difference": 37486.51,
+      "format": "currency",
+      "higherIsBetter": true,
+      "p_value": 0.005
+    },
+    {
+      "id": "mrr",
+      "name": "MRR",
+      "info": "Mean Reciprocal Rank: Measures how high the first relevant result appears",
+      "groupA": 0.78,
+      "groupB": 0.85,
+      "difference": 0.07,
+      "format": "decimal",
+      "higherIsBetter": true,
+      "p_value": 0.02
+    },
+    {
+      "id": "ndcg",
+      "name": "NDCG",
+      "info": "Normalized Discounted Cumulative Gain: Measures ranking quality",
+      "groupA": 0.82,
+      "groupB": 0.91,
+      "difference": 0.09,
+      "format": "decimal",
+      "higherIsBetter": true,
+      "p_value": 0.001
+    },
+    {
+      "id": "negative_example",
+      "name": "Negative Example",
+      "info": "Example of a negative change",
+      "groupA": 100,
+      "groupB": 90,
+      "difference": -10,
+      "format": "number",
+      "higherIsBetter": true,
+      "p_value": 0.01
+    },
+    {
+      "id": "negative_percentage",
+      "name": "Negative Percentage",
+      "info": "Example of a negative percentage change",
+      "groupA": 0.5,
+      "groupB": 0.45,
+      "difference": -0.05,
+      "format": "percentage",
+      "higherIsBetter": true,
+      "p_value": 0.03
+    },
+    {
+      "id": "negative_decimal",
+      "name": "Negative Decimal",
+      "info": "Example of a negative decimal change",
+      "groupA": 0.8,
+      "groupB": 0.75,
+      "difference": -0.05,
+      "format": "decimal",
+      "higherIsBetter": true,
+      "p_value": 0.04
+    }
+  ]
+}

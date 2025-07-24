@@ -110,8 +110,8 @@
             <template #body="slotProps">
               <div class="flex align-items-center justify-content-end">
                 <Tag 
-                  :value="getSignificanceLabel(slotProps.data.significance)" 
-                  :severity="getSignificanceSeverity(slotProps.data.significance)"
+                  :value="getSignificanceLabel(slotProps.data.p_value)" 
+                  :severity="getSignificanceSeverity(slotProps.data.p_value)"
                 />
               </div>
             </template>
@@ -121,34 +121,24 @@
         <!-- Significance Explanation - German -->
         <div v-if="$i18n.locale === 'DE'" class="significance-explanation p-3 border-round surface-ground mt-4">
           <h4 class="mt-0 mb-2">Was bedeutet statistische Signifikanz?</h4>
-          <p class="mb-2">
-            Die statistische Signifikanz gibt an, wie zuverlässig die beobachteten Unterschiede zwischen den Testgruppen sind und ob sie wahrscheinlich auf echte Verbesserungen zurückzuführen sind oder nur auf Zufall.
-          </p>
-          <ul class="mb-2 pl-3">
-            <li><strong>p < 0.01</strong>: Sehr hohe Signifikanz (99% Vertrauen) - Der Unterschied ist mit sehr hoher Wahrscheinlichkeit real und nicht zufällig.</li>
-            <li><strong>p < 0.05</strong>: Hohe Signifikanz (95% Vertrauen) - Der Unterschied ist wahrscheinlich real.</li>
-            <li><strong>p < 0.10</strong>: Moderate Signifikanz (90% Vertrauen) - Der Unterschied könnte real sein, aber es besteht eine höhere Unsicherheit.</li>
-            <li><strong>p > 0.10</strong>: Geringe Signifikanz - Der Unterschied könnte auf Zufall beruhen.</li>
-          </ul>
           <p class="mb-0">
-            Die Signifikanz wird berechnet, indem die Verteilung der Daten in beiden Gruppen verglichen wird. Je größer der Unterschied und je größer die Stichprobe, desto höher ist in der Regel die Signifikanz. Für geschäftliche Entscheidungen empfehlen wir, auf Ergebnisse mit mindestens 95% Signifikanz (p < 0.05) zu vertrauen.
+            Die statistische Signifikanz gibt an, ob ein beobachteter Unterschied zwischen zwei Gruppen wahrscheinlich auf einen echten Effekt zurückzuführen ist oder nur auf Zufall beruht.
+            <br><br>
+            Ein Ergebnis ist <strong>signifikant</strong>, wenn der p-Wert kleiner als 0.05 ist (p < 0.05). Dies bedeutet, dass die Wahrscheinlichkeit, ein solches oder ein extremeres Ergebnis zufällig zu beobachten, weniger als 5% beträgt.
+            <br><br>
+            Ein Ergebnis ist <strong>nicht signifikant</strong>, wenn der p-Wert 0.05 oder größer ist (p ≥ 0.05). In diesem Fall ist der beobachtete Unterschied wahrscheinlich auf Zufall zurückzuführen.
           </p>
         </div>
         
         <!-- Significance Explanation - English -->
         <div v-if="$i18n.locale === 'EN'" class="significance-explanation p-3 border-round surface-ground mt-4">
           <h4 class="mt-0 mb-2">What is statistical significance?</h4>
-          <p class="mb-2">
-            Statistical significance indicates how reliable the observed differences between test groups are and whether they are likely due to real improvements or just chance.
-          </p>
-          <ul class="mb-2 pl-3">
-            <li><strong>p < 0.01</strong>: Very high significance (99% confidence) - The difference is very likely real and not random.</li>
-            <li><strong>p < 0.05</strong>: High significance (95% confidence) - The difference is probably real.</li>
-            <li><strong>p < 0.10</strong>: Moderate significance (90% confidence) - The difference might be real, but there's higher uncertainty.</li>
-            <li><strong>p > 0.10</strong>: Low significance - The difference could be due to chance.</li>
-          </ul>
           <p class="mb-0">
-            Significance is calculated by comparing the distribution of data in both groups. The larger the difference and the larger the sample size, the higher the significance typically is. For business decisions, we recommend trusting results with at least 95% significance (p < 0.05).
+            Statistical significance indicates whether an observed difference between two groups is likely due to a real effect or merely due to chance.
+            <br><br>
+            A result is <strong>significant</strong> if the p-value is less than 0.05 (p < 0.05). This means the probability of observing such a result or a more extreme one by chance is less than 5%.
+            <br><br>
+            A result is <strong>not significant</strong> if the p-value is 0.05 or greater (p ≥ 0.05). In this case, the observed difference is likely due to chance.
           </p>
         </div>
       </div>
@@ -168,6 +158,7 @@ import Column from 'primevue/column';
 import Tag from 'primevue/tag';
 import Divider from 'primevue/divider';
 import Toast from 'primevue/toast';
+import abTestMetrics from '../../data/abTestMetrics.json';
 
 const { t } = useI18n();
 const toast = useToast();
@@ -177,107 +168,13 @@ const abTestApi = {
   async getTestInfo() {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500));
-    
-    return {
-      activeSince: '2025-03-15',
-      testCode: 'search-v2-vs-search25',
-      distribution: '50:50',
-      totalSessions: 124568,
-      totalInteractions: 356921,
-      groupA: {
-        name: 'Search V2',
-        sessions: 62284
-      },
-      groupB: {
-        name: 'Search25',
-        sessions: 62284
-      }
-    };
+    return abTestMetrics.testInfo;
   },
   
   async getKpiComparisons() {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 700));
-    
-    return [
-      {
-        id: 'ctr',
-        name: 'CTR',
-        info: 'Click-Through Rate: Percentage of searches that result in a click',
-        groupA: 0.235,
-        groupB: 0.287,
-        difference: 0.052,
-        format: 'percentage',
-        higherIsBetter: true,
-        significance: 0.98
-      },
-      {
-        id: 'cr',
-        name: 'CR',
-        info: 'Conversion Rate: Percentage of searches that result in a purchase',
-        groupA: 0.042,
-        groupB: 0.051,
-        difference: 0.009,
-        format: 'percentage',
-        higherIsBetter: true,
-        significance: 0.94
-      },
-      {
-        id: 'search_sessions',
-        name: 'Suchsessions',
-        info: 'Number of search sessions',
-        groupA: 62284,
-        groupB: 62284,
-        difference: 0,
-        format: 'number',
-        higherIsBetter: true,
-        significance: 0
-      },
-      {
-        id: 'cart_additions',
-        name: 'add2cart',
-        info: 'Number of items added to cart from search results',
-        groupA: 3737,
-        groupB: 4172,
-        difference: 435,
-        format: 'number',
-        higherIsBetter: true,
-        significance: 0.97
-      },
-      {
-        id: 'revenue',
-        name: 'Revenue',
-        info: 'Total revenue generated from search sessions',
-        groupA: 187432.56,
-        groupB: 224919.07,
-        difference: 37486.51,
-        format: 'currency',
-        higherIsBetter: true,
-        significance: 0.99
-      },
-      {
-        id: 'mrr',
-        name: 'MRR',
-        info: 'Mean Reciprocal Rank: Measures how high the first relevant result appears',
-        groupA: 0.78,
-        groupB: 0.85,
-        difference: 0.07,
-        format: 'decimal',
-        higherIsBetter: true,
-        significance: 0.96
-      },
-      {
-        id: 'ndcg',
-        name: 'NDCG',
-        info: 'Normalized Discounted Cumulative Gain: Measures ranking quality',
-        groupA: 0.82,
-        groupB: 0.91,
-        difference: 0.09,
-        format: 'decimal',
-        higherIsBetter: true,
-        significance: 0.99
-      }
-    ];
+    return abTestMetrics.kpiComparisons;
   }
 };
 
@@ -313,54 +210,56 @@ const formatValue = (value, format) => {
 
 const formatDifference = (difference, format) => {
   if (typeof difference === 'number') {
-    if (Math.abs(difference) < 0.001) {
-      return '0.000';
+    let formattedValue;
+    if (format === 'percentage') {
+      formattedValue = (difference * 100).toFixed(2) + '%';
+    } else if (format === 'decimal') {
+      formattedValue = difference.toFixed(2);
+    } else if (format === 'currency') {
+      formattedValue = difference.toFixed(2);
+    } else {
+      formattedValue = difference.toFixed(2);
     }
     
-    if (format === 'percentage' || format === 'decimal') {
-      // For small decimal differences (like CTR, CR)
-      const formattedValue = (difference * 100).toFixed(3) + '%';
-      return difference > 0 ? '+' + formattedValue : formattedValue;
-    } else if (format === 'currency' || format === 'number') {
-      // For larger differences (like revenue)
-      const formattedValue = difference.toFixed(3);
-      return difference > 0 ? '+' + formattedValue : formattedValue;
-    }
+    return difference > 0 ? '+' + formattedValue : formattedValue;
   }
-  return '0.000';
+  return '0.00';
 };
 
 const getDifferenceClass = (difference, higherIsBetter) => {
-  if (Math.abs(difference) < 0.001) return 'text-500'; // No significant difference
+  if (difference === 0) return 'text-500';
   
-  const isPositive = difference > 0;
-  const isGood = (isPositive && higherIsBetter) || (!isPositive && !higherIsBetter);
-  
-  return isGood ? 'text-green-500 font-medium' : 'text-red-500 font-medium';
+  if (difference < 0) {
+    return 'text-red-500 font-medium';
+  } else {
+    return 'text-green-500 font-medium';
+  }
 };
 
 const getDifferenceIconClass = (difference, higherIsBetter) => {
-  if (Math.abs(difference) < 0.001) return 'pi pi-minus text-500'; // No significant difference
+  if (difference === 0) return 'pi pi-minus text-500';
   
-  const isPositive = difference > 0;
-  const isGood = (isPositive && higherIsBetter) || (!isPositive && !higherIsBetter);
-  
-  return isGood ? 'pi pi-arrow-up text-green-500' : 'pi pi-arrow-down text-red-500';
+  if (difference < 0) {
+    return 'pi pi-arrow-down text-red-500';
+  } else {
+    return 'pi pi-arrow-up text-green-500';
+  }
 };
 
-const getSignificanceLabel = (significance) => {
-  if (significance >= 0.99) return 'p < 0.01';
-  if (significance >= 0.95) return 'p < 0.05';
-  if (significance >= 0.90) return 'p < 0.10';
-  if (significance > 0) return 'p > 0.10';
-  return 'N/A';
+const getSignificanceLabel = (p_value) => {
+  if (p_value < 0.05) {
+    return t('technical.ab_test.metrics.significant');
+  } else {
+    return t('technical.ab_test.metrics.not_significant');
+  }
 };
 
-const getSignificanceSeverity = (significance) => {
-  if (significance >= 0.99) return 'success';
-  if (significance >= 0.95) return 'info';
-  if (significance >= 0.90) return 'warning';
-  return 'secondary';
+const getSignificanceSeverity = (p_value) => {
+  if (p_value < 0.05) {
+    return 'success';
+  } else {
+    return 'secondary';
+  }
 };
 
 // Load data
