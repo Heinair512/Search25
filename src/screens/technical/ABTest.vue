@@ -74,25 +74,25 @@
             </template>
           </Column>
           
-          <Column :header="testInfo.groupA.name">
+          <Column :header="testInfo.groupA.name" headerClass="text-right" bodyClass="text-right">
             <template #body="slotProps">
-              <div class="text-right">
+              <div class="font-medium">
                 {{ formatValue(slotProps.data.groupA, slotProps.data.format) }}
               </div>
             </template>
           </Column>
           
-          <Column :header="testInfo.groupB.name">
+          <Column :header="testInfo.groupB.name" headerClass="text-right" bodyClass="text-right">
             <template #body="slotProps">
-              <div class="text-right">
+              <div class="font-medium">
                 {{ formatValue(slotProps.data.groupB, slotProps.data.format) }}
               </div>
             </template>
           </Column>
           
-          <Column :header="t('technical.ab_test.difference')">
+          <Column :header="t('technical.ab_test.difference')" headerClass="text-right" bodyClass="text-right">
             <template #body="slotProps">
-              <div class="flex align-items-center justify-content-end">
+              <div class="flex align-items-center justify-content-end gap-2">
                 <span 
                   :class="getDifferenceClass(slotProps.data.difference, slotProps.data.higherIsBetter)"
                 >
@@ -100,18 +100,18 @@
                 </span>
                 <i 
                   :class="getDifferenceIconClass(slotProps.data.difference, slotProps.data.higherIsBetter)"
-                  class="ml-2"
                 ></i>
               </div>
             </template>
           </Column>
           
-          <Column :header="t('technical.ab_test.significance')">
+          <Column :header="t('technical.ab_test.significance')" headerClass="text-center" bodyClass="text-center">
             <template #body="slotProps">
-              <div class="flex align-items-center justify-content-end">
+              <div class="flex align-items-center justify-content-center">
                 <Tag 
                   :value="getSignificanceLabel(slotProps.data.p_value)" 
                   :severity="getSignificanceSeverity(slotProps.data.p_value)"
+                  class="significance-tag"
                 />
               </div>
             </template>
@@ -341,5 +341,53 @@ onMounted(() => {
 
 .significance-explanation li {
   margin-bottom: 0.5rem;
+}
+
+/* Modern table styling */
+:deep(.p-datatable .p-datatable-tbody > tr) {
+  transition: background-color 0.2s ease;
+}
+
+:deep(.p-datatable .p-datatable-tbody > tr:hover) {
+  background-color: var(--surface-hover) !important;
+}
+
+:deep(.p-datatable .p-datatable-tbody > tr:nth-child(even)) {
+  background-color: rgba(var(--primary-color-rgb), 0.02);
+}
+
+:deep(.p-datatable .p-datatable-tbody > tr:nth-child(even):hover) {
+  background-color: var(--surface-hover) !important;
+}
+
+:deep(.p-datatable .p-datatable-thead > tr > th) {
+  padding: 1rem 0.75rem !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  border-bottom: 2px solid var(--surface-border) !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+:deep(.p-datatable .p-datatable-tbody > tr > td) {
+  padding: 1rem 0.75rem !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid rgba(var(--surface-border-rgb, 223, 231, 239), 0.3) !important;
+}
+
+:deep(.p-datatable .p-datatable-tbody > tr:last-child > td) {
+  border-bottom: none !important;
+}
+
+.significance-tag {
+  min-width: 6rem !important;
+  text-align: center !important;
+  font-weight: 500 !important;
+}
+
+/* Improved spacing for difference column */
+:deep(.p-datatable .p-datatable-tbody .text-right) {
+  font-variant-numeric: tabular-nums;
 }
 </style>

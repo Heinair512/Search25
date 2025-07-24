@@ -216,3 +216,44 @@ body {
   background-color: var(--primary-color) !important;
   border-color: var(--primary-color) !important;
 }
+
+/* Modern DataTable styling */
+:deep(.p-datatable) {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+:deep(.p-datatable .p-datatable-wrapper) {
+  border-radius: 12px !important;
+}
+
+:deep(.p-datatable .p-datatable-thead) {
+  background: linear-gradient(135deg, var(--surface-ground) 0%, var(--surface-section) 100%) !important;
+}
+
+:deep(.p-datatable .p-datatable-thead > tr > th) {
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-size: 0.75rem !important;
+  color: var(--text-color-secondary) !important;
+}
+
+:deep(.p-datatable .p-datatable-tbody > tr > td) {
+  font-size: 0.9rem !important;
+}
+
+/* Tabular numbers for better alignment */
+:deep(.p-datatable .text-right) {
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: "tnum" !important;
+}
+
+/* Dark theme adjustments for modern table */
+.dark :deep(.p-datatable .p-datatable-thead) {
+  background: linear-gradient(135deg, var(--surface-section) 0%, var(--surface-card) 100%) !important;
+}
+
+.dark :deep(.p-datatable .p-datatable-tbody > tr:nth-child(even)) {
+  background-color: rgba(var(--primary-color-rgb), 0.05) !important;
+}
