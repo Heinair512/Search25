@@ -56,5 +56,9 @@ export default {
     in: "in",
     relevance: "Relevanz",
     tracking_data: "Tracking-Daten"
+  },
+  ranking_reason: {
+    topseller: "Position durch Topseller-Status beeinflusst",
+    relevance: "Position durch Relevanzberechnung angepasst"
   }
 };

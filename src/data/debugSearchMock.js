@@ -29,7 +29,30 @@ export const mockApiResponse = {
       ],
       "locked": false,
       "priceHidden": false,
-      "materialnumberSap": "SAP-12345"
+      "materialnumberSap": "SAP-12345",
+      "debugInfo": {
+        "score": "8.45",
+        "matches": [
+          {
+            "value": "2.1",
+            "details": {
+              "term": "hammer",
+              "fields": ["description", "designation"]
+            }
+          }
+        ],
+        "boost": {
+          "value": "1.2",
+          "details": [
+            {
+              "term": "bestseller",
+              "field": "tracking_data"
+            }
+          ]
+        },
+        "rankingType": "MULTIPLIKATIV",
+        "rankingReasons": ["Topseller"]
+      }
     },
     {
       "id": "01:KANE03:100001",
@@ -55,7 +78,30 @@ export const mockApiResponse = {
       ],
       "locked": false,
       "priceHidden": false,
-      "materialnumberSap": "SAP-23456"
+      "materialnumberSap": "SAP-23456",
+      "debugInfo": {
+        "score": "7.82",
+        "matches": [
+          {
+            "value": "1.8",
+            "details": {
+              "term": "drill",
+              "fields": ["description", "designation"]
+            }
+          }
+        ],
+        "boost": {
+          "value": "1.1",
+          "details": [
+            {
+              "term": "relevance",
+              "field": "tracking_data"
+            }
+          ]
+        },
+        "rankingType": "MULTIPLIKATIV",
+        "rankingReasons": ["Relevance"]
+      }
     },
     {
       "id": "01:INRH02:100002",
@@ -81,7 +127,25 @@ export const mockApiResponse = {
       ],
       "locked": false,
       "priceHidden": false,
-      "materialnumberSap": "SAP-34567"
+      "materialnumberSap": "SAP-34567",
+      "debugInfo": {
+        "score": "6.95",
+        "matches": [
+          {
+            "value": "1.5",
+            "details": {
+              "term": "screwdriver",
+              "fields": ["description"]
+            }
+          }
+        ],
+        "boost": {
+          "value": "1.0",
+          "details": []
+        },
+        "rankingType": "MULTIPLIKATIV",
+        "rankingReasons": []
+      }
     },
     {
       "id": "01:ITLA02:100003",
@@ -107,7 +171,30 @@ export const mockApiResponse = {
       ],
       "locked": false,
       "priceHidden": false,
-      "materialnumberSap": "SAP-45678"
+      "materialnumberSap": "SAP-45678",
+      "debugInfo": {
+        "score": "9.12",
+        "matches": [
+          {
+            "value": "2.3",
+            "details": {
+              "term": "toolbox",
+              "fields": ["description", "designation"]
+            }
+          }
+        ],
+        "boost": {
+          "value": "1.3",
+          "details": [
+            {
+              "term": "bestseller",
+              "field": "tracking_data"
+            }
+          ]
+        },
+        "rankingType": "MULTIPLIKATIV",
+        "rankingReasons": ["Topseller", "Relevance"]
+      }
     },
     {
       "id": "01:TEBR01:100004",
@@ -295,7 +382,30 @@ const extendedProducts = [
     ],
     "locked": false,
     "priceHidden": false,
-    "materialnumberSap": "SAP-12345"
+    "materialnumberSap": "SAP-12345",
+    "debugInfo": {
+      "score": "8.76",
+      "matches": [
+        {
+          "value": "1.9",
+          "details": {
+            "term": "tool",
+            "fields": ["description", "designation"]
+          }
+        }
+      ],
+      "boost": {
+        "value": "1.25",
+        "details": [
+          {
+            "term": "bestseller",
+            "field": "tracking_data"
+          }
+        ]
+      },
+      "rankingType": "MULTIPLIKATIV",
+      "rankingReasons": ["Topseller"]
+    }
   },
   {
     "id": "01:KANE03:100011",

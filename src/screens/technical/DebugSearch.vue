@@ -207,6 +207,15 @@
                         {{ formatPrice(product.grosPrice, product.grosPriceCurrency) }}
                       </div>
                       <div class="flex gap-2">
+                        <div v-if="product.debugInfo?.rankingReasons?.length > 0" class="flex gap-1">
+                          <i 
+                            v-for="reason in product.debugInfo.rankingReasons" 
+                            :key="reason"
+                            :class="getRankingReasonIcon(reason)"
+                            :style="{ color: getRankingReasonColor(reason) }"
+                            v-tooltip="t(`technical.debug_search.ranking_reason.${reason.toLowerCase()}`)"
+                          ></i>
+                        </div>
                         <i v-if="product.locked" class="pi pi-lock text-red-500"></i>
                         <i v-if="product.priceHidden" class="pi pi-eye-slash text-red-500"></i>
                       </div>
@@ -276,6 +285,15 @@
               <Column field="status" :header="$t('technical.debug_search.table.status')" style="width: 100px">
                 <template #body="slotProps">
                   <div class="flex gap-2">
+                    <div v-if="slotProps.data.debugInfo?.rankingReasons?.length > 0" class="flex gap-1">
+                      <i 
+                        v-for="reason in slotProps.data.debugInfo.rankingReasons" 
+                        :key="reason"
+                        :class="getRankingReasonIcon(reason)"
+                        :style="{ color: getRankingReasonColor(reason) }"
+                        v-tooltip="t(`technical.debug_search.ranking_reason.${reason.toLowerCase()}`)"
+                      ></i>
+                    </div>
                     <i v-if="slotProps.data.locked" class="pi pi-lock text-red-500" title="Locked"></i>
                     <i v-if="slotProps.data.priceHidden" class="pi pi-eye-slash text-red-500" title="Price Hidden"></i>
                   </div>
@@ -414,6 +432,28 @@ const onRowSelect = (event) => {
 
 const onRowUnselect = () => {
   expandedRows.value = [];
+};
+
+const getRankingReasonIcon = (reason) => {
+  switch (reason) {
+    case 'Topseller':
+      return 'pi pi-star-fill';
+    case 'Relevance':
+      return 'pi pi-chart-line';
+    default:
+      return 'pi pi-info-circle';
+  }
+};
+
+const getRankingReasonColor = (reason) => {
+  switch (reason) {
+    case 'Topseller':
+      return '#f59e0b'; // amber-500
+    case 'Relevance':
+      return '#3b82f6'; // blue-500
+    default:
+      return '#6b7280'; // gray-500
+  }
 };
 
 // Helper function to determine if a field should be shown

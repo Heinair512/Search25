@@ -145,7 +145,18 @@
                       <div v-if="store.features.isAdvancedMode" class="flex align-items-center gap-2">
                         <span class="pi pi-chart-bar"></span>
                         <span class="font-semibold">{{ product.debugInfo?.score }}</span>
-                        <Badge value="i" severity="info" />
+                        <div class="flex align-items-center gap-1">
+                          <Badge value="i" severity="info" />
+                          <div v-if="product.debugInfo?.rankingReasons?.length > 0" class="flex gap-1">
+                            <i 
+                              v-for="reason in product.debugInfo.rankingReasons" 
+                              :key="reason"
+                              :class="getRankingReasonIcon(reason)"
+                              :style="{ color: getRankingReasonColor(reason) }"
+                              v-tooltip="t(`search_preview.ranking_reason.${reason.toLowerCase()}`)"
+                            ></i>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -256,7 +267,18 @@
                 <div class="flex align-items-center gap-2">
                   <span class="pi pi-chart-bar"></span>
                   <span>{{ slotProps.data.debugInfo?.score }}</span>
-                  <Badge value="i" severity="info" />
+                  <div class="flex align-items-center gap-1">
+                    <Badge value="i" severity="info" />
+                    <div v-if="slotProps.data.debugInfo?.rankingReasons?.length > 0" class="flex gap-1">
+                      <i 
+                        v-for="reason in slotProps.data.debugInfo.rankingReasons" 
+                        :key="reason"
+                        :class="getRankingReasonIcon(reason)"
+                        :style="{ color: getRankingReasonColor(reason) }"
+                        v-tooltip="t(`search_preview.ranking_reason.${reason.toLowerCase()}`)"
+                      ></i>
+                    </div>
+                  </div>
                 </div>
               </template>
             </Column>
@@ -499,6 +521,28 @@ const onRowSelect = (event) => {
 
 const onRowUnselect = () => {
   expandedRows.value = [];
+};
+
+const getRankingReasonIcon = (reason) => {
+  switch (reason) {
+    case 'Topseller':
+      return 'pi pi-star-fill';
+    case 'Relevance':
+      return 'pi pi-chart-line';
+    default:
+      return 'pi pi-info-circle';
+  }
+};
+
+const getRankingReasonColor = (reason) => {
+  switch (reason) {
+    case 'Topseller':
+      return '#f59e0b'; // amber-500
+    case 'Relevance':
+      return '#3b82f6'; // blue-500
+    default:
+      return '#6b7280'; // gray-500
+  }
 };
 
 const handleCheckboxChange = async () => {

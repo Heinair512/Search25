@@ -67,6 +67,10 @@ export default {
       description: "Description",
       price: "Price",
       status: "Status"
+    },
+    ranking_reason: {
+      topseller: "Position influenced by bestseller status",
+      relevance: "Position adjusted by relevance calculation"
     }
   },
   ab_test: {

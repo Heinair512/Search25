@@ -96,6 +96,11 @@ const generateProducts = () => {
         ]
       };
 
+      // Generate ranking reasons for explainability
+      const rankingReasons = [];
+      if (Math.random() < 0.3) rankingReasons.push('Topseller'); // 30% chance
+      if (Math.random() < 0.25) rankingReasons.push('Relevance'); // 25% chance
+      // Some products can have both reasons (overlap possible)
       products.push({
         id: `H${String(id).padStart(4, '0')}`,
         name: `${isElectric ? 'Professional ' : ''}${subcategory.name} ${mfr.name}`,
@@ -111,7 +116,8 @@ const generateProducts = () => {
           score: baseScore.toFixed(2),
           matches,
           boost,
-          rankingType: 'MULTIPLIKATIV'
+          rankingType: 'MULTIPLIKATIV',
+          rankingReasons
         }
       });
       id++;
